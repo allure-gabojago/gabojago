@@ -3,85 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가보자고 | Gabojago Ultra V3</title>
+    <title>GABOJAGO V2 | VALUE EXPANSION</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&display=swap');
-        body { font-family: 'Noto Sans KR', sans-serif; transition: background-color 0.5s ease; overflow-x: hidden; margin: 0; }
-        
-        /* 다크모드/라이트모드 스타일 */
-        body.dark { background-color: #000; color: #fff; }
-        body.light { background-color: #f4f4f5; color: #111; }
-        
+        body { font-family: 'Noto Sans KR', sans-serif; transition: all 0.5s ease; overflow-x: hidden; margin: 0; background-color: #000; color: #fff; }
         .hero-font { font-family: 'Black Han Sans', sans-serif; }
         .gradient-text { background: linear-gradient(90deg, #facc15, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        /* 유리창 효과 카드 */
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(15px); 
-            border: 1px solid rgba(250, 204, 21, 0.2); 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        .light .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(250, 204, 21, 0.5);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-        }
-
-        /* 배경 캔버스 */
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(250, 204, 21, 0.15); box-shadow: 0 10px 40px rgba(0,0,0,0.5); transition: transform 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); border-color: rgba(250, 204, 21, 0.4); }
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
+        .value-up { animation: fadeInUp 0.5s ease-out; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="dark" onload="initAll()">
     <canvas id="particle-canvas"></canvas>
 
-    <nav class="p-6 flex justify-between items-center border-b border-gray-800 sticky top-0 z-50 bg-black/50 backdrop-blur-md">
-        <h1 class="text-3xl font-bold tracking-tighter text-yellow-400">GABOJAGO</h1>
-        <div class="flex items-center gap-4">
-            <button onclick="toggleTheme()" class="px-4 py-2 rounded-full border border-yellow-400 text-xs font-bold hover:bg-yellow-400 hover:text-black transition-all">THEME SWITCH</button>
-            <span class="hidden md:block text-xs text-yellow-500 animate-pulse font-mono">CORE_ENGINE_V3.0_ONLINE</span>
+    <nav class="p-6 flex justify-between items-center border-b border-white/10 sticky top-0 z-50 bg-black/60 backdrop-blur-xl">
+        <h1 class="text-3xl font-bold tracking-tighter text-yellow-400 hero-font">GABOJAGO <span class="text-xs font-sans text-white/40 ml-2">V2.0</span></h1>
+        <div class="flex items-center gap-3">
+            <button onclick="copyToClipboard()" class="bg-yellow-400 text-black px-4 py-1.5 rounded-full text-xs font-bold hover:scale-105 transition-transform">SHARE VALUE</button>
+            <button onclick="toggleTheme()" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10">🌓</button>
         </div>
     </nav>
 
-    <main class="flex-grow px-4 py-8 max-w-7xl mx-auto w-full relative">
-        <div id="welcome-msg" class="space-y-6 text-center py-24">
+    <main class="px-4 py-8 max-w-7xl mx-auto w-full relative">
+        <div id="welcome-msg" class="space-y-8 text-center py-20">
+            <div class="inline-block px-4 py-1 rounded-full border border-yellow-400/30 text-yellow-400 text-xs mb-4">SYSTEM STABLE: READY TO EXPAND</div>
             <h2 class="hero-font text-6xl md:text-9xl mb-6 leading-tight">
-                돈이 사람을 고르는<br/>
-                시대는<br/>
-                <span class="gradient-text">끝났다.</span>
+                나의 가치는<br/>매초 <span class="gradient-text">증식한다.</span>
             </h2>
-            <button onclick="activateDisplay()" class="px-12 py-5 bg-yellow-400 text-black font-extrabold rounded-full hover:bg-yellow-300 animate-bounce shadow-[0_0_30px_rgba(250,204,21,0.6)] text-2xl transition-all">내 가치 엔진 가동 ▲</button>
+            <button onclick="activateDisplay()" class="px-14 py-6 bg-yellow-400 text-black font-extrabold rounded-2xl hover:bg-yellow-300 shadow-[0_20px_50px_rgba(250,204,21,0.3)] text-2xl transition-all active:scale-95">2단계 엔진 가동 ▲</button>
         </div>
 
         <div id="user-profile" class="hidden grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div class="lg:col-span-1 space-y-6">
-                <div class="glass-card p-6 rounded-3xl text-center">
-                    <div class="mb-4 flex justify-center">
-                        <div class="w-20 h-20 rounded-full border-2 border-yellow-400 flex items-center justify-center text-2xl font-bold text-yellow-400">ALLURE</div>
-                    </div>
-                    <h2 class="hero-font text-2xl text-yellow-400">ALLURE님</h2>
-                    <p class="text-[10px] text-gray-500 mb-4 tracking-widest">WORLD TOP 1% VALUE MODEL</p>
-                    <div class="space-y-3" id="ranking-list"></div>
+                <div class="glass-card p-6 rounded-[2rem] text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div>
+                    <div class="w-20 h-20 mx-auto rounded-full border-2 border-yellow-400 flex items-center justify-center text-2xl font-bold text-yellow-400 mb-4">A</div>
+                    <h2 class="hero-font text-2xl text-yellow-400">ALLURE</h2>
+                    <p class="text-[10px] text-gray-500 mb-6 uppercase tracking-[0.2em]">World Class Human Asset</p>
+                    <div class="space-y-2 text-left" id="ranking-list"></div>
                 </div>
             </div>
 
             <div class="lg:col-span-2 space-y-6">
-                <div class="glass-card p-8 rounded-3xl h-full flex flex-col relative overflow-hidden">
-                    <p class="text-gray-400 text-sm mb-1 uppercase tracking-widest">Real-time Value Asset</p>
-                    <h3 class="text-5xl md:text-7xl font-bold mb-6 tracking-tighter">₩ <span id="value-counter">0</span></h3>
-                    <div class="flex-grow min-h-[300px]"><canvas id="valueChart"></canvas></div>
+                <div class="glass-card p-8 rounded-[2.5rem] flex flex-col justify-between min-h-[500px]">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-gray-400 text-xs uppercase tracking-widest">Live Value Accumulation</p>
+                            <span class="text-[10px] bg-green-500/20 text-green-500 px-2 py-1 rounded-md animate-pulse">● LIVE INCREASING</span>
+                        </div>
+                        <h3 class="text-5xl md:text-7xl font-bold tracking-tighter mb-4">₩ <span id="value-counter" class="value-up">0</span></h3>
+                    </div>
+                    <div class="flex-grow"><canvas id="valueChart"></canvas></div>
                 </div>
             </div>
 
             <div class="lg:col-span-1 space-y-6">
-                <div class="glass-card p-6 rounded-3xl h-full flex flex-col">
-                    <h3 class="hero-font text-xl text-yellow-400 mb-4 text-center">AI 가치 리포트</h3>
+                <div class="glass-card p-6 rounded-[2rem] h-full flex flex-col">
+                    <h3 class="hero-font text-xl text-yellow-400 mb-6 text-center italic">Value DNA Analysis</h3>
                     <div class="flex-grow"><canvas id="radarChart"></canvas></div>
-                    <div class="mt-6 p-4 bg-yellow-400/10 rounded-2xl border border-yellow-400/20">
-                        <p class="text-[10px] text-yellow-500 font-bold uppercase mb-1">System Verdict</p>
-                        <p class="text-xs leading-relaxed text-gray-300" id="ai-text">"폭발적인 가치 상승 곡선을 그리며 새로운 시대의 리더로 부상하고 있습니다."</p>
+                    <div class="mt-8 p-5 bg-white/5 rounded-2xl border border-white/10">
+                        <p class="text-[10px] text-yellow-500 font-bold mb-2 tracking-tighter">AI INSIGHT</p>
+                        <p id="dynamic-insight" class="text-xs leading-relaxed text-gray-400 italic">"데이터 분석 결과, 귀하의 실행력은 시장 평균의 14배를 상회합니다."</p>
                     </div>
                 </div>
             </div>
@@ -89,103 +76,99 @@
     </main>
 
     <script>
-        let myChart, radarChart, canvas, ctx, particles = [];
+        let myValue = 1096784219;
+        let myChart, radarChart, particles = [];
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
 
         function initAll() {
+            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
             initParticles();
-            window.addEventListener('resize', initParticles);
         }
 
-        // 파티클 엔진 (Star Dust 효과)
         function initParticles() {
-            canvas = document.getElementById('particle-canvas');
-            ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            particles = [];
-            for(let i=0; i<100; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 2,
-                    speed: Math.random() * 0.5 + 0.2
-                });
-            }
-            animateParticles();
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            particles = Array.from({length: 80}, () => ({
+                x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+                size: Math.random() * 1.5, speed: Math.random() * 0.4 + 0.1
+            }));
+            animate();
         }
 
-        function animateParticles() {
+        function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = document.body.classList.contains('dark') ? 'rgba(250, 204, 21, 0.5)' : 'rgba(0, 0, 0, 0.1)';
+            ctx.fillStyle = 'rgba(250, 204, 21, 0.4)';
             particles.forEach(p => {
-                p.y -= p.speed;
-                if(p.y < 0) p.y = canvas.height;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
+                p.y -= p.speed; if(p.y < 0) p.y = canvas.height;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
             });
-            requestAnimationFrame(animateParticles);
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('dark');
-            document.body.classList.toggle('light');
+            requestAnimationFrame(animate);
         }
 
         function activateDisplay() {
             document.getElementById('welcome-msg').style.display = 'none';
             document.getElementById('user-profile').style.display = 'grid';
-            startCounter(1096784219);
             initCharts();
             generateRanking();
+            
+            // 실시간 증식 엔진 가동
+            setInterval(() => {
+                let increase = Math.floor(Math.random() * 50000) + 10000;
+                myValue += increase;
+                document.getElementById('value-counter').innerText = myValue.toLocaleString();
+                updateChart(increase);
+            }, 2000);
         }
 
         function generateRanking() {
-            const list = document.getElementById('ranking-list');
-            const names = ["Elon M.", "Vitalik B.", "Jensen H.", "Sam A."];
-            list.innerHTML = names.map((n, i) => `
-                <div class="flex justify-between p-2 rounded-lg bg-white/5 border border-white/5 items-center">
-                    <span class="text-[10px] font-bold text-yellow-500">#${i+1}</span>
-                    <span class="text-[10px]">${n}</span>
-                    <span class="text-[9px] text-gray-500">₩${(1.8-i*0.3).toFixed(1)}B</span>
+            const names = [
+                {n: "Elon M.", q: "끈기가 아주 중요합니다. 포기하도록 강요받지 않는 한, 포기하지 마세요."},
+                {n: "Vitalik B.", q: "중앙집중화된 모든 것은 결국 혁신의 대상이 됩니다."},
+                {n: "Jensen H.", q: "고통과 고난은 당신을 더 강한 리더로 만듭니다."},
+                {n: "Sam A.", q: "미래는 기다리는 것이 아니라 코딩하는 것입니다."}
+            ];
+            document.getElementById('ranking-list').innerHTML = names.map((p, i) => `
+                <div onclick="alert('${p.q}')" class="group cursor-pointer flex justify-between p-3 rounded-xl hover:bg-yellow-400/10 border border-transparent hover:border-yellow-400/20 transition-all">
+                    <span class="text-[11px] font-bold text-yellow-500">#${i+1}</span>
+                    <span class="text-[11px] font-medium group-hover:text-yellow-400">${p.n}</span>
+                    <span class="text-[10px] text-gray-500">VIEW</span>
                 </div>
             `).join('');
         }
 
-        function startCounter(target) {
-            let count = 0;
-            const timer = setInterval(() => {
-                count += target/50;
-                if(count >= target) { document.getElementById('value-counter').innerText = target.toLocaleString(); clearInterval(timer); }
-                else { document.getElementById('value-counter').innerText = Math.floor(count).toLocaleString(); }
-            }, 30);
-        }
-
         function initCharts() {
-            const ctx1 = document.getElementById('valueChart').getContext('2d');
-            myChart = new Chart(ctx1, {
+            myChart = new Chart(document.getElementById('valueChart'), {
                 type: 'line',
-                data: { labels: ['1h', '40m', '20m', 'Now'], datasets: [{ data: [65, 85, 80, 100], borderColor: '#facc15', borderWidth: 5, tension: 0.4, fill: true, backgroundColor: 'rgba(250, 204, 21, 0.1)', pointRadius: 0 }] },
+                data: { labels: ['', '', '', '', '', ''], datasets: [{ data: [60, 80, 75, 90, 85, 100], borderColor: '#facc15', borderWidth: 4, tension: 0.4, fill: true, backgroundColor: 'rgba(250, 204, 21, 0.05)', pointRadius: 0 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
             });
 
-            const ctx2 = document.getElementById('radarChart').getContext('2d');
-            radarChart = new Chart(ctx2, {
+            radarChart = new Chart(document.getElementById('radarChart'), {
                 type: 'radar',
                 data: {
-                    labels: ['창의력', '열정', '실행력', '전문성', '소통'],
-                    datasets: [{
-                        data: [95, 90, 85, 75, 80],
-                        backgroundColor: 'rgba(250, 204, 21, 0.3)',
-                        borderColor: '#facc15',
-                        pointRadius: 2
-                    }]
+                    labels: ['창의력', '열정', '실행력', '회복탄력성', '비전'],
+                    datasets: [{ data: [95, 92, 88, 80, 98], backgroundColor: 'rgba(250, 204, 21, 0.2)', borderColor: '#facc15', borderWidth: 2 }]
                 },
-                options: { 
-                    scales: { r: { grid: { color: '#333' }, pointLabels: { color: '#888', font: { size: 10 } }, ticks: { display: false }, suggestedMin: 0 } },
-                    plugins: { legend: { display: false } }
-                }
+                options: { scales: { r: { grid: { color: '#333' }, pointLabels: { color: '#888', font: { size: 10 } }, ticks: { display: false } } }, plugins: { legend: { display: false } } }
             });
+        }
+
+        function updateChart(val) {
+            myChart.data.datasets[0].data.shift();
+            myChart.data.datasets[0].data.push(100 + (val/10000));
+            myChart.update();
+        }
+
+        function copyToClipboard() {
+            const text = `현재 ALLURE님의 실시간 가치: ₩${myValue.toLocaleString()} | GABOJAGO에서 확인하세요!`;
+            navigator.clipboard.writeText(text).then(() => alert('가치 인증 문구가 복사되었습니다! SNS에 붙여넣으세요.'));
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.classList.contains('dark');
+            document.body.style.backgroundColor = isDark ? '#fff' : '#000';
+            document.body.style.color = isDark ? '#000' : '#fff';
+            document.body.classList.toggle('dark');
         }
     </script>
 </body>
