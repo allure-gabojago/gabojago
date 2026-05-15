@@ -8,73 +8,21 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Montserrat:wght@800;900&display=swap');
-        
         :root { --primary-gold: #facc15; --bg-black: #000; }
-        
-        body { 
-            font-family: 'Noto Sans KR', sans-serif; 
-            background-color: var(--bg-black); color: #fff; margin: 0; 
-            -webkit-font-smoothing: antialiased;
-            text-rendering: optimizeLegibility;
-            word-break: keep-all;
-        }
-
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
         .hero-font { font-family: 'Montserrat', sans-serif; font-weight: 900; }
-        .korean-font { font-family: 'Black Han Sans', sans-serif; }
-
-        /* [로고 정밀 보정] 영어와 한글의 시각적 크기/두께 밸런스 */
         .logo-group { display: flex; align-items: center; gap: 1.8rem; }
-        .logo-symbol {
-            background-color: var(--primary-gold);
-            width: 52px; height: 52px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 14px;
-            box-shadow: 0 0 25px rgba(250, 204, 21, 0.3);
-        }
+        .logo-symbol { background-color: var(--primary-gold); width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 14px; box-shadow: 0 0 25px rgba(250, 204, 21, 0.3); }
         .logo-symbol span { color: #000; font-size: 2rem; font-weight: 900; transform: skewX(-5deg); }
-        
         .brand-name-eng { font-size: 2.1rem; letter-spacing: -0.05em; font-weight: 900; color: #fff; }
-        .brand-name-kor { 
-            font-family: 'Noto Sans KR', sans-serif; 
-            font-size: 1.8rem; /* 영문보다 살짝 작게 조절하여 시각적 균형 확보 */
-            font-weight: 300; /* 한글은 얇게 설정해야 뭉개지지 않고 깔끔함 */
-            color: var(--primary-gold);
-            margin-left: 0.8rem;
-            letter-spacing: -0.05em;
-        }
-
-        /* [가독성] 엔진 가동 및 본문 글자 뭉개짐 방지 (Weight 500~600) */
-        .txt-sharp-light { font-weight: 500; letter-spacing: -0.02em; line-height: 1.6; color: #ccc; }
-        .txt-sharp-bold { font-weight: 600; letter-spacing: -0.015em; line-height: 1.4; }
-
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.02); 
-            backdrop-filter: blur(40px); 
-            border: 1px solid rgba(250, 204, 21, 0.12); 
-            transition: all 0.4s ease;
-        }
-        
-        .btn-invest-dual { 
-            display: flex; justify-content: center; align-items: center; 
-            gap: 1.5rem; width: 100%; padding: 1.6rem 1rem;
-            background-color: #fff; color: #000; border-radius: 2.5rem;
-            transition: all 0.3s ease; cursor: pointer;
-        }
-        .btn-invest-dual:hover { background-color: var(--primary-gold); transform: translateY(-5px); }
-        .btn-kor { font-weight: 500; font-size: 1.6rem; letter-spacing: -0.03em; } /* 버튼 내 한글 최적화 */
-        .btn-eng { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.6rem; }
-
-        #invest-modal {
-            display: none; position: fixed; inset: 0; z-index: 1000;
-            background: rgba(0,0,0,0.96); align-items: center; justify-content: center;
-            backdrop-filter: blur(25px);
-        }
+        .brand-name-kor { font-family: 'Noto Sans KR', sans-serif; font-size: 1.8rem; font-weight: 300; color: var(--primary-gold); margin-left: 0.8rem; letter-spacing: -0.05em; }
+        .glass-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(40px); border: 1px solid rgba(250, 204, 21, 0.12); transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-8px); border-color: var(--primary-gold); background: rgba(255, 255, 255, 0.05); }
+        .btn-invest-dual { display: flex; justify-content: center; align-items: center; gap: 1rem; width: 100%; padding: 1.2rem; background-color: #fff; color: #000; border-radius: 2rem; cursor: pointer; transition: 0.3s; }
+        .btn-invest-dual:hover { background-color: var(--primary-gold); }
+        #invest-modal { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.96); align-items: center; justify-content: center; backdrop-filter: blur(25px); }
         #invest-modal.active { display: flex; }
-        .input-gold {
-            background: transparent; border-bottom: 2px solid var(--primary-gold);
-            width: 80%; color: white; font-size: 2.5rem; font-weight: 700; text-align: center; outline: none; padding: 1rem;
-        }
-
+        .input-gold { background: transparent; border-bottom: 2px solid var(--primary-gold); width: 80%; color: white; font-size: 2.5rem; font-weight: 700; text-align: center; outline: none; padding: 1rem; }
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
     </style>
 </head>
@@ -98,31 +46,16 @@
         </div>
     </nav>
 
-    <main class="px-8 py-20 max-w-[1500px] mx-auto">
-        <div class="mb-20">
+    <main class="px-8 py-20 max-w-[1600px] mx-auto">
+        <div class="mb-16">
             <p class="text-yellow-400 font-bold tracking-[0.3em] text-xs uppercase mb-4">Market Engine Active</p>
-            <h2 class="text-5xl font-bold italic tracking-tighter leading-tight txt-sharp-bold">
-                엔진 가동 시작: <br/> <span class="text-white opacity-80 font-light">당신의 안목이 가치가 되는 순간</span>
+            <h2 class="text-5xl font-bold italic tracking-tighter leading-tight">
+                엔진 가동 시작: <br/> <span class="text-white opacity-80 font-light">보안과 안전을 최우선으로 하는 미래 투자</span>
             </h2>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div class="glass-card p-12 rounded-[4rem] border border-white/5">
-                <h4 class="text-3xl font-bold italic uppercase mb-6">AI Quant Engine <br><span class="text-white/20 font-light text-2xl">| 인공지능 퀀트 엔진</span></h4>
-                <div class="btn-invest-dual" onclick="openInvestModal('인공지능 퀀트 엔진')">
-                    <span class="btn-eng">INVEST NOW</span>
-                    <span class="opacity-10 text-3xl">|</span>
-                    <span class="btn-kor">투자하기</span>
-                </div>
-            </div>
-            <div class="glass-card p-12 rounded-[4rem] border border-white/5">
-                <h4 class="text-3xl font-bold italic uppercase mb-6">Space Logistics <br><span class="text-white/20 font-light text-2xl">| 우주 물류 시스템</span></h4>
-                <div class="btn-invest-dual" onclick="openInvestModal('우주 물류 시스템')">
-                    <span class="btn-eng">INVEST NOW</span>
-                    <span class="opacity-10 text-3xl">|</span>
-                    <span class="btn-kor">투자하기</span>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            <div id="project-container" class="contents"></div>
         </div>
     </main>
 
@@ -139,27 +72,85 @@
 
     <script>
         let myBalance = 500000000;
-        function initAll() { initParticles(); updateWalletUI(); }
+        
+        // 데이터 순서 변경: 사이버 보안 시스템을 0번 인덱스로 배치
+        const projects = [
+            { name: "사이버 보안 엔진", sub: "Cyber Security System", fund: 4200000000 },
+            { name: "인공지능 퀀트 엔진", sub: "AI Quant Engine", fund: 1280000000 },
+            { name: "우주 물류 시스템", sub: "Space Logistics", fund: 3500000000 },
+            { name: "K-바이오 대장주", sub: "Samsung Biologics Hub", fund: 5200000000 },
+            { name: "차세대 2차 전지", sub: "Next-Gen Battery", fund: 2100000000 },
+            { name: "메타버스 인프라", sub: "Metaverse Infra", fund: 980000000 },
+            { name: "수소 에너지 그리드", sub: "Hydrogen Energy", fund: 1500000000 },
+            { name: "반도체 클러스터", sub: "Semi-Conductor", fund: 8900000000 },
+            { name: "양자 컴퓨터 허브", sub: "Quantum Computing", fund: 450000000 },
+            { name: "자율주행 모빌리티", sub: "Auto-Mobility", fund: 2800000000 }
+        ];
+
+        function initAll() {
+            renderProjects();
+            initParticles();
+            updateWalletUI();
+            startLiveUpdates();
+        }
+
+        function renderProjects() {
+            const container = document.getElementById('project-container');
+            container.innerHTML = projects.map((p, i) => `
+                <div class="glass-card p-10 rounded-[3rem] ${i === 0 ? 'border-yellow-400/40 shadow-lg shadow-yellow-400/5' : ''}">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="px-3 py-1 ${i === 0 ? 'bg-yellow-400 text-black' : 'bg-yellow-400/10 text-yellow-400'} text-[10px] font-bold rounded-full uppercase border border-yellow-400/20">
+                            ${i === 0 ? 'Top Security' : 'Active'}
+                        </span>
+                        <p class="text-right text-[0.6rem] text-gray-500 font-bold uppercase tracking-widest">Funded<br>
+                        <span class="text-lg text-yellow-400 hero-font amt" data-val="${p.fund}">${p.fund.toLocaleString()}</span></p>
+                    </div>
+                    <h4 class="text-2xl font-bold italic uppercase mb-8">${p.sub}<br><span class="text-white/30 font-light text-lg">| ${p.name}</span></h4>
+                    <div class="btn-invest-dual" onclick="openInvestModal('${p.name}')">
+                        <span class="font-black text-sm hero-font">INVEST</span>
+                        <span class="opacity-10">|</span>
+                        <span class="text-sm font-medium">투자하기</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         function updateWalletUI() { document.getElementById('my-wallet').innerText = myBalance.toLocaleString(); }
+        
         function formatInput(el) {
             let val = el.value.replace(/[^0-9]/g, '');
             if (val === "") { el.value = ""; return; }
             el.value = Number(val).toLocaleString() + " 원";
         }
+
         function openInvestModal(name) {
             document.getElementById('modal-project-name').innerText = name;
             document.getElementById('invest-input').value = "10,000,000 원";
             document.getElementById('invest-modal').classList.add('active');
         }
+
         function closeInvestModal() { document.getElementById('invest-modal').classList.remove('active'); }
+
         function processInvestment() {
             const rawValue = document.getElementById('invest-input').value.replace(/[^-0-9]/g, '');
             const amount = parseInt(rawValue);
             if (amount > myBalance) { alert('잔액 부족'); return; }
             myBalance -= amount; updateWalletUI();
-            alert(`성공적으로 투자되었습니다.`);
+            alert(`${amount.toLocaleString()}원이 성공적으로 투자되었습니다.`);
             closeInvestModal();
         }
+
+        function startLiveUpdates() {
+            setInterval(() => {
+                const amts = document.querySelectorAll('.amt');
+                amts.forEach(el => {
+                    let val = parseInt(el.getAttribute('data-val'));
+                    val += Math.floor(Math.random() * 50000);
+                    el.setAttribute('data-val', val); el.innerText = val.toLocaleString();
+                });
+            }, 3000);
+        }
+
         function initParticles() {
             const canvas = document.getElementById('particle-canvas'); const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
