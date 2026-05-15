@@ -3,198 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GABOJAGO | 글로벌 실시간 투자 거래소</title>
+    <title>GABOJAGO | 커뮤니티 & 투자 대시보드</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Montserrat:wght@800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Montserrat:wght@900&display=swap');
         :root { --primary-gold: #facc15; --bg-black: #000; }
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; }
         .hero-font { font-family: 'Montserrat', sans-serif; font-weight: 900; }
-        .logo-group { display: flex; align-items: center; gap: 1.8rem; }
-        .logo-symbol { background-color: var(--primary-gold); width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 14px; box-shadow: 0 0 25px rgba(250, 204, 21, 0.3); }
-        .logo-symbol span { color: #000; font-size: 2rem; font-weight: 900; transform: skewX(-5deg); }
-        .brand-name-eng { font-size: 2.1rem; letter-spacing: -0.05em; font-weight: 900; color: #fff; }
-        .brand-name-kor { font-family: 'Noto Sans KR', sans-serif; font-size: 1.8rem; font-weight: 300; color: var(--primary-gold); margin-left: 0.8rem; letter-spacing: -0.05em; }
         .glass-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(40px); border: 1px solid rgba(250, 204, 21, 0.12); transition: all 0.3s ease; }
-        .glass-card:hover { transform: translateY(-8px); border-color: var(--primary-gold); background: rgba(255, 255, 255, 0.05); }
-        
         .ticker-wrap { background: rgba(250, 204, 21, 0.1); border-bottom: 1px solid rgba(250, 204, 21, 0.2); overflow: hidden; white-space: nowrap; padding: 12px 0; }
-        .ticker-move { display: inline-block; animation: ticker 40s linear infinite; color: var(--primary-gold); font-size: 0.85rem; font-weight: bold; letter-spacing: 0.05em; }
+        .ticker-move { display: inline-block; animation: ticker 40s linear infinite; color: var(--primary-gold); font-size: 0.85rem; font-weight: bold; }
         @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        .btn-invest-dual { display: flex; justify-content: center; align-items: center; gap: 1rem; width: 100%; padding: 1.2rem; background-color: #fff; color: #000; border-radius: 2rem; cursor: pointer; transition: 0.3s; font-weight: 800; }
-        .btn-invest-dual:hover { background-color: var(--primary-gold); transform: scale(1.02); }
-        #invest-modal { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.96); align-items: center; justify-content: center; backdrop-filter: blur(25px); }
-        #invest-modal.active { display: flex; }
-        .input-gold { background: transparent; border-bottom: 2px solid var(--primary-gold); width: 80%; color: white; font-size: 2.5rem; font-weight: 700; text-align: center; outline: none; padding: 1rem; }
+        .input-dark { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; color: white; width: 100%; outline: none; }
+        .input-dark:focus { border-color: var(--primary-gold); }
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
-        .txt-sharp-bold { text-shadow: 0 0 20px rgba(250, 204, 21, 0.2); }
     </style>
 </head>
 <body onload="initAll()">
     <canvas id="particle-canvas"></canvas>
 
     <div class="ticker-wrap">
-        <div class="ticker-move">
-            [MARKET NEWS] 가보자고 AI 퀀트 엔진, 수익률 215.4% 돌파 ... 차세대 반도체 클러스터 정부 보조금 300조원 확정 ... 글로벌 사이버 보안 등급 'AAA' 획득 및 수주 확대 ... 디지털 헬스케어 AI 진단 솔루션 FDA 승인 가속화 ... K-컬처 엔터테인먼트 사상 최대 투자금 유입 ... 이차전지 전고체 배터리 상용화 기술 확보 ... 우주 물류 화성 항로 개척 프로젝트 착수 ... 양자 컴퓨터 하이브리드 연산 속도 1000배 증폭 성공 ... 
-        </div>
+        <div class="ticker-move">[NOTICE] 강성필 팀장 주관 '2026 글로벌 벤처 파트너십 세미나' 참가자 모집 중 ... 실시간 게시판이 오픈되었습니다. 투자 제안을 남겨주세요 ... </div>
     </div>
 
     <nav class="p-8 flex justify-between items-center border-b border-white/5 sticky top-0 z-50 bg-black/90 backdrop-blur-md">
-        <div class="logo-group">
-            <div class="logo-symbol"><span>G</span></div>
-            <div class="flex items-baseline">
-                <span class="brand-name-eng hero-font">GABOJAGO</span>
-                <span class="brand-name-kor">가보자고</span>
-            </div>
+        <div class="flex items-center gap-4">
+            <div class="bg-yellow-400 w-10 h-10 flex items-center justify-center rounded-lg font-black text-black">G</div>
+            <span class="hero-font text-2xl tracking-tighter">GABOJAGO</span>
         </div>
-        <div class="flex items-center gap-8">
-            <div class="text-right pr-8 border-r border-white/10 hidden md:block">
-                <p class="text-[0.5rem] font-bold text-gray-500 uppercase tracking-widest">My Asset</p>
-                <p class="text-xl font-black text-white italic"><span id="my-wallet">500,000,000</span>원</p>
-            </div>
-            <a href="mailto:support@gabojago.io" class="bg-yellow-400 text-black px-6 py-2 rounded-xl font-black text-xs hover:bg-white transition-colors">PARTNERSHIP</a>
-        </div>
+        <div class="text-right"><p class="text-xs text-gray-500">Asset</p><p class="font-bold text-yellow-400"><span id="my-wallet">500,000,000</span>원</p></div>
     </nav>
 
-    <main class="px-8 py-20 max-w-[1600px] mx-auto">
-        <div class="mb-16">
-            <p class="text-yellow-400 font-bold tracking-[0.3em] text-xs uppercase mb-4">Capital Market Live</p>
-            <h2 class="text-5xl font-bold italic tracking-tighter leading-tight txt-sharp-bold">
-                영업 개시: <br/> <span class="text-white opacity-80 font-light text-3xl">글로벌 TOP 12 핵심 자산 운용을 시작합니다</span>
-            </h2>
-        </div>
+    <main class="px-8 py-20 max-w-[1400px] mx-auto">
+        <h2 class="text-4xl font-black italic mb-12">INVESTMENT DASHBOARD</h2>
+        <div id="project-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32"></div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            <div id="project-container" class="contents"></div>
-        </div>
+        <section class="mt-40 border-t border-white/10 pt-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                <div>
+                    <h3 class="text-3xl font-bold text-yellow-400 mb-4 italic">PARTNER PROPOSAL</h3>
+                    <p class="text-gray-400 mb-10">투자자님 또는 개발자님의 소중한 제안을 남겨주세요.</p>
+                    
+                    <div class="space-y-4">
+                        <select id="board-type" class="input-dark text-yellow-400 font-bold">
+                            <option value="투자희망">💰 투자하고 싶습니다 (Investor)</option>
+                            <option value="투자유치">🚀 투자를 받고 싶습니다 (Startup)</option>
+                        </select>
+                        <input type="text" id="board-name" class="input-dark" placeholder="성함 또는 기업명">
+                        <textarea id="board-content" class="input-dark h-40" placeholder="제안 내용을 상세히 적어주세요."></textarea>
+                        <button onclick="addPost()" class="w-full py-4 bg-yellow-400 text-black font-black text-xl rounded-xl hover:bg-white transition-all">제안서 제출하기</button>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-bold mb-8 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-red-500 animate-pulse rounded-full"></span>
+                        LIVE PROPOSALS
+                    </h3>
+                    <div id="post-list" class="space-y-4 max-h-[500px] overflow-y-auto pr-4">
+                        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-yellow-400">
+                            <p class="text-xs text-yellow-400 font-bold mb-2">투자희망</p>
+                            <p class="text-white mb-3">AI 퀀트 엔진 분야에 10억 규모 시리즈 A 투자 의향 있습니다.</p>
+                            <p class="text-[10px] text-gray-500">작성자: Kim VC | 방금 전</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer class="mt-40 border-t border-white/5 p-20 bg-zinc-950/50 backdrop-blur-xl">
-        <div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-20">
-            <div>
-                <div class="logo-group mb-8">
-                    <div class="logo-symbol scale-75"><span>G</span></div>
-                    <span class="brand-name-eng hero-font text-xl">GABOJAGO</span>
-                </div>
-                <p class="text-gray-500 text-sm leading-relaxed">우리는 데이터 기반의 의사결정과 혁신적인 기술 투자를 통해 미래 가치를 창출합니다. 전 세계 투자자들과 함께 성장하는 플랫폼, 가보자고입니다.</p>
-            </div>
-            <div>
-                <h5 class="text-white font-bold mb-8 uppercase tracking-widest">Quick Links</h5>
-                <ul class="text-gray-500 text-sm space-y-4">
-                    <li><a href="#" class="hover:text-yellow-400 transition-colors">투자 이용약관</a></li>
-                    <li><a href="#" class="hover:text-yellow-400 transition-colors">개인정보 처리방침</a></li>
-                    <li><a href="#" class="hover:text-yellow-400 transition-colors">공시 정보 확인</a></li>
-                </ul>
-            </div>
-            <div>
-                <h5 class="text-white font-bold mb-8 uppercase tracking-widest">Contact Office</h5>
-                <p class="text-gray-500 text-sm mb-2">경기도 고양시 일산동구 무궁화로 31-16 7층</p>
-                <p class="text-gray-500 text-sm mb-4 italic">Tel: 031-815-1666</p>
-                <p class="text-white font-medium mb-1">홈페이지 담당자</p>
-                <p class="text-yellow-400 font-bold text-lg">강성필 팀장</p>
-                <p class="text-gray-400 text-xs mt-2">support@gabojago.io</p>
-            </div>
-        </div>
-        <div class="text-center mt-20 pt-10 border-t border-white/5">
-            <p class="text-[10px] text-gray-700 uppercase tracking-[0.5em]">© 2026 GABOJAGO Investment Group. All Rights Reserved. 본 사이트는 데모용 투자 시뮬레이션 인터페이스입니다.</p>
+    <footer class="mt-40 border-t border-white/10 p-20 bg-zinc-950/50">
+        <div class="max-w-[1400px] mx-auto text-center">
+            <p class="text-gray-500 text-sm mb-4">경기도 고양시 일산동구 무궁화로 31-16 7층 | 031-815-1666</p>
+            <p class="text-yellow-400 font-bold">홈페이지 담당자: 강성필 팀장</p>
+            <p class="text-[10px] text-gray-800 mt-10 tracking-[0.5em]">© 2026 GABOJAGO GROUP</p>
         </div>
     </footer>
-
-    <div id="invest-modal">
-        <div class="max-w-xl w-full p-10 text-center">
-            <h2 id="modal-project-name" class="text-3xl font-black italic mb-10 text-yellow-400">PROJECT</h2>
-            <input type="text" id="invest-input" class="input-gold" placeholder="0" oninput="formatInput(this)">
-            <div class="flex gap-4 mt-12">
-                <button onclick="closeInvestModal()" class="flex-1 py-5 bg-white/10 rounded-2xl text-gray-400 font-bold">취소</button>
-                <button onclick="processInvestment()" class="flex-[2] py-5 bg-yellow-400 text-black rounded-2xl font-black text-xl hover:bg-white transition-colors">투자 확정</button>
-            </div>
-        </div>
-    </div>
 
     <script>
         let myBalance = 500000000;
         const projects = [
-            { name: "인공지능 퀀트 엔진", sub: "AI & Neural Networks", fund: 7800000000, tag: "Hottest" },
-            { name: "반도체 클러스터", sub: "Next-Gen Semi-Conductor", fund: 8900000000, tag: "Essential" },
-            { name: "사이버 보안 엔진", sub: "Global Cyber Security", fund: 4200000000, tag: "Top Security" },
-            { name: "디지털 헬스케어", sub: "Bio-Tech & Healthcare", fund: 5200000000, tag: "Growth" },
-            { name: "차세대 2차 전지", sub: "Energy Storage System", fund: 3100000000, tag: "Leading" },
-            { name: "K-콘텐츠 & 엔터", sub: "Global K-Culture", fund: 2400000000, tag: "K-Trend" },
-            { name: "우주 물류 시스템", sub: "Space Logistics", fund: 3500000000, tag: "Future" },
-            { name: "양자 컴퓨터 허브", sub: "Quantum Computing", fund: 1450000000, tag: "Deep Tech" },
-            { name: "자율주행 모빌리티", sub: "Smart Auto-Mobility", fund: 2800000000, tag: "Vision" },
-            { name: "푸드테크 플랫폼", sub: "Smart Food Delivery", fund: 970000000, tag: "Platform" },
-            { name: "수소 에너지 그리드", sub: "Hydrogen Green Energy", fund: 1500000000, tag: "ESG" },
-            { name: "메타버스 인프라", sub: "Virtual Reality World", fund: 980000000, tag: "Web 3.0" }
+            { name: "인공지능 퀀트", sub: "AI Quant", fund: 7800000000, tag: "Hottest" },
+            { name: "사이버 보안", sub: "Cyber Security", fund: 4200000000, tag: "Essential" },
+            { name: "K-콘텐츠", sub: "K-Culture", fund: 2400000000, tag: "K-Trend" }
         ];
 
-        function initAll() { renderProjects(); initParticles(); updateWalletUI(); startLiveUpdates(); }
+        function initAll() { renderProjects(); initParticles(); }
+
         function renderProjects() {
             const container = document.getElementById('project-container');
             container.innerHTML = projects.map((p, i) => `
-                <div class="glass-card p-10 rounded-[3rem] ${i < 3 ? 'border-yellow-400/40' : ''}">
-                    <div class="flex justify-between items-start mb-6">
-                        <span class="px-3 py-1 ${i < 3 ? 'bg-yellow-400 text-black' : 'bg-yellow-400/10 text-yellow-400'} text-[10px] font-bold rounded-full uppercase border border-yellow-400/20">
-                            ${p.tag}
-                        </span>
-                        <p class="text-right text-[0.6rem] text-gray-500 font-bold uppercase tracking-widest">Funded<br>
-                        <span class="text-lg text-yellow-400 hero-font amt" data-val="${p.fund}">${p.fund.toLocaleString()}</span></p>
-                    </div>
-                    <h4 class="text-2xl font-bold italic uppercase mb-8">${p.sub}<br><span class="text-white/30 font-light text-lg">| ${p.name}</span></h4>
-                    <div class="btn-invest-dual" onclick="openInvestModal('${p.name}')">
-                        <span class="font-black text-sm hero-font">INVEST</span>
-                        <span class="opacity-10">|</span>
-                        <span class="text-sm font-medium">투자하기</span>
-                    </div>
+                <div class="glass-card p-8 rounded-[2rem] border-white/5">
+                    <span class="text-[10px] font-bold text-yellow-400 uppercase">${p.tag}</span>
+                    <h4 class="text-xl font-bold mt-2 mb-4">${p.sub}</h4>
+                    <p class="text-xs text-gray-500">Funded: <span class="text-white">${p.fund.toLocaleString()}</span></p>
                 </div>
             `).join('');
         }
-        function updateWalletUI() { document.getElementById('my-wallet').innerText = myBalance.toLocaleString(); }
-        function formatInput(el) {
-            let val = el.value.replace(/[^0-9]/g, '');
-            if (val === "") { el.value = ""; return; }
-            el.value = Number(val).toLocaleString() + " 원";
+
+        function addPost() {
+            const type = document.getElementById('board-type').value;
+            const name = document.getElementById('board-name').value;
+            const content = document.getElementById('board-content').value;
+
+            if(!name || !content) { alert('내용을 입력해주세요!'); return; }
+
+            const list = document.getElementById('post-list');
+            const newPost = document.createElement('div');
+            newPost.className = "glass-card p-6 rounded-2xl border-l-4 " + (type === '투자희망' ? 'border-l-green-500' : 'border-l-blue-500') + " animate-fade-in";
+            newPost.innerHTML = `
+                <p class="text-[10px] font-bold ${type === '투자희망' ? 'text-green-500' : 'text-blue-500'} mb-2">${type}</p>
+                <p class="text-white mb-3 text-sm">${content}</p>
+                <p class="text-[10px] text-gray-500">작성자: ${name} | 방금 전</p>
+            `;
+            list.prepend(newPost);
+            
+            // 입력창 초기화
+            document.getElementById('board-name').value = "";
+            document.getElementById('board-content').value = "";
+            alert('제안서가 게시판에 등록되었습니다!');
         }
-        function openInvestModal(name) {
-            document.getElementById('modal-project-name').innerText = name;
-            document.getElementById('invest-input').value = "10,000,000 원";
-            document.getElementById('invest-modal').classList.add('active');
-            document.getElementById('invest-input').focus();
-        }
-        function closeInvestModal() { document.getElementById('invest-modal').classList.remove('active'); }
-        function processInvestment() {
-            const rawValue = document.getElementById('invest-input').value.replace(/[^-0-9]/g, '');
-            const amount = parseInt(rawValue);
-            if (isNaN(amount) || amount <= 0) { alert('금액을 확인해 주세요.'); return; }
-            if (amount > myBalance) { alert('잔액이 부족합니다.'); return; }
-            myBalance -= amount; updateWalletUI();
-            alert(`${amount.toLocaleString()}원이 투자되었습니다. 가보자고!`);
-            closeInvestModal();
-        }
-        function startLiveUpdates() {
-            setInterval(() => {
-                const amts = document.querySelectorAll('.amt');
-                amts.forEach(el => {
-                    let val = parseInt(el.getAttribute('data-val'));
-                    val += Math.floor(Math.random() * 80000);
-                    el.setAttribute('data-val', val); 
-                    el.innerText = val.toLocaleString();
-                });
-            }, 3000);
-        }
+
         function initParticles() {
-            const canvas = document.getElementById('particle-canvas'); 
-            const ctx = canvas.getContext('2d');
+            const canvas = document.getElementById('particle-canvas'); const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            let p = Array.from({length: 45}, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: Math.random() * 1.5, v: Math.random() * 0.15 }));
-            function draw() { 
-                ctx.clearRect(0,0,canvas.width, canvas.height); ctx.fillStyle = 'rgba(250,204,21,0.2)'; 
-                p.forEach(i => { i.y -= i.v; if(i.y < 0) i.y = canvas.height; ctx.beginPath(); ctx.arc(i.x, i.y, i.s, 0, Math.PI*2); ctx.fill(); }); 
-                requestAnimationFrame(draw); 
-            }
+            let p = Array.from({length: 30}, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: Math.random() * 2, v: Math.random() * 0.2 }));
+            function draw() { ctx.clearRect(0,0,canvas.width, canvas.height); ctx.fillStyle = 'rgba(250,204,21,0.15)'; p.forEach(i => { i.y -= i.v; if(i.y < 0) i.y = canvas.height; ctx.beginPath(); ctx.arc(i.x, i.y, i.s, 0, Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
             draw();
-            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
         }
     </script>
 </body>
