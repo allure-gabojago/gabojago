@@ -7,112 +7,25 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Montserrat:wght@700;900&display=swap');
-        
         :root { --primary-gold: #facc15; --bg-black: #050505; }
-        
-        body { 
-            font-family: 'Noto Sans KR', sans-serif; 
-            background-color: var(--bg-black); 
-            color: #fff; 
-            margin: 0; 
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .trial-bar { 
-            background: var(--primary-gold); 
-            padding: 12px 0; 
-            text-align: center; 
-            font-size: 14px; 
-            font-weight: 900; 
-            color: #000; 
-            box-shadow: 0 4px 20px rgba(250, 204, 21, 0.4); 
-            z-index: 100; 
-            position: relative;
-        }
-
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; -webkit-font-smoothing: antialiased; }
+        .trial-bar { background: var(--primary-gold); padding: 12px 0; text-align: center; font-size: 14px; font-weight: 900; color: #000; z-index: 100; position: relative; }
         .brand-kor { font-size: 2.5rem; font-weight: 900; color: #fff; letter-spacing: -0.05em; line-height: 0.9; }
-        .brand-eng { 
-            font-family: 'Montserrat', sans-serif; 
-            font-size: 0.8rem; 
-            color: var(--primary-gold); 
-            letter-spacing: 0.4em; 
-            font-weight: 900; 
-            margin-top: 4px; 
-            display: flex; 
-            justify-content: space-between; 
-        }
-        
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.03); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid rgba(250, 204, 21, 0.1); 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            min-height: 180px;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary-gold);
-            background: rgba(250, 204, 21, 0.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-        
-        .vip-rate { 
-            color: var(--primary-gold); 
-            text-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
-            font-size: 2.25rem;
-        }
-
-        .premium-lock { 
-            position: absolute; 
-            inset: 0; 
-            background: rgba(0,0,0,0.7); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            z-index: 10; 
-            border-radius: 2.5rem;
-        }
-
-        .vip-badge {
-            font-size: 14px;
-            font-weight: 900;
-            color: #000;
-            background: var(--primary-gold);
-            padding: 8px 20px;
-            border-radius: 999px;
-        }
-
-        .btn-premium-action {
-            background: rgba(0,0,0,0.8);
-            border: 1px solid var(--primary-gold);
-            color: var(--primary-gold);
-            font-weight: 900;
-            padding: 12px 28px;
-            border-radius: 999px;
-            font-size: 13px;
-        }
-
+        .brand-eng { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; color: var(--primary-gold); letter-spacing: 0.4em; font-weight: 900; margin-top: 4px; display: flex; justify-content: space-between; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(250, 204, 21, 0.1); transition: all 0.4s; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; min-height: 180px; }
+        .glass-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); background: rgba(250, 204, 21, 0.05); }
+        .vip-rate { color: var(--primary-gold); text-shadow: 0 0 15px rgba(250, 204, 21, 0.5); font-size: 2.25rem; }
+        .premium-lock { position: absolute; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 10; border-radius: 2.5rem; }
+        .vip-badge { font-size: 14px; font-weight: 900; color: #000; background: var(--primary-gold); padding: 8px 20px; border-radius: 999px; }
+        .btn-premium-action { background: rgba(0,0,0,0.8); border: 1px solid var(--primary-gold); color: var(--primary-gold); font-weight: 900; padding: 12px 28px; border-radius: 999px; font-size: 13px; cursor: pointer; }
         .btn-gold { background: var(--primary-gold); color: #000; font-weight: 900; border-radius: 12px; transition: 0.3s; }
-        
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
         .num-font { font-family: 'Montserrat', sans-serif; }
     </style>
 </head>
 <body onload="initAll()">
     <canvas id="particle-canvas"></canvas>
-
-    <div class="trial-bar">
-        📢 현재 베이직 모드 이용 중 | 프리미엄 전환 시 모든 프로젝트의 상세 분석 리포트가 즉시 공개됩니다.
-    </div>
-
+    <div class="trial-bar">📢 현재 베이직 모드 이용 중 | 프리미엄 전환 시 12개 모든 프로젝트의 분석 리포트가 공개됩니다.</div>
     <nav class="p-8 flex justify-between items-center border-b border-white/5 sticky top-0 z-50 bg-black/80 backdrop-blur-md">
         <div class="brand-container flex flex-col">
             <span class="brand-kor">가보자고</span>
@@ -126,12 +39,11 @@
             <button onclick="openPayment()" class="btn-gold px-8 py-3 text-sm">VIP 멤버십 가입</button>
         </div>
     </nav>
-
     <main class="px-8 py-16 max-w-[1400px] mx-auto">
-        <section class="mb-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section class="mb-20 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div class="glass-card p-8 rounded-[2.5rem]">
                 <p class="text-gray-500 text-[11px] font-black mb-3 uppercase tracking-widest">총 포트폴리오 가치</p>
-                <h3 class="text-2xl lg:text-3xl font-black text-white italic num-font px-2">48,450,000,000 <span class="text-xs font-normal not-italic text-gray-600 ml-1">KRW</span></h3>
+                <h3 class="text-2xl lg:text-3xl font-black text-white italic num-font">48,450,000,000 <span class="text-xs font-normal not-italic text-gray-600 ml-1">KRW</span></h3>
             </div>
             <div class="glass-card p-8 rounded-[2.5rem] relative">
                 <p class="text-gray-500 text-[11px] font-black mb-3 uppercase tracking-widest">VIP 전용 예상 수익률</p>
@@ -143,13 +55,9 @@
                 <h3 class="text-3xl font-black text-white italic">12 <span class="text-sm font-normal not-italic text-gray-600 ml-1">개 분야</span></h3>
             </div>
         </section>
-
-        <!-- 12개 업종 리스트 -->
         <div id="project-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
     </main>
-
     <script>
-        // 요청하신 대로 첫 번째에 '안전 보안 사이버'를 넣고 총 12개를 맞췄습니다.
         const projects = [
             { name: "안전 보안 사이버", sub: "Cyber Security", fund: 4200000000, tag: "필수 자산", isPremium: false },
             { name: "인공지능 퀀트", sub: "AI Quant", fund: 7800000000, tag: "고수익군", isPremium: false },
@@ -164,13 +72,7 @@
             { name: "로보틱스 자동화", sub: "Robotics", fund: 5500000000, tag: "성장성", isPremium: false },
             { name: "핀테크 블록체인", sub: "Blockchain", fund: 3900000000, tag: "프리미엄", isPremium: true }
         ];
-
-        function initAll() { 
-            renderProjects(); 
-            initParticles(); 
-            animateValue("my-wallet", 0, 500000000, 2000);
-        }
-
+        function initAll() { renderProjects(); initParticles(); animateValue("my-wallet", 0, 500000000, 2000); }
         function animateValue(id, start, end, duration) {
             const obj = document.getElementById(id);
             let startTimestamp = null;
@@ -182,15 +84,11 @@
             };
             window.requestAnimationFrame(step);
         }
-
         function renderProjects() {
             const container = document.getElementById('project-container');
             container.innerHTML = projects.map((p, i) => `
                 <div class="glass-card p-8 rounded-[2.5rem] !justify-between !items-stretch text-left">
-                    ${p.isPremium ? `
-                    <div class="premium-lock">
-                        <button onclick="openPayment()" class="btn-premium-action">분석 리포트 보기</button>
-                    </div>` : ''}
+                    ${p.isPremium ? `<div class="premium-lock"><button onclick="openPayment()" class="btn-premium-action">분석 리포트 보기</button></div>` : ''}
                     <div class="${p.isPremium ? 'opacity-20 blur-sm' : ''} h-full flex flex-col justify-between">
                         <div>
                             <span class="px-2 py-1 bg-yellow-400/10 text-yellow-400 text-[9px] font-black rounded uppercase">${p.tag}</span>
@@ -204,9 +102,7 @@
                     </div>
                 </div>`).join('');
         }
-
         function openPayment() { alert('VIP 멤버십 가입 페이지로 연결됩니다.'); }
-
         function initParticles() {
             const canvas = document.getElementById('particle-canvas'); 
             const ctx = canvas.getContext('2d');
