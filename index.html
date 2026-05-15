@@ -3,99 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>가보자고 GABOJAGO | 모바일 최적화 플랫폼</title>
+    <title>가보자고 GABOJAGO | 가독성 최적화</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@400;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap');
         
         :root { --primary-gold: #facc15; --bg-black: #010101; }
         
         body { 
             font-family: 'Noto Sans KR', sans-serif; 
-            background-color: var(--bg-black); 
-            color: #fff; 
-            margin: 0; 
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent; /* 모달 터치 시 하이라이트 제거 */
+            background-color: var(--bg-black); color: #fff; margin: 0; overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* 로고 반응형 스타일 */
+        /* 로고 스타일 */
         .text-gradient { background: linear-gradient(to right, #facc15, #f472b6, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .logo-kr { font-family: 'Noto Sans KR', sans-serif; font-weight: 900; font-style: italic; line-height: 1; }
-        .logo-en { font-family: 'Montserrat', sans-serif; font-weight: 400; letter-spacing: 0.3em; color: rgba(255,255,255,0.5); }
+        .logo-kr { font-family: 'Noto Sans KR', sans-serif; font-weight: 900; font-style: italic; line-height: 0.9; }
+        .logo-en { font-family: 'Montserrat', sans-serif; font-weight: 900; letter-spacing: 0.45em; color: #fff; text-transform: uppercase; line-height: 1.2; }
 
-        /* 카드 및 입력창 모바일 최적화 */
-        .neon-border-card { 
-            background: rgba(255, 255, 255, 0.03); 
-            border-radius: 1.5rem; /* 모바일 대응 곡률 축소 */
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            transition: 0.4s; 
+        /* [업데이트] 라벨 텍스트 선명도 & 크기 강화 */
+        .label-text {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px; /* 크기 키움 */
+            font-weight: 900; /* 굵기 최대 */
+            color: rgba(255, 255, 255, 0.9); /* 투명도 줄여서 더 밝게 */
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255,255,255,0.1); /* 미세한 광채로 선명도 보정 */
         }
+
+        .neon-border-card { background: rgba(255, 255, 255, 0.03); border-radius: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.12); transition: 0.4s; }
         .input-dark { 
-            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); 
-            border-radius: 0.8rem; padding: 0.8rem 1rem; color: white; width: 100%; outline: none; font-size: 16px; /* 아이폰 자동확대 방지 */
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); 
+            border-radius: 0.8rem; padding: 1rem; color: white; width: 100%; outline: none; font-size: 16px;
+            transition: border-color 0.3s;
         }
+        .input-dark:focus { border-color: var(--primary-gold); background: rgba(255,255,255,0.1); }
 
-        /* 커스텀 드롭다운 (모바일에서 더 선명하게) */
+        /* 커스텀 드롭다운 */
         .custom-select-wrapper { position: relative; width: 100%; }
         .custom-select-trigger {
-            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 0.8rem; padding: 0.8rem 1rem; color: white; cursor: pointer;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 0.8rem; padding: 1rem; color: white; cursor: pointer;
             display: flex; justify-content: space-between; align-items: center;
         }
         .custom-options {
             position: absolute; top: calc(100% + 5px); left: 0; right: 0;
-            background: #151515; border: 2px solid var(--primary-gold);
+            background: #111; border: 2px solid var(--primary-gold);
             border-radius: 1rem; z-index: 1000; display: none;
             max-height: 250px; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,1);
         }
         .custom-options.show { display: block; }
-        .option-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .option-item:active { background: var(--primary-gold); color: black; } /* 모바일 터치 반응 */
+        .option-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 700; }
+        .option-item:hover { background: #222; color: var(--primary-gold); }
+        .option-item:active { background: var(--primary-gold); color: black; }
 
-        /* 모달 모바일 최적화 */
-        .modal-scroll-area { max-height: 40vh; overflow-y: auto; padding-right: 5px; }
-        
         @media (max-width: 768px) {
-            .logo-kr { font-size: 1.8rem; }
-            .logo-en { font-size: 0.6rem; }
-            .neon-border-card { padding: 1.5rem !important; }
-            .modal-content-grid { grid-template-columns: 1fr !important; }
-            #modal-img-container { height: 200px !important; }
-            .modal-p-area { padding: 1.5rem !important; padding-top: 3.5rem !important; }
+            .logo-kr { font-size: 1.6rem; }
+            .logo-en { font-size: 0.55rem; letter-spacing: 0.4em; }
+            .label-text { font-size: 11px; } /* 모바일에서도 가독성 유지 */
         }
     </style>
 </head>
 <body onload="initAll()">
     
     <!-- 네비게이션 -->
-    <nav class="p-5 md:p-8 flex justify-between items-center max-w-[1600px] mx-auto">
-        <div class="flex flex-col cursor-pointer" onclick="location.reload()">
-            <h1 class="text-3xl md:text-4xl logo-kr text-gradient">가보자고.</h1>
-            <span class="logo-en ml-1 text-[8px] md:text-[10px]">GABOJAGO</span>
+    <nav class="p-6 md:p-10 flex justify-between items-center max-w-[1600px] mx-auto">
+        <div class="flex flex-col cursor-pointer group" onclick="location.reload()">
+            <h1 class="text-3xl md:text-5xl logo-kr text-gradient group-hover:scale-105 transition-transform">가보자고.</h1>
+            <span class="logo-en text-[9px] md:text-[12px]">GABOJAGO</span>
         </div>
-        <button class="bg-white text-black px-4 md:px-6 py-2 rounded-xl font-black text-sm md:text-base hover:bg-yellow-400 transition">프리미엄</button>
+        <button class="bg-white text-black px-5 md:px-8 py-2 md:py-3 rounded-2xl font-black text-xs md:text-sm hover:bg-yellow-400 transition-all shadow-lg active:scale-95">프리미엄 채널</button>
     </nav>
 
-    <!-- 프로젝트 등록 섹션 (반응형 그리드) -->
-    <section class="max-w-[1600px] mx-auto px-5 md:px-8 py-4">
-        <div class="neon-border-card p-6 md:p-10 bg-gradient-to-b from-white/5 to-transparent">
-            <h2 class="text-xl md:text-3xl font-black mb-6 italic text-gradient uppercase">Project Submission</h2>
+    <!-- 프로젝트 등록 섹션 -->
+    <section class="max-w-[1600px] mx-auto px-6 md:px-10 py-4">
+        <div class="neon-border-card p-6 md:p-12 bg-gradient-to-b from-white/5 to-transparent">
+            <h2 class="text-xl md:text-3xl font-black mb-10 italic text-gradient uppercase tracking-tighter">Project Submission</h2>
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
-                <div class="space-y-4 md:space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+                <div class="space-y-6 md:space-y-10">
                     <div>
-                        <label class="block text-[9px] font-black text-white/30 mb-2 tracking-widest">PROJECT NAME</label>
-                        <input type="text" id="reg-title" class="input-dark" placeholder="프로젝트 명">
+                        <label class="label-text">PROJECT NAME</label>
+                        <input type="text" id="reg-title" class="input-dark" placeholder="프로젝트 제목을 입력하세요">
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-[9px] font-black text-white/30 mb-2 tracking-widest">CATEGORY</label>
+                            <label class="label-text">CATEGORY</label>
                             <div class="custom-select-wrapper">
                                 <div class="custom-select-trigger" onclick="toggleOptions()">
                                     <span id="selected-cat">01. 사이버 보안</span>
-                                    <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                                    <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
                                 </div>
                                 <div class="custom-options" id="cat-options">
                                     <div class="option-item" onclick="selectCat('01. 사이버 보안')">01. 사이버 보안</div>
@@ -114,45 +115,45 @@
                             </div>
                         </div>
                         <div>
-                            <label class="block text-[9px] font-black text-white/30 mb-2 tracking-widest">IMAGE URL (AUTO-FILL)</label>
-                            <input type="text" id="reg-img" class="input-dark" placeholder="https://" onfocus="autoFillUrl(this)" onmouseover="autoFillUrl(this)">
+                            <label class="label-text">IMAGE URL</label>
+                            <input type="text" id="reg-img" class="input-dark" placeholder="https://" onfocus="autoFillUrl(this)">
                         </div>
                     </div>
                 </div>
-                <div class="space-y-4 md:space-y-6">
+                <div class="space-y-6 md:space-y-10">
                     <div>
-                        <label class="block text-[9px] font-black text-white/30 mb-2 tracking-widest">DESCRIPTION</label>
-                        <textarea id="reg-desc" class="input-dark h-[100px] md:h-[110px]" placeholder="사업 상세 설명"></textarea>
+                        <label class="label-text">DESCRIPTION</label>
+                        <textarea id="reg-desc" class="input-dark h-[110px] md:h-[135px] resize-none" placeholder="비즈니스 모델에 대한 상세 설명을 입력해주세요."></textarea>
                     </div>
-                    <button onclick="registerProject()" class="w-full py-4 bg-white text-black font-black text-lg md:text-xl rounded-xl hover:bg-yellow-400 active:scale-95 transition">플랫폼 등록 확정</button>
+                    <button onclick="registerProject()" class="w-full py-5 bg-white text-black font-black text-xl md:text-2xl rounded-2xl hover:bg-yellow-400 active:scale-95 transition-all shadow-[0_0_30px_rgba(255,255,255,0.1)]">플랫폼 등록 확정</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 그리드 리스트 (반응형 열 개수 조정) -->
-    <section class="max-w-[1600px] mx-auto px-5 md:px-8 py-10">
-        <div id="project-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"></div>
+    <!-- 리스트 섹션 -->
+    <section class="max-w-[1600px] mx-auto px-6 md:px-10 py-12">
+        <div id="project-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10"></div>
     </section>
 
-    <!-- 상세 모달 (모바일 전용 레이아웃) -->
-    <div id="project-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-2 md:p-4 bg-black/95 backdrop-blur-md">
-        <div class="neon-border-card w-full max-w-5xl bg-black border-white/20 relative overflow-hidden h-fit max-h-[95vh]">
-            <div class="absolute top-4 left-6 z-10 flex flex-col opacity-40">
-                <span class="text-lg font-black italic text-white leading-tight">가보자고.</span>
-                <span class="text-[6px] tracking-widest text-white/70">GABOJAGO</span>
+    <!-- 상세 모달 -->
+    <div id="project-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-3 bg-black/98 backdrop-blur-xl">
+        <div class="neon-border-card w-full max-w-5xl bg-black border-white/20 relative overflow-hidden h-fit max-h-[90vh] shadow-[0_0_100px_rgba(0,0,0,1)]">
+            <div class="absolute top-6 left-8 z-10 flex flex-col opacity-60">
+                <span class="text-2xl font-black italic text-white leading-none">가보자고.</span>
+                <span class="text-[8px] font-black tracking-[0.4em] text-white">GABOJAGO</span>
             </div>
-            <button onclick="closeModal()" class="absolute top-4 right-6 text-3xl font-thin text-white/50 z-20">&times;</button>
+            <button onclick="closeModal()" class="absolute top-6 right-8 text-4xl font-thin text-white/50 z-20 hover:text-white transition-colors">&times;</button>
             
             <div id="modal-content" class="modal-content-grid grid grid-cols-2 h-full">
-                <div id="modal-img-container" class="h-full bg-center bg-cover border-r border-white/10 min-h-[200px]"></div>
-                <div class="modal-p-area p-8 md:p-12 flex flex-col justify-between pt-16 md:pt-24">
-                    <div class="modal-scroll-area">
-                        <span id="modal-cat-tag" class="text-yellow-400 text-[10px] font-black tracking-[0.2em] mb-3 block"></span>
-                        <h2 id="modal-title" class="text-3xl md:text-5xl font-black mb-4 md:mb-6 italic text-gradient leading-tight"></h2>
-                        <p id="modal-desc" class="text-sm md:text-lg text-white/60 leading-relaxed"></p>
+                <div id="modal-img-container" class="h-full bg-center bg-cover border-r border-white/10 min-h-[300px]"></div>
+                <div class="p-8 md:p-16 flex flex-col justify-between pt-24 md:pt-32">
+                    <div class="max-h-[40vh] overflow-y-auto">
+                        <span id="modal-cat-tag" class="text-yellow-400 text-xs font-black tracking-[0.3em] mb-4 block"></span>
+                        <h2 id="modal-title" class="text-3xl md:text-5xl font-black mb-6 italic text-gradient leading-tight"></h2>
+                        <p id="modal-desc" class="text-sm md:text-lg text-white/70 leading-relaxed font-medium"></p>
                     </div>
-                    <button onclick="requestMatch()" class="w-full mt-6 py-4 md:py-5 bg-white text-black font-black text-xl md:text-2xl rounded-2xl hover:bg-yellow-400">투자 매칭 신청</button>
+                    <button onclick="requestMatch()" class="w-full mt-10 py-5 bg-white text-black font-black text-xl md:text-2xl rounded-2xl hover:bg-yellow-400 transition-all">투자 매칭 신청</button>
                 </div>
             </div>
         </div>
@@ -168,7 +169,7 @@
         function autoFillUrl(i) { if (i.value === "") i.value = "https://"; }
 
         let projects = [
-            { id: 1, title: "양자 보안 엔진", cat: "01. 사이버 보안", desc: "차세대 양자 암호화 기술을 통한 데이터 보안 혁신 솔루션입니다.", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000" }
+            { id: 1, title: "국가 보안 퀀트 엔진", cat: "01. 사이버 보안", desc: "양자 암호화 기술 기반의 차세대 보안 시스템입니다. 군사 및 금융 데이터를 실시간으로 완벽하게 보호합니다.", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000" }
         ];
 
         function initAll() { renderProjects(projects); }
@@ -183,18 +184,18 @@
             
             projects.unshift({ id: Date.now(), title: t, cat: c, desc: d, img: i });
             renderProjects(projects);
-            confetti({ particleCount: 100, spread: 50, origin: { y: 0.8 } });
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.8 } });
         }
 
         function renderProjects(data) {
             const grid = document.getElementById('project-grid');
             grid.innerHTML = data.map(p => `
-                <div onclick="openModal(${p.id})" class="neon-border-card flex flex-col cursor-pointer group hover:scale-[1.02] transition-transform">
-                    <div class="h-40 bg-cover bg-center rounded-t-[1.5rem]" style="background-image: url('${p.img}')"></div>
-                    <div class="p-6 md:p-8">
-                        <span class="text-[9px] text-yellow-400 font-black mb-2 block tracking-widest">${p.cat}</span>
-                        <h4 class="text-lg md:text-xl font-black mb-2 group-hover:text-yellow-400 transition-colors">${p.title}</h4>
-                        <p class="text-white/40 text-[10px] line-clamp-2 italic">${p.desc}</p>
+                <div onclick="openModal(${p.id})" class="neon-border-card flex flex-col cursor-pointer group hover:scale-[1.02] hover:border-white/30 transition-all">
+                    <div class="h-48 bg-cover bg-center rounded-t-[1.5rem]" style="background-image: url('${p.img}')"></div>
+                    <div class="p-8">
+                        <span class="text-[10px] text-yellow-400 font-black mb-3 block tracking-widest">${p.cat}</span>
+                        <h4 class="text-xl font-black mb-3 group-hover:text-yellow-400 transition-colors leading-tight">${p.title}</h4>
+                        <p class="text-white/50 text-xs line-clamp-2 italic font-medium leading-relaxed">${p.desc}</p>
                     </div>
                 </div>`).join('');
         }
@@ -213,7 +214,6 @@
             document.getElementById('project-modal').classList.add('hidden'); 
             document.body.style.overflow = 'auto';
         }
-
         function requestMatch() { alert('투자 매칭 신청 완료!'); closeModal(); }
     </script>
 </body>
