@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>가보자고 GABOJAGO | 통합 복구 버전</title>
+    <title>가보자고 GABOJAGO | 카테고리 필터링 시스템</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&family=Montserrat:wght@900&display=swap');
@@ -11,11 +11,12 @@
         :root { --primary-gold: #facc15; --bg-black: #010101; }
         body { background-color: var(--bg-black); color: #fff; margin: 0; font-family: 'Noto Sans KR', sans-serif; }
 
-        /* [수정] 한글과 영어 사이즈를 동일하게 좌측 정렬 */
+        /* [핵심] 한글 '가보자고'의 전체 가로 너비와 영문 너비를 칼같이 일치시키는 박스 */
         .brand-unit {
             display: inline-flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: stretch; /* 좌우 끝을 강제로 늘려 맞춤 */
+            width: 210px; /* 한글 '가보자고.'이 가지는 고유 너비 설정 */
             text-align: left;
         }
 
@@ -25,51 +26,56 @@
             -webkit-text-fill-color: transparent; 
         }
         
-        /* [핵심] 한글과 영어 크기를 2.5rem으로 동일하게 통일 */
         .logo-kr { 
-            font-size: 2.5rem; 
+            font-size: 2.8rem; 
             font-weight: 900; 
             font-style: italic; 
-            line-height: 1.1;
+            line-height: 1;
             display: block;
+            letter-spacing: -0.03em;
         }
         
         .logo-en { 
             font-family: 'Montserrat', sans-serif; 
             font-weight: 900; 
-            font-size: 2.5rem; 
+            /* 자석처럼 좌우 끝을 한글과 똑같이 정렬하는 기법 */
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 1.25rem; 
             color: #ffffff;
             text-transform: uppercase;
-            display: block;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-top: 4px;
         }
 
-        /* 박스 및 입력창 스타일 */
-        .modern-card { background: rgba(255, 255, 255, 0.04); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.15); }
+        /* 폼 및 카드 가독성 */
+        .modern-card { background: rgba(255, 255, 255, 0.04); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.15); transition: 0.3s; }
+        .modern-card:hover { border-color: var(--primary-gold); }
         .label-text { font-size: 1rem; font-weight: 900; color: var(--primary-gold); margin-bottom: 8px; display: block; }
         .input-dark { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; color: #fff; width: 100%; outline: none; font-size: 1.1rem; }
         .input-dark:focus { border-color: var(--primary-gold); }
-
-        /* [추가] 카드 텍스트 선명도 강화 */
-        .card-title { font-size: 1.5rem; font-weight: 900; color: #fff; margin-bottom: 8px; }
-        .card-desc { font-size: 1rem; color: rgba(255, 255, 255, 0.7); line-height: 1.5; }
+        
+        .card-title { font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 8px; }
+        .card-desc { font-size: 1.05rem; color: rgba(255, 255, 255, 0.75); line-height: 1.6; }
     </style>
 </head>
-<body>
+<body onload="filterCategory()">
     
-    <!-- 네비게이션: 동일 사이즈 로고 (좌측) -->
+    <!-- 네비게이션: 좌측 정렬 및 너비 일치 로고 -->
     <nav class="pt-12 px-12 max-w-[1600px] mx-auto">
         <div class="brand-unit cursor-pointer group" onclick="location.reload()">
             <span class="logo-kr text-gradient">가보자고.</span>
-            <h1 class="logo-en">GABOJAGO</h1>
+            <div class="logo-en">
+                <span>G</span><span>A</span><span>B</span><span>O</span><span>J</span><span>A</span><span>G</span><span>O</span>
+            </div>
         </div>
     </nav>
 
-    <!-- 프로젝트 등록 섹션 -->
+    <!-- 프로젝트 등록 및 필터 섹션 -->
     <section class="max-w-[1600px] mx-auto px-12 py-10">
         <div class="modern-card p-10">
-            <h2 class="text-2xl font-black italic text-gradient mb-8 uppercase">Project Registration</h2>
+            <h2 class="text-2xl font-black italic text-gradient mb-8 uppercase">Project 관제 시스템</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <div class="space-y-6">
                     <div>
@@ -78,13 +84,14 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="label-text">카테고리</label>
-                            <select class="input-dark">
-                                <option>01. 사이버 보안</option>
-                                <option>02. 인공지능(AI)</option>
-                                <option>03. 바이오 테크</option>
-                                <option>04. 우주 항공</option>
-                                <option>05. 로보틱스</option>
+                            <!-- [필터링 연동] 카테고리를 변경하면 아래 업종 리스트가 즉시 바뀜 -->
+                            <label class="label-text">카테고리 선택 (클릭 시 하단 정렬)</label>
+                            <select id="category-selector" class="input-dark bg-[#111]" onchange="filterCategory()">
+                                <option value="all">전체 업종 보기</option>
+                                <option value="01">01. 사이버 보안</option>
+                                <option value="02" selected>02. 인공지능(AI)</option>
+                                <option value="03">03. 바이오 테크</option>
+                                <option value="04">04. 로보틱스</option>
                             </select>
                         </div>
                         <div>
@@ -98,54 +105,60 @@
                         <label class="label-text">상세 설명</label>
                         <textarea class="input-dark h-[120px] resize-none" placeholder="설명을 입력하세요"></textarea>
                     </div>
-                    <button class="w-full py-4 bg-white text-black font-black text-xl rounded-xl hover:bg-yellow-400 transition-all">등록 확정</button>
+                    <button class="w-full py-4 bg-white text-black font-black text-xl rounded-xl hover:bg-yellow-400 transition-all">새 프로젝트 등록</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- [수정] 사라졌던 업종별 카드 리스트 전원 복구 -->
+    <!-- 업종별 카드 리스트 영역 -->
     <section class="max-w-[1600px] mx-auto px-12 py-12">
-        <h3 class="text-xl font-black text-white/40 mb-8 tracking-widest uppercase">Current Projects</h3>
+        <h3 id="grid-title" class="text-xl font-black text-white/40 mb-8 tracking-widest uppercase">관련 업종 리스트</h3>
         <div id="project-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-            <!-- 01. 사이버 보안 -->
-            <div class="modern-card overflow-hidden group cursor-pointer">
-                <div class="h-56 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800')"></div>
-                <div class="p-8">
-                    <span class="text-yellow-400 font-bold text-xs mb-2 block uppercase">01. 사이버 보안</span>
-                    <h4 class="card-title group-hover:text-yellow-400 transition-colors">양자 암호 보안</h4>
-                    <p class="card-desc italic">국가 보안 등급의 차세대 양자 암호화 시스템</p>
-                </div>
-            </div>
-            <!-- 02. 인공지능 (이미지 포함 복구) -->
-            <div class="modern-card overflow-hidden group cursor-pointer">
-                <div class="h-56 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800')"></div>
-                <div class="p-8">
-                    <span class="text-yellow-400 font-bold text-xs mb-2 block uppercase">02. 인공지능(AI)</span>
-                    <h4 class="card-title group-hover:text-yellow-400 transition-colors">하이퍼 뉴럴 엔진</h4>
-                    <p class="card-desc italic">비즈니스 자동화를 위한 지능형 AI 솔루션</p>
-                </div>
-            </div>
-            <!-- 03. 바이오 테크 -->
-            <div class="modern-card overflow-hidden group cursor-pointer">
-                <div class="h-56 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=800')"></div>
-                <div class="p-8">
-                    <span class="text-yellow-400 font-bold text-xs mb-2 block uppercase">03. 바이오 테크</span>
-                    <h4 class="card-title group-hover:text-yellow-400 transition-colors">유전자 분석 플랫폼</h4>
-                    <p class="card-desc italic">개인 맞춤형 헬스케어를 위한 유전자 데이터 분석</p>
-                </div>
-            </div>
-            <!-- 04. 로보틱스 -->
-            <div class="modern-card overflow-hidden group cursor-pointer">
-                <div class="h-56 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800')"></div>
-                <div class="p-8">
-                    <span class="text-yellow-400 font-bold text-xs mb-2 block uppercase">04. 로보틱스</span>
-                    <h4 class="card-title group-hover:text-yellow-400 transition-colors">자율주행 협동 로봇</h4>
-                    <p class="card-desc italic">물류 혁신을 위한 AI 기반 자율주행 로봇 시스템</p>
-                </div>
-            </div>
+            <!-- 자바스크립트에 의해 카드가 동적으로 여기에 그려집니다 -->
         </div>
     </section>
 
+    <script>
+        // 업종별 데이터 구성 (이미지 포함)
+        const allProjects = [
+            { id: 1, code: "01", cat: "01. 사이버 보안", title: "양자 암호 보안 인프라", desc: "양자 컴퓨터 해킹 기술 방어를 위한 국가 성과급 차세대 보안 시스템", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800" },
+            { id: 2, code: "01", cat: "01. 사이버 보안", title: "엔드포인트 제로 트러스트", desc: "모든 네트워크 접속을 실시간으로 감시 및 검증하는 차세대 방화벽", img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800" },
+            { id: 3, code: "02", cat: "02. 인공지능(AI)", title: "하이퍼 뉴럴 딥러닝 엔진", desc: "비즈니스 프로세스를 스스로 분석하여 자동화 솔루션을 제공하는 거대 언어 모델", img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800" },
+            { id: 4, code: "03", cat: "03. 바이오 테크", title: "유전자 데이터 분석 플랫폼", desc: "유전체 서열 분석 가속화를 통한 개인 맞춤형 난치병 치료제 설계", img: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=800" },
+            { id: 5, code: "04", cat: "04. 로보틱스", title: "자율 복합 협동 로봇", desc: "스마트 팩토리 내부 물류와 조립을 전담하는 자율이동 물류 로봇 기기", img: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800" }
+        ];
+
+        // 카테고리 선택 시 화면을 갱신하는 필터 함수
+        function filterCategory() {
+            const selectedValue = document.getElementById('category-selector').value;
+            const grid = document.getElementById('project-grid');
+            const gridTitle = document.getElementById('grid-title');
+            
+            // 필터링 처리
+            const filteredData = selectedValue === "all" 
+                ? allProjects 
+                : allProjects.filter(p => p.code === selectedValue);
+            
+            // 타이틀 변경
+            if(selectedValue !== "all") {
+                gridTitle.innerText = `${filteredData[0]?.cat || '선택 업종'} 관련 프로젝트`;
+            } else {
+                gridTitle.innerText = "전체 업종 리스트";
+            }
+
+            // HTML 카드 렌더링
+            grid.innerHTML = filteredData.map(p => `
+                <div class="modern-card overflow-hidden group cursor-pointer border-white/10 hover:border-white/30">
+                    <div class="h-56 bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style="background-image: url('${p.img}')"></div>
+                    <div class="p-8">
+                        <span class="text-yellow-400 font-bold text-xs mb-2 block uppercase">${p.cat}</span>
+                        <h4 class="card-title group-hover:text-yellow-400 transition-colors">${p.title}</h4>
+                        <p class="card-desc italic">${p.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
 </body>
 </html>
