@@ -3,30 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가보자고 V3.3 | 스마트 플랫폼</title>
+    <title>가보자고 V3.4 | 하이엔드 매칭 플랫폼</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@900&display=swap');
         :root { --primary-gold: #facc15; --bg-black: #010101; }
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; overflow-x: hidden; }
         .text-gradient { background: linear-gradient(to right, #facc15, #f472b6, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .neon-border-card { background: rgba(255, 255, 255, 0.03); border-radius: 2rem; border: 1px solid rgba(255, 255, 255, 0.08); transition: 0.4s; overflow: hidden; }
+        
+        .neon-border-card { background: rgba(255, 255, 255, 0.03); border-radius: 2rem; border: 1px solid rgba(255, 255, 255, 0.08); transition: 0.4s; }
         
         .input-dark { 
             background: rgba(255,255,255,0.08); 
             border: 1px solid rgba(255,255,255,0.2); 
             border-radius: 1rem; padding: 1rem; color: white; width: 100%; outline: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23facc15'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.2rem;
         }
 
-        /* URL 입력 칸 전용 스타일 */
-        #reg-img { background-image: none; transition: all 0.3s; }
-        #reg-img:focus { border-color: var(--primary-gold); box-shadow: 0 0 15px rgba(250, 204, 21, 0.3); }
+        /* [핵심 솔루션] 커스텀 셀렉트 박스 디자인 */
+        .custom-select-wrapper { position: relative; width: 100%; }
+        .custom-select-trigger {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 1rem; padding: 1rem; color: white; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .custom-options {
+            position: absolute; top: calc(100% + 5px); left: 0; right: 0;
+            background: #1a1a1a; border: 1px solid var(--primary-gold);
+            border-radius: 1rem; z-index: 100; display: none;
+            max-height: 300px; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .custom-options.show { display: block; }
+        .option-item {
+            padding: 12px 20px; cursor: pointer; transition: 0.2s; font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .option-item:hover { background: var(--primary-gold); color: black; font-weight: bold; }
+        .option-item:last-child { border-bottom: none; }
+        
+        /* 스크롤바 디자인 */
+        .custom-options::-webkit-scrollbar { width: 5px; }
+        .custom-options::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 10px; }
 
-        .modal-scroll-area { max-height: 60vh; overflow-y: auto; padding-right: 10px; }
+        .modal-scroll-area { max-height: 60vh; overflow-y: auto; }
     </style>
 </head>
 <body onload="initAll()">
@@ -48,22 +68,31 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-[10px] font-black text-white/30 mb-2 tracking-[0.3em]">CATEGORY</label>
-                            <select id="reg-category" class="input-dark">
-                                <option value="보안">01. 사이버 보안</option>
-                                <option value="AI">02. 인공지능(AI)</option>
-                                <option value="바이오">03. 바이오 테크</option>
-                                <option value="우주">04. 우주 통신</option>
-                                <option value="로봇">05. 로보틱스</option>
-                                <option value="블록체인">09. 핀테크/DeFi</option>
-                            </select>
+                            <!-- 커스텀 드롭다운으로 변경 -->
+                            <div class="custom-select-wrapper">
+                                <div class="custom-select-trigger" onclick="toggleOptions()">
+                                    <span id="selected-cat">01. 사이버 보안</span>
+                                    <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                                <div class="custom-options" id="cat-options">
+                                    <div class="option-item" onclick="selectCat('01. 사이버 보안')">01. 사이버 보안</div>
+                                    <div class="option-item" onclick="selectCat('02. 인공지능(AI)')">02. 인공지능(AI)</div>
+                                    <div class="option-item" onclick="selectCat('03. 바이오 테크')">03. 바이오 테크</div>
+                                    <div class="option-item" onclick="selectCat('04. 우주 통신')">04. 우주 통신</div>
+                                    <div class="option-item" onclick="selectCat('05. 로보틱스')">05. 로보틱스</div>
+                                    <div class="option-item" onclick="selectCat('06. 가상 경제')">06. 가상 경제</div>
+                                    <div class="option-item" onclick="selectCat('07. 그린 에너지')">07. 그린 에너지</div>
+                                    <div class="option-item" onclick="selectCat('08. 자율주행')">08. 자율주행</div>
+                                    <div class="option-item" onclick="selectCat('09. 핀테크/DeFi')">09. 핀테크/DeFi</div>
+                                    <div class="option-item" onclick="selectCat('10. 맞춤형 교육')">10. 맞춤형 교육</div>
+                                    <div class="option-item" onclick="selectCat('11. 애그리 테크')">11. 애그리 테크</div>
+                                    <div class="option-item" onclick="selectCat('12. 범죄 수사 AI')">12. 범죄 수사 AI</div>
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <label class="block text-[10px] font-black text-white/30 mb-2 tracking-[0.3em]">IMAGE URL</label>
-                            <!-- 스마트 URL 입력 기능 적용 -->
-                            <input type="text" id="reg-img" class="input-dark" 
-                                   placeholder="https://를 포함한 이미지 주소" 
-                                   onfocus="autoFillUrl(this)"
-                                   onmouseover="autoFillUrl(this)">
+                            <input type="text" id="reg-img" class="input-dark" placeholder="https://" onfocus="autoFillUrl(this)" onmouseover="autoFillUrl(this)">
                         </div>
                     </div>
                 </div>
@@ -82,55 +111,62 @@
         <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
     </section>
 
-    <!-- 모달 생략(동일) -->
+    <!-- 모달 등 나머지 구조 유지 -->
     <div id="project-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
-        <div class="neon-border-card w-full max-w-5xl bg-black border-white/20 relative overflow-hidden">
+        <div class="neon-border-card w-full max-w-5xl bg-black border-white/20 relative animate-modal overflow-hidden">
             <button onclick="closeModal()" class="absolute top-6 right-8 text-4xl font-thin text-white/50 hover:text-white z-10">&times;</button>
-            <div id="modal-content" class="grid lg:grid-cols-2 h-full">
-                <div id="modal-img-container" class="h-64 lg:h-full bg-center bg-cover border-r border-white/5"></div>
-                <div class="p-12 flex flex-col justify-between overflow-hidden">
+            <div id="modal-content" class="grid lg:grid-cols-2 h-full max-h-[85vh]">
+                <div id="modal-img-container" class="h-64 lg:h-full bg-center bg-cover border-r border-white/10"></div>
+                <div class="p-10 flex flex-col justify-between overflow-hidden">
                     <div class="modal-scroll-area">
-                        <h2 id="modal-title" class="text-5xl font-black mb-8 italic leading-tight text-gradient"></h2>
-                        <p id="modal-desc" class="text-lg text-white/60 leading-relaxed mb-6"></p>
+                        <h2 id="modal-title" class="text-5xl font-black mb-6 italic text-gradient leading-tight"></h2>
+                        <p id="modal-desc" class="text-lg text-white/60 leading-relaxed"></p>
                     </div>
-                    <button onclick="requestMatch()" class="w-full py-5 bg-white text-black font-black text-2xl rounded-2xl hover:bg-yellow-400 transition">투자 매칭 신청</button>
+                    <button onclick="requestMatch()" class="w-full mt-6 py-5 bg-white text-black font-black text-2xl rounded-2xl hover:bg-yellow-400 transition">투자 매칭 신청</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // [스마트 기능] URL 자동 채우기 함수
-        function autoFillUrl(input) {
-            if (input.value === "") {
-                input.value = "https://";
+        // [수정된 기능] 드롭다운 토글 및 선택
+        function toggleOptions() {
+            document.getElementById('cat-options').classList.toggle('show');
+        }
+
+        function selectCat(val) {
+            document.getElementById('selected-cat').innerText = val;
+            document.getElementById('cat-options').classList.remove('show');
+        }
+
+        // 바깥 클릭 시 드롭다운 닫기
+        window.onclick = function(event) {
+            if (!event.target.closest('.custom-select-wrapper')) {
+                document.getElementById('cat-options').classList.remove('show');
             }
         }
 
+        function autoFillUrl(input) { if (input.value === "") input.value = "https://"; }
+
         let projects = [
-            { id: 1, title: "국가 보안 퀀트 엔진", cat: "보안", desc: "양자 암호화 기술 시스템입니다.", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000" }
+            { id: 1, title: "국가 보안 퀀트 엔진", cat: "01. 사이버 보안", desc: "양자 암호화 기술 시스템입니다.", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000" }
         ];
 
         function initAll() { renderProjects(projects); }
 
         function registerProject() {
             const title = document.getElementById('reg-title').value;
-            const cat = document.getElementById('reg-category').value;
+            const cat = document.getElementById('selected-cat').innerText;
             const desc = document.getElementById('reg-desc').value;
             let img = document.getElementById('reg-img').value;
 
-            // URL이 https:// 만 있고 주소가 없는 경우 기본 이미지 처리
-            if(img === "https://" || !img) {
-                img = "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1000";
-            }
-
+            if(img === "https://" || !img) img = "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1000";
             if(!title || !desc) return alert("내용을 입력하세요.");
             
             projects.unshift({ id: Date.now(), title, cat, desc, img });
             renderProjects(projects);
             confetti({ particleCount: 150 });
             
-            // 등록 후 초기화
             document.getElementById('reg-title').value = "";
             document.getElementById('reg-desc').value = "";
             document.getElementById('reg-img').value = "";
@@ -142,6 +178,7 @@
                 <div onclick="openModal(${p.id})" class="neon-border-card flex flex-col cursor-pointer group h-[380px]">
                     <div class="h-40 bg-cover bg-center" style="background-image: url('${p.img}')"></div>
                     <div class="p-8">
+                        <span class="text-[10px] text-yellow-400 font-black uppercase mb-2 block tracking-widest">${p.cat}</span>
                         <h4 class="text-xl font-black mb-3 group-hover:text-yellow-400 transition">${p.title}</h4>
                         <p class="text-white/40 text-[11px] line-clamp-2 italic">${p.desc}</p>
                     </div>
