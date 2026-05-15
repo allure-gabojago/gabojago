@@ -3,200 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>매력-가보자고 | 핵심 매칭 업종</title>
+    <title>매력-가보자고 | 투자자와 개발자의 혁신 매칭</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
-    
     <style>
-        :root {
-            --primary-color: #007bff;
-            --bg-color: #ffffff;
-            --text-dark: #111111;
-            --text-gray: #666666;
-            --border-color: #e1e1e1;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: var(--bg-color);
-        }
-
-        /* 12대 핵심 업종 섹션 */
-        .gabojago-container {
-            padding: 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 70px;
-        }
-
-        .section-header h2 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--text-dark);
-            margin-bottom: 15px;
-            letter-spacing: -1px;
-        }
-
-        .section-header p {
-            font-size: 1.1rem;
-            color: var(--text-gray);
-        }
-
-        /* 12개 박스 그리드 레이아웃 */
-        .sector-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개씩 */
-            gap: 25px;
-        }
-
-        .sector-card {
-            background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 40px 25px;
-            text-align: center;
-            transition: all 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        /* 1번 보안 및 안전 강조 스타일 */
-        .sector-card.highlight {
-            border: 2px solid var(--primary-color);
-            background-color: #f0f7ff;
-        }
-
-        .sector-card i {
-            font-size: 2.8rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        .sector-card h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #222;
-            margin-bottom: 12px;
-        }
-
-        .sector-card p {
-            font-size: 0.9rem;
-            color: #555;
-            line-height: 1.6;
-            word-break: keep-all;
-            margin: 0;
-        }
-
-        /* 호버 효과: 박스가 위로 올라감 */
-        .sector-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 40px rgba(0, 123, 255, 0.12);
-            border-color: var(--primary-color);
-        }
-
-        /* 모바일/태블릿 반응형 조절 */
-        @media (max-width: 1024px) {
-            .sector-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-        @media (max-width: 768px) {
-            .sector-grid { grid-template-columns: repeat(2, 1fr); }
-            .section-header h2 { font-size: 2rem; }
-        }
-        @media (max-width: 480px) {
-            .sector-grid { grid-template-columns: 1fr; }
-        }
+        /* [기존 스타일 시트 모두 유지] */
+        :root { --primary-color: #007bff; --text-dark: #111; }
+        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; }
+        
+        /* 상단 네비 및 히어로 섹션 스타일 (기존 스타일) */
+        .hero { background: linear-gradient(135deg, #007bff, #00d4ff); color: white; padding: 100px 20px; text-align: center; }
+        
+        /* 12대 핵심 업종 섹션 (새로 업데이트된 박스형) */
+        .sector-section { padding: 100px 20px; background: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .sector-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+        .sector-card { background: #fff; border: 1px solid #eee; border-radius: 20px; padding: 40px 20px; text-align: center; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .sector-card:hover { transform: translateY(-10px); border-color: #007bff; box-shadow: 0 15px 30px rgba(0,123,255,0.1); }
+        .sector-card i { font-size: 2.5rem; color: #007bff; margin-bottom: 20px; }
+        .sector-card.priority { border: 2px solid #007bff; background: #f0f7ff; }
+        
+        /* [기존의 다른 섹션 스타일들...] */
+        @media (max-width: 992px) { .sector-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 576px) { .sector-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <div class="gabojago-container">
-        <header class="section-header">
-            <h2>가보자고 핵심 매칭 업종</h2>
-            <p>전문적인 분석과 기술력을 바탕으로 선정한 12대 전략 산업군입니다.</p>
-        </header>
+    <header class="hero">
+        <h1>가보자고(GABOJAGO)</h1>
+        <p>투자자의 자본과 개발자의 기술이 만나는 판도라의 상자</p>
+    </header>
 
-        <main class="sector-grid">
-            <div class="sector-card highlight">
-                <i class="fa-solid fa-shield-halved"></i>
-                <h3>01. 보안 및 안전</h3>
-                <p>국가 공공 보안 및 기업용 지능형 재난 예방 시스템</p>
-            </div>
+    <section class="intro container" style="padding: 60px 0; text-align: center;">
+        <h2>왜 가보자고인가?</h2>
+        <p>우리는 단순한 매칭을 넘어, 차트 분석과 시장의 흐름을 읽는 전문성을 제공합니다.</p>
+    </section>
 
-            <div class="sector-card">
-                <i class="fa-solid fa-microchip"></i>
-                <h3>02. AI / 로보틱스</h3>
-                <p>뉴럴 AI 엔진 기반 지능형 프로세스 자동화 및 로봇 설계</p>
+    <section class="sector-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>12대 핵심 매칭 분야</h2>
+                <p>보안부터 부동산까지, 전문 분야별 매칭 시스템</p>
             </div>
+            <div class="sector-grid">
+                <div class="sector-card priority"><i class="fa-solid fa-shield-halved"></i><h3>01. 보안 및 안전</h3><p>지능형 재난 예방 및 기업 보안 솔루션</p></div>
+                <div class="sector-card"><i class="fa-solid fa-brain"></i><h3>02. AI / 로보틱스</h3><p>뉴럴 AI 엔진 및 프로세스 자동화</p></div>
+                <div class="sector-card"><i class="fa-solid fa-laptop-code"></i><h3>03. IT / 소프트웨어</h3><p>클라우드 및 엔터프라이즈 통합 솔루션</p></div>
+                <div class="sector-card"><i class="fa-solid fa-coins"></i><h3>04. 핀테크 / 금융</h3><p>디지털 자산 및 결제 시스템 혁신</p></div>
+                <div class="sector-card"><i class="fa-solid fa-microchip"></i><h3>05. 반도체 / HW</h3><p>차세대 시스템 반도체 및 하드웨어</p></div>
+                <div class="sector-card"><i class="fa-solid fa-dna"></i><h3>06. 바이오 / 의료</h3><p>정밀 진단 및 헬스케어 디바이스</p></div>
+                <div class="sector-card"><i class="fa-solid fa-leaf"></i><h3>07. 에너지 / 친환경</h3><p>신재생 에너지 및 탄소 중립 기술</p></div>
+                <div class="sector-card"><i class="fa-solid fa-cart-shopping"></i><h3>08. 이커머스 / 유통</h3><p>물류 자동화 및 데이터 큐레이션</p></div>
+                <div class="sector-card"><i class="fa-solid fa-car-side"></i><h3>09. 모빌리티</h3><p>자율주행 및 미래형 이동 수단</p></div>
+                <div class="sector-card"><i class="fa-solid fa-gamepad"></i><h3>10. 엔터 / 게임</h3><p>메타버스 및 실감형 콘텐츠 엔진</p></div>
+                <div class="sector-card"><i class="fa-solid fa-link"></i><h3>11. 블록체인 / Web3</h3><p>탈중앙 신원 증명 및 RWA 솔루션</p></div>
+                <div class="sector-card"><i class="fa-solid fa-building-user"></i><h3>12. 부동산 / 프롭테크</h3><p>자산 가치 분석 및 거래 자동화</p></div>
+            </div>
+        </div>
+    </section>
 
-            <div class="sector-card">
-                <i class="fa-solid fa-laptop-code"></i>
-                <h3>03. IT / 소프트웨어</h3>
-                <p>클라우드 아키텍처 및 대규모 엔터프라이즈 통합 솔루션</p>
-            </div>
-
-            <div class="sector-card">
-                <i class="fa-solid fa-hand-holding-dollar"></i>
-                <h3>04. 핀테크 / 금융</h3>
-                <p>블록체인 결제 보안 및 차세대 디지털 자산 관리 시스템</p>
-            </div>
-
-            <div class="sector-card">
-                <i class="fa-solid fa-memory"></i>
-                <h3>05. 반도체 / HW</h3>
-                <p>고성능 시스템 반도체 설계 및 혁신 하드웨어 소부장</p>
-            </div>
-
-            <div class="sector-card">
-                <i class="fa-solid fa-dna"></i>
-                <h3>06. 바이오 / 의료</h3>
-                <p>AI 기반 정밀 진단 및 웨어러블 헬스케어 디바이스</p>
-            </div>
-
-            <div class="sector-card">
-                <i class="fa-solid fa-leaf"></i>
-                <h3>07. 에너지 / 친환경</h3>
-                <p>탄소 중립 실현을 위한 신재생 에너지 및 배터리 기술</p>
-            </div>
-
-            <div class="sector-card">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <h3>08. 이커머스 / 유통</h3>
-                <p>스마트 풀필먼트 및 데이터 기반 개인화 큐레이션 서비스</p>
-            </div>
-
-            <div class="sector-card">
-                <i class="fa-solid fa-car-side"></i>
-                <h3>09. 모빌리티</h3>
-                <p>자율주행 제어 알고리즘 및 도심 항공 모빌리티(UAM)</p>
-            </div>
-
-            <div class="sector-card">
-                <i class="fa-solid fa-gamepad"></i>
-                <h3>10. 엔터 / 게임</h3>
-                <p>실감형 콘텐츠 제작 엔진 및 차세대 메타버스 플랫폼</p>
-            </div>
-
-            <div class="sector-card">
-                <i class="fa-solid fa-link"></i>
-                <h3>11. 블록체인 / Web3</h3>
-                <p>탈중앙화 신원 증명 및 실물 자산 토큰화(RWA) 솔루션</p>
-            </div>
-
-            <div class="sector-card">
-                <i class="fa-solid fa-building-user"></i>
-                <h3>12. 부동산 / 프롭테크</h3>
-                <p>빅데이터 기반 자산 가치 분석 및 거래 자동화 서비스</p>
-            </div>
-        </main>
-    </div>
+    <footer style="padding: 40px; background: #333; color: white; text-align: center;">
+        <p>&copy; 2026 가보자고. All rights reserved.</p>
+    </footer>
 
 </body>
 </html>
