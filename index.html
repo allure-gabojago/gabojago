@@ -32,7 +32,7 @@
     </style>
 </head>
 <body onload="initAll()">
-    <div class="trial-bar">💎 실시간 알림: '안전 보안 사이버' 분야에 새로운 엔젤 투자자가 합류했습니다!</div>
+    <div class="trial-bar">💎 실시간 알림: 가보자고 엔진에 총 12개의 핵심 산업 포트폴리오가 구축되었습니다!</div>
     
     <nav class="p-8 flex justify-between items-center border-b border-white/5 sticky top-0 z-50 bg-black/90 backdrop-blur-md">
         <div class="brand-group cursor-pointer" onclick="showSection('main')">
@@ -55,12 +55,10 @@
         </section>
 
         <div class="grid grid-cols-1 xl:grid-cols-4 gap-12">
-            <!-- 실시간 수익률 랭킹 (신규) -->
+            <!-- 실시간 수익률 랭킹 -->
             <div class="xl:col-span-1">
                 <h3 class="text-2xl font-black mb-8 italic uppercase text-yellow-400">수익률 TOP 5</h3>
-                <div class="glass-card p-6 rounded-[2rem]" id="ranking-list">
-                    <!-- 랭킹 아이템이 스크립트로 들어갑니다 -->
-                </div>
+                <div class="glass-card p-6 rounded-[2rem]" id="ranking-list"></div>
             </div>
             
             <!-- 업종 카드 리스트 -->
@@ -94,7 +92,15 @@
             { name: "안전 보안 사이버", sub: "보안 및 네트워크 인프라", fund: "42억", dev: 24, angel: 8, tag: "인기 업종", yield: 32.5 },
             { name: "인공지능 퀀트", sub: "AI 모델링 및 알고리즘", fund: "78억", dev: 45, angel: 12, tag: "모집중", yield: 28.1 },
             { name: "반도체 클러스터", sub: "차세대 하드웨어 설계", fund: "89억", dev: 18, angel: 15, tag: "전략 분야", yield: 22.4 },
-            { name: "디지털 헬스케어", sub: "바이오 및 원격 의료", fund: "52억", dev: 31, angel: 6, tag: "성장 중", yield: 19.8 }
+            { name: "디지털 헬스케어", sub: "바이오 및 원격 의료", fund: "52억", dev: 31, angel: 6, tag: "성장 중", yield: 19.8 },
+            { name: "자율주행 모빌리티", sub: "라이다 센서 및 주행 제어", fund: "65억", dev: 22, angel: 9, tag: "고성장", yield: 25.7 },
+            { name: "K-컬처 콘텐츠 AI", sub: "미디어 생성 및 저작권", fund: "38억", dev: 15, angel: 4, tag: "글로벌", yield: 31.2 },
+            { name: "지능형 로보틱스", sub: "제조 자동화 및 협동 로봇", fund: "92억", dev: 28, angel: 11, tag: "대형 펀드", yield: 20.5 },
+            { name: "우주 항공 위성", sub: "저궤도 위성 통신망", fund: "120억", dev: 12, angel: 20, tag: "미래 가치", yield: 15.4 },
+            { name: "친환경 그린 에너지", sub: "수소 연료 전지 및 ESS", fund: "55억", dev: 19, angel: 7, tag: "ESG 경영", yield: 21.9 },
+            { name: "차세대 배터리", sub: "전고체 배터리 소자 기술", fund: "84억", dev: 25, angel: 13, tag: "핵심 기술", yield: 27.3 },
+            { name: "핀테크 블록체인", sub: "분산 원장 및 보안 금융", fund: "47억", dev: 34, angel: 5, tag: "신규 진입", yield: 24.1 },
+            { name: "메타버스 커머스", sub: "가상 현실 쇼핑 엔진", fund: "31억", dev: 21, angel: 3, tag: "트렌드", yield: 18.6 }
         ];
 
         function initAll() {
@@ -125,7 +131,7 @@
         function renderRanking() {
             const list = document.getElementById('ranking-list');
             const sorted = [...projects].sort((a, b) => b.yield - a.yield);
-            list.innerHTML = sorted.map((p, i) => `
+            list.innerHTML = sorted.slice(0, 5).map((p, i) => `
                 <div class="ranking-item flex justify-between items-center">
                     <div class="flex items-center gap-4">
                         <span class="text-lg font-black ${i<3 ? 'text-yellow-400' : 'text-gray-600'}">0${i+1}</span>
@@ -147,7 +153,7 @@
             window.scrollTo(0,0);
         }
 
-        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function openModal(id) { alert('해당 기능은 현재 준비 중입니다. 곧 업데이트될 예정입니다!'); }
     </script>
 </body>
 </html>
