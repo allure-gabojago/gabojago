@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>가보자고 GABOJAGO | 로고 비율 최적화</title>
+    <title>가보자고 GABOJAGO | 좌측 정렬 및 복구</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&family=Montserrat:wght@900&display=swap');
@@ -11,12 +11,12 @@
         :root { --primary-gold: #facc15; --bg-black: #010101; }
         body { background-color: var(--bg-black); color: #fff; margin: 0; font-family: 'Noto Sans KR', sans-serif; }
 
-        /* [핵심] 로고 디자인: 한글 축소 + 영문 확대 */
+        /* [핵심] 로고 디자인: 좌측 정렬 + 한글 작게/영어 크게 */
         .brand-unit {
             display: inline-flex;
             flex-direction: column;
-            align-items: center; /* 중앙 정렬 */
-            text-align: center;
+            align-items: flex-start; /* 좌측 정렬 */
+            text-align: left;
         }
 
         .text-gradient { 
@@ -26,107 +26,123 @@
         }
         
         .logo-kr { 
-            /* [수정] 한글 크기를 줄임 */
-            font-size: 1.8rem; 
+            font-size: 1.5rem; /* 한글 크기 축소 */
             font-weight: 900; 
             font-style: italic; 
             line-height: 1;
-            letter-spacing: 0.1em; /* 한글은 자간을 살짝 벌려 여유를 줌 */
+            letter-spacing: 0.1em;
             display: block;
-            margin-bottom: 8px;
-            opacity: 0.9;
+            margin-bottom: 2px;
+            margin-left: 2px; /* 영문과 시각적 라인 맞춤 */
         }
         
         .logo-en { 
             font-family: 'Montserrat', sans-serif; 
             font-weight: 900; 
-            /* [수정] 영문 크기를 압도적으로 키움 */
-            font-size: 3.5rem; 
+            font-size: 3.2rem; /* 영문 크기 확대 */
             color: #ffffff;
             text-transform: uppercase;
             display: block;
             line-height: 0.9;
-            letter-spacing: -0.02em; /* 영문은 오히려 자간을 좁혀 밀도감 상승 */
-            transition: all 0.3s ease;
+            letter-spacing: -0.02em;
         }
 
-        /* 하단 구분선 장식 */
-        .logo-line {
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, transparent, var(--primary-gold), transparent);
-            margin-top: 10px;
-        }
-
-        /* 박스 디자인 강화 */
+        /* 컨텐츠 박스 스타일 */
         .modern-card { 
-            background: rgba(255, 255, 255, 0.03); 
-            border-radius: 20px; 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            transition: 0.3s ease-in-out;
+            background: rgba(255, 255, 255, 0.04); 
+            border-radius: 24px; 
+            border: 1px solid rgba(255, 255, 255, 0.12); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
-        .modern-card:hover { border-color: var(--primary-gold); background: rgba(255, 255, 255, 0.07); }
         
-        .input-dark {
-            background: #0a0a0a; border: 1px solid #333; padding: 18px; border-radius: 12px;
-            color: #fff; width: 100%; font-size: 1.1rem; outline: none; transition: 0.2s;
+        .label-text { 
+            font-size: 0.95rem; 
+            font-weight: 900; 
+            color: var(--primary-gold); 
+            margin-bottom: 10px; 
+            display: block;
+            letter-spacing: -0.02em;
         }
-        .input-dark:focus { border-color: var(--primary-gold); box-shadow: 0 0 15px rgba(250, 204, 21, 0.2); }
 
-        .btn-main {
-            background: #fff; color: #000; padding: 20px; border-radius: 15px;
-            font-weight: 900; font-size: 1.4rem; transition: 0.3s;
+        .input-dark {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); 
+            padding: 16px; border-radius: 12px; color: #fff; width: 100%; font-size: 1.1rem; outline: none;
         }
-        .btn-main:hover { background: var(--primary-gold); transform: scale(1.02); }
+        .input-dark:focus { border-color: var(--primary-gold); background: rgba(255,255,255,0.08); }
+
+        .btn-submit {
+            background: #fff; color: #000; padding: 20px; border-radius: 16px;
+            font-weight: 900; font-size: 1.5rem; transition: 0.3s;
+        }
+        .btn-submit:hover { background: var(--primary-gold); transform: translateY(-2px); }
     </style>
 </head>
 <body>
     
-    <!-- 네비게이션: 새로운 비율의 로고 -->
-    <nav class="p-12 max-w-[1400px] mx-auto flex flex-col items-center">
+    <!-- 네비게이션: 좌측 정렬 로고 -->
+    <nav class="pt-12 px-12 max-w-[1600px] mx-auto flex justify-between items-end">
         <div class="brand-unit cursor-pointer group" onclick="location.reload()">
             <span class="logo-kr text-gradient">가보자고.</span>
             <h1 class="logo-en group-hover:text-yellow-400">GABOJAGO</h1>
-            <div class="logo-line"></div>
+        </div>
+        <div class="pb-2">
+            <button class="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-6 py-2 rounded-lg font-bold text-sm transition-all">프리미엄 채널</button>
         </div>
     </nav>
 
-    <!-- 프로젝트 등록 섹션 -->
-    <section class="max-w-[1200px] mx-auto px-6 py-10">
-        <div class="modern-card p-10 md:p-16">
-            <h2 class="text-2xl font-bold text-white/50 mb-10 tracking-[0.5em] uppercase text-center">Registration</h2>
+    <!-- 프로젝트 등록 섹션 (한글 복구) -->
+    <section class="max-w-[1600px] mx-auto px-12 py-10">
+        <div class="modern-card p-12">
+            <h2 class="text-3xl font-black italic text-gradient mb-12">프로젝트 등록 시스템</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- 왼쪽 컬럼 -->
                 <div class="space-y-8">
                     <div>
-                        <p class="text-xs font-black text-yellow-400 mb-3 tracking-widest">PROJECT NAME</p>
-                        <input type="text" class="input-dark" placeholder="프로젝트의 명칭">
+                        <label class="label-text">프로젝트 제목</label>
+                        <input type="text" class="input-dark" placeholder="등록할 프로젝트의 명칭을 입력하세요">
                     </div>
-                    <div class="grid grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <p class="text-xs font-black text-yellow-400 mb-3 tracking-widest">CATEGORY</p>
-                            <select class="input-dark"><option>AI Tech</option><option>Security</option></select>
+                            <label class="label-text">카테고리 설정</label>
+                            <select class="input-dark bg-[#111]">
+                                <option>01. 사이버 보안</option>
+                                <option selected>02. 인공지능(AI)</option>
+                                <option>03. 바이오 테크</option>
+                                <option>04. 우주 항공</option>
+                                <option>05. 로보틱스</option>
+                            </select>
                         </div>
                         <div>
-                            <p class="text-xs font-black text-yellow-400 mb-3 tracking-widest">IMAGE</p>
-                            <input type="text" class="input-dark" placeholder="URL">
+                            <label class="label-text">대표 이미지 URL</label>
+                            <input type="text" class="input-dark" placeholder="https://">
                         </div>
                     </div>
                 </div>
+                <!-- 오른쪽 컬럼 -->
                 <div class="space-y-8">
                     <div>
-                        <p class="text-xs font-black text-yellow-400 mb-3 tracking-widest">SUMMARY</p>
-                        <textarea class="input-dark h-[145px] resize-none" placeholder="간략한 설명"></textarea>
+                        <label class="label-text">프로젝트 상세 설명</label>
+                        <textarea class="input-dark h-[145px] resize-none" placeholder="핵심 내용을 간략하게 설명해 주세요"></textarea>
                     </div>
-                    <button class="btn-main w-full">플랫폼 등록 확정</button>
+                    <button class="btn-submit w-full shadow-2xl">플랫폼 등록 확정</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 간단한 푸터 정렬 안내 -->
-    <footer class="text-center py-20 text-white/20 text-sm tracking-widest">
-        &copy; 2026 GABOJAGO PLATFORM. ALL RIGHTS RESERVED.
-    </footer>
+    <!-- 카드 리스트 영역 -->
+    <section class="max-w-[1600px] mx-auto px-12 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="modern-card overflow-hidden group cursor-pointer">
+                <div class="h-60 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80')"></div>
+                <div class="p-8">
+                    <span class="text-yellow-400 font-bold text-xs mb-2 block">02. 인공지능(AI)</span>
+                    <h4 class="text-xl font-black mb-3">하이퍼 뉴럴 AI 엔진</h4>
+                    <p class="text-white/60 text-sm leading-relaxed italic">지능형 자동화 시스템을 통한 비즈니스 최적화 솔루션</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
 </body>
 </html>
