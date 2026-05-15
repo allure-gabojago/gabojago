@@ -233,5 +233,168 @@
         </div>
     </div>
 </section>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+    .gabojago-sector-section {
+        padding: 80px 20px;
+        background-color: #fcfcfc;
+        font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    }
+
+    .sector-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .sector-header h2 {
+        font-size: 2.5rem;
+        color: #111;
+        margin-bottom: 15px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+    }
+
+    .sector-header p {
+        color: #666;
+        margin-bottom: 60px;
+        font-size: 1.1rem;
+    }
+
+    /* 12개 그리드 레이아웃 */
+    .sector-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 25px;
+    }
+
+    .sector-item {
+        background: #ffffff;
+        border: 1px solid #eaeaea;
+        border-radius: 20px;
+        padding: 40px 20px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    /* 아이콘 스타일 */
+    .sector-item i {
+        font-size: 2.5rem;
+        color: #007bff;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .sector-item span {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #333;
+    }
+
+    /* 1번 업종(보안/안전) 강조 스타일 */
+    .sector-item.priority {
+        border: 2px solid #007bff;
+        background: #f0f7ff;
+    }
+
+    /* 호버 애니메이션 */
+    .sector-item:hover {
+        transform: translateY(-12px);
+        background: #007bff;
+        border-color: #007bff;
+        box-shadow: 0 20px 40px rgba(0, 123, 255, 0.18);
+    }
+
+    .sector-item:hover i, 
+    .sector-item:hover span {
+        color: #ffffff;
+    }
+
+    /* 반응형 설정 */
+    @media (max-width: 1024px) {
+        .sector-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+        .sector-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .sector-header h2 { font-size: 2rem; }
+        .sector-item { padding: 30px 10px; }
+    }
+</style>
+
+<section class="gabojago-sector-section">
+    <div class="sector-wrapper">
+        <div class="sector-header">
+            <h2>가보자고 핵심 12대 업종</h2>
+            <p>신뢰할 수 있는 보안 기술부터 미래 혁신 산업까지, 분야별 최고의 파트너를 매칭합니다.</p>
+        </div>
+        
+        <div class="sector-grid">
+            <div class="sector-item priority">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>보안 및 안전</span>
+            </div>
+            
+            <div class="sector-item">
+                <i class="fa-solid fa-laptop-code"></i>
+                <span>IT / 소프트웨어</span>
+            </div>
+            
+            <div class="sector-item">
+                <i class="fa-solid fa-microchip"></i>
+                <span>AI / 로보틱스</span>
+            </div>
+            
+            <div class="sector-item">
+                <i class="fa-solid fa-building-columns"></i>
+                <span>핀테크 / 금융</span>
+            </div>
+            
+            <div class="sector-item">
+                <i class="fa-solid fa-memory"></i>
+                <span>반도체 / HW</span>
+            </div>
+            
+            <div class="sector-item">
+                <i class="fa-solid fa-dna"></i>
+                <span>바이오 / 헬스케어</span>
+            </div>
+            
+            <div class="sector-item">
+                <i class="fa-solid fa-leaf"></i>
+                <span>에너지 / 친환경</span>
+            </div>
+            
+            <div class="sector-item">
+                <i class="fa-solid fa-truck-fast"></i>
+                <span>이커머스 / 유통</span>
+            </div>
+            
+            <div class="sector-item">
+                <i class="fa-solid fa-car-side"></i>
+                <span>모빌리티 / 자율주행</span>
+            </div>
+            
+            <div class="sector-item">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>엔터 / 게임</span>
+            </div>
+            
+            <div class="sector-item">
+                <i class="fa-solid fa-cubes"></i>
+                <span>블록체인 / Web3</span>
+            </div>
+            
+            <div class="sector-item">
+                <i class="fa-solid fa-house-chimney-window"></i>
+                <span>부동산 / 프롭테크</span>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
