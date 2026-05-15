@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GABOJAGO | 글로벌 실시간 투자 거래소</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Montserrat:wght@800;900&display=swap');
         :root { --primary-gold: #facc15; --bg-black: #000; }
@@ -48,9 +47,9 @@
 
     <main class="px-8 py-20 max-w-[1600px] mx-auto">
         <div class="mb-16">
-            <p class="text-yellow-400 font-bold tracking-[0.3em] text-xs uppercase mb-4">Market Engine Active</p>
+            <p class="text-yellow-400 font-bold tracking-[0.3em] text-xs uppercase mb-4">Capital Market Live</p>
             <h2 class="text-5xl font-bold italic tracking-tighter leading-tight">
-                엔진 가동 시작: <br/> <span class="text-white opacity-80 font-light">보안과 안전을 최우선으로 하는 미래 투자</span>
+                엔진 가동 시작: <br/> <span class="text-white opacity-80 font-light">가장 가치 있는 12대 핵심 자산에 투자하세요</span>
             </h2>
         </div>
 
@@ -73,34 +72,30 @@
     <script>
         let myBalance = 500000000;
         
-        // 데이터 순서 변경: 사이버 보안 시스템을 0번 인덱스로 배치
+        // 관심도 순 정렬 (시장 투자금 및 검색량 기준 시뮬레이션)
         const projects = [
-            { name: "사이버 보안 엔진", sub: "Cyber Security System", fund: 4200000000 },
-            { name: "인공지능 퀀트 엔진", sub: "AI Quant Engine", fund: 1280000000 },
-            { name: "우주 물류 시스템", sub: "Space Logistics", fund: 3500000000 },
-            { name: "K-바이오 대장주", sub: "Samsung Biologics Hub", fund: 5200000000 },
-            { name: "차세대 2차 전지", sub: "Next-Gen Battery", fund: 2100000000 },
-            { name: "메타버스 인프라", sub: "Metaverse Infra", fund: 980000000 },
-            { name: "수소 에너지 그리드", sub: "Hydrogen Energy", fund: 1500000000 },
-            { name: "반도체 클러스터", sub: "Semi-Conductor", fund: 8900000000 },
-            { name: "양자 컴퓨터 허브", sub: "Quantum Computing", fund: 450000000 },
-            { name: "자율주행 모빌리티", sub: "Auto-Mobility", fund: 2800000000 }
+            { name: "인공지능 퀀트 엔진", sub: "AI & Neural Networks", fund: 7800000000, tag: "Hottest" },
+            { name: "반도체 클러스터", sub: "Next-Gen Semi-Conductor", fund: 8900000000, tag: "Essential" },
+            { name: "사이버 보안 엔진", sub: "Global Cyber Security", fund: 4200000000, tag: "Top Security" },
+            { name: "디지털 헬스케어", sub: "Bio-Tech & Healthcare", fund: 5200000000, tag: "Growth" },
+            { name: "차세대 2차 전지", sub: "Energy Storage System", fund: 3100000000, tag: "Leading" },
+            { name: "K-콘텐츠 & 엔터", sub: "Global K-Culture", fund: 2400000000, tag: "K-Trend" },
+            { name: "우주 물류 시스템", sub: "Space Logistics", fund: 3500000000, tag: "Future" },
+            { name: "양자 컴퓨터 허브", sub: "Quantum Computing", fund: 1450000000, tag: "Deep Tech" },
+            { name: "자율주행 모빌리티", sub: "Smart Auto-Mobility", fund: 2800000000, tag: "Vision" },
+            { name: "푸드테크 플랫폼", sub: "Smart Food Delivery", fund: 970000000, tag: "Platform" },
+            { name: "수소 에너지 그리드", sub: "Hydrogen Green Energy", fund: 1500000000, tag: "ESG" },
+            { name: "메타버스 인프라", sub: "Virtual Reality World", fund: 980000000, tag: "Web 3.0" }
         ];
 
-        function initAll() {
-            renderProjects();
-            initParticles();
-            updateWalletUI();
-            startLiveUpdates();
-        }
-
+        function initAll() { renderProjects(); initParticles(); updateWalletUI(); startLiveUpdates(); }
         function renderProjects() {
             const container = document.getElementById('project-container');
             container.innerHTML = projects.map((p, i) => `
-                <div class="glass-card p-10 rounded-[3rem] ${i === 0 ? 'border-yellow-400/40 shadow-lg shadow-yellow-400/5' : ''}">
+                <div class="glass-card p-10 rounded-[3rem] ${i < 3 ? 'border-yellow-400/40' : ''}">
                     <div class="flex justify-between items-start mb-6">
-                        <span class="px-3 py-1 ${i === 0 ? 'bg-yellow-400 text-black' : 'bg-yellow-400/10 text-yellow-400'} text-[10px] font-bold rounded-full uppercase border border-yellow-400/20">
-                            ${i === 0 ? 'Top Security' : 'Active'}
+                        <span class="px-3 py-1 ${i < 3 ? 'bg-yellow-400 text-black' : 'bg-yellow-400/10 text-yellow-400'} text-[10px] font-bold rounded-full uppercase border border-yellow-400/20">
+                            ${p.tag}
                         </span>
                         <p class="text-right text-[0.6rem] text-gray-500 font-bold uppercase tracking-widest">Funded<br>
                         <span class="text-lg text-yellow-400 hero-font amt" data-val="${p.fund}">${p.fund.toLocaleString()}</span></p>
@@ -116,21 +111,17 @@
         }
 
         function updateWalletUI() { document.getElementById('my-wallet').innerText = myBalance.toLocaleString(); }
-        
         function formatInput(el) {
             let val = el.value.replace(/[^0-9]/g, '');
             if (val === "") { el.value = ""; return; }
             el.value = Number(val).toLocaleString() + " 원";
         }
-
         function openInvestModal(name) {
             document.getElementById('modal-project-name').innerText = name;
             document.getElementById('invest-input').value = "10,000,000 원";
             document.getElementById('invest-modal').classList.add('active');
         }
-
         function closeInvestModal() { document.getElementById('invest-modal').classList.remove('active'); }
-
         function processInvestment() {
             const rawValue = document.getElementById('invest-input').value.replace(/[^-0-9]/g, '');
             const amount = parseInt(rawValue);
@@ -139,7 +130,6 @@
             alert(`${amount.toLocaleString()}원이 성공적으로 투자되었습니다.`);
             closeInvestModal();
         }
-
         function startLiveUpdates() {
             setInterval(() => {
                 const amts = document.querySelectorAll('.amt');
@@ -150,7 +140,6 @@
                 });
             }, 3000);
         }
-
         function initParticles() {
             const canvas = document.getElementById('particle-canvas'); const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
