@@ -11,24 +11,28 @@
         :root { --primary-gold: #facc15; --bg-black: #050505; }
         body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; overflow-x: hidden; }
         
-        /* 브랜드 로고 */
         .brand-group { display: flex; align-items: baseline; gap: 12px; }
         .brand-kor { font-size: 2.8rem; font-weight: 900; color: #fff; letter-spacing: -0.05em; }
         .brand-eng { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; color: var(--primary-gold); letter-spacing: 0.1em; font-weight: 800; }
         
         .trial-bar { background: var(--primary-gold); padding: 12px 0; text-align: center; font-size: 15px; font-weight: 900; color: #000; }
         
-        /* 상단 지표 */
         .stat-card { background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid rgba(255,255,255,0.1); border-radius: 4rem; padding: 3.5rem; text-align: center; }
         .stat-label { color: #888; font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; }
         .stat-value { font-size: 5rem; font-weight: 900; line-height: 1; }
         .stat-unit { font-size: 1.8rem; color: #555; margin-left: 0.5rem; font-weight: 700; }
         
-        .btn-gold { background: var(--primary-gold); color: #000; font-weight: 900; border-radius: 12px; transition: 0.3s; cursor: pointer; }
+        .btn-gold { background: var(--primary-gold); color: #000; font-weight: 900; border-radius: 12px; transition: 0.3s; cursor: pointer; border: none; }
         .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(250, 204, 21, 0.4); }
         
         .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
         .ranking-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 0; }
+
+        /* 모달 스타일 */
+        #project-modal { transition: opacity 0.3s ease-in-out; }
+        .modal-content { background: #0f0f0f; border: 1px solid rgba(250, 204, 21, 0.2); max-height: 90vh; overflow-y: auto; }
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-thumb { background: var(--primary-gold); border-radius: 10px; }
     </style>
 </head>
 <body onload="initAll()">
@@ -41,12 +45,11 @@
         </div>
         <div class="flex items-center gap-8">
             <button onclick="showSection('review')" class="text-white/60 hover:text-yellow-400 font-bold">심사 대시보드</button>
-            <button onclick="openModal('portfolio-modal')" class="text-white/60 hover:text-white font-bold">포트폴리오 올리기</button>
-            <button onclick="openModal('auth-modal')" class="btn-gold px-10 py-4 text-lg">무료로 시작하기</button>
+            <button class="text-white/60 hover:text-white font-bold">포트폴리오 올리기</button>
+            <button class="btn-gold px-10 py-4 text-lg">무료로 시작하기</button>
         </div>
     </nav>
 
-    <!-- 메인 섹션 -->
     <main id="main-section" class="px-8 py-16 max-w-[1600px] mx-auto">
         <section class="mb-20 grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="stat-card"><p class="stat-label">총 포트폴리오 가치</p><h3 class="stat-value">484<span class="stat-unit">억 원</span></h3></div>
@@ -55,13 +58,10 @@
         </section>
 
         <div class="grid grid-cols-1 xl:grid-cols-4 gap-12">
-            <!-- 실시간 수익률 랭킹 -->
             <div class="xl:col-span-1">
                 <h3 class="text-2xl font-black mb-8 italic uppercase text-yellow-400">수익률 TOP 5</h3>
                 <div class="glass-card p-6 rounded-[2rem]" id="ranking-list"></div>
             </div>
-            
-            <!-- 업종 카드 리스트 -->
             <div class="xl:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="project-container"></div>
         </div>
     </main>
@@ -69,63 +69,133 @@
     <!-- 심사 섹션 -->
     <section id="review-section" class="hidden px-8 py-16 max-w-[1200px] mx-auto">
         <h2 class="text-4xl font-black mb-12 uppercase">투자 심사 대시보드</h2>
-        <div class="glass-card p-10 rounded-[3.5rem] border-yellow-400/20">
-            <div class="flex justify-between items-center mb-8 pb-8 border-b border-white/10">
-                <div>
-                    <h4 class="text-2xl font-black">사이버 보안 위협 탐지 AI</h4>
-                    <p class="text-gray-500">제안자: 김개발 팀장</p>
-                </div>
-                <div class="text-right">
-                    <p class="text-xs text-gray-500 mb-1 font-bold uppercase tracking-widest">Target Fund</p>
-                    <p class="text-2xl font-black text-yellow-400">15.0억</p>
-                </div>
-            </div>
-            <div class="flex gap-4">
-                <button onclick="alert('문서를 불러오는 중입니다...')" class="flex-1 py-5 bg-white/5 rounded-2xl font-bold hover:bg-white/10 transition-all">백서 검토</button>
-                <button onclick="triggerInvest()" class="flex-1 py-5 btn-gold text-xl">최종 투자 확정</button>
+        <div id="review-content"></div>
+    </section>
+
+    <!-- 상세 모달 (상세 내용 포함) -->
+    <div id="project-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm">
+        <div class="modal-content w-full max-w-4xl rounded-[3rem] p-12 relative">
+            <button onclick="closeModal()" class="absolute top-8 right-8 text-white/40 hover:text-white text-3xl">&times;</button>
+            <div id="modal-body">
+                <!-- 데이터가 여기에 동적으로 들어갑니다 -->
             </div>
         </div>
-    </section>
+    </div>
 
     <script>
         const projects = [
-            { name: "안전 보안 사이버", sub: "보안 및 네트워크 인프라", fund: "42억", dev: 24, angel: 8, tag: "인기 업종", yield: 32.5 },
-            { name: "인공지능 퀀트", sub: "AI 모델링 및 알고리즘", fund: "78억", dev: 45, angel: 12, tag: "모집중", yield: 28.1 },
-            { name: "반도체 클러스터", sub: "차세대 하드웨어 설계", fund: "89억", dev: 18, angel: 15, tag: "전략 분야", yield: 22.4 },
-            { name: "디지털 헬스케어", sub: "바이오 및 원격 의료", fund: "52억", dev: 31, angel: 6, tag: "성장 중", yield: 19.8 },
-            { name: "자율주행 모빌리티", sub: "라이다 센서 및 주행 제어", fund: "65억", dev: 22, angel: 9, tag: "고성장", yield: 25.7 },
-            { name: "K-컬처 콘텐츠 AI", sub: "미디어 생성 및 저작권", fund: "38억", dev: 15, angel: 4, tag: "글로벌", yield: 31.2 },
-            { name: "지능형 로보틱스", sub: "제조 자동화 및 협동 로봇", fund: "92억", dev: 28, angel: 11, tag: "대형 펀드", yield: 20.5 },
-            { name: "우주 항공 위성", sub: "저궤도 위성 통신망", fund: "120억", dev: 12, angel: 20, tag: "미래 가치", yield: 15.4 },
-            { name: "친환경 그린 에너지", sub: "수소 연료 전지 및 ESS", fund: "55억", dev: 19, angel: 7, tag: "ESG 경영", yield: 21.9 },
-            { name: "차세대 배터리", sub: "전고체 배터리 소자 기술", fund: "84억", dev: 25, angel: 13, tag: "핵심 기술", yield: 27.3 },
-            { name: "핀테크 블록체인", sub: "분산 원장 및 보안 금융", fund: "47억", dev: 34, angel: 5, tag: "신규 진입", yield: 24.1 },
-            { name: "메타버스 커머스", sub: "가상 현실 쇼핑 엔진", fund: "31억", dev: 21, angel: 3, tag: "트렌드", yield: 18.6 }
+            { id: 0, name: "안전 보안 사이버", sub: "보안 및 네트워크 인프라", fund: "42억", dev: 24, angel: 8, tag: "인기 업종", yield: 32.5, desc: "양자 암호화 기술을 기반으로 한 차세대 네트워크 보안 솔루션입니다. 현재 5개 글로벌 기업과 PoC 진행 중입니다.", tech: ["Quantum Encrypt", "Zero Trust", "AI Detection"], goal: "글로벌 보안 표준 채택 및 아시아 시장 점유율 15% 달성" },
+            { id: 1, name: "인공지능 퀀트", sub: "AI 모델링 및 알고리즘", fund: "78억", dev: 45, angel: 12, tag: "모집중", yield: 28.1, desc: "고빈도 매매 알고리즘과 감성 분석 AI를 결합한 자산 운용 엔진입니다. 연 평균 변동성을 10% 이내로 제어합니다.", tech: ["TensorFlow", "BigQuery", "NLP Engine"], goal: "운용 자산(AUM) 1,000억 돌파 및 자동화 수익률 최적화" },
+            { id: 2, name: "반도체 클러스터", sub: "차세대 하드웨어 설계", fund: "89억", dev: 18, angel: 15, tag: "전략 분야", yield: 22.4, desc: "NPU(신경망 처리 장치) 최적화 설계로 저전력 고효율 AI 반도체 생태계를 구축합니다.", tech: ["FPGA", "RISC-V", "TSMC 5nm"], goal: "시제품 양산 및 주요 스마트폰 제조사 공급망 진입" },
+            { id: 3, name: "디지털 헬스케어", sub: "바이오 및 원격 의료", fund: "52억", dev: 31, angel: 6, tag: "성장 중", yield: 19.8, desc: "웨어러블 기기 데이터를 분석하여 질병을 조기 예측하는 개인 맞춤형 헬스케어 플랫폼입니다.", tech: ["Bio-Sensor", "Real-time Sync", "Cloud EHR"], goal: "정부 의료 실증 사업 참여 및 100만 사용자 확보" },
+            { id: 4, name: "자율주행 모빌리티", sub: "라이다 센서 및 주행 제어", fund: "65억", dev: 22, angel: 9, tag: "고성장", yield: 25.7, desc: "악천후에도 정밀 객체 인식이 가능한 고해상도 라이다 소프트웨어를 개발합니다.", tech: ["LiDAR Fusion", "SLAM", "Edge Computing"], goal: "레벨 4 자율주행 상용화 및 물류 로봇 적용" },
+            { id: 5, name: "K-컬처 콘텐츠 AI", sub: "미디어 생성 및 저작권", fund: "38억", dev: 15, angel: 4, tag: "글로벌", yield: 31.2, desc: "K-Pop 및 웹툰 IP를 활용한 가상 아티스트와 자동 번역 로컬라이징 솔루션입니다.", tech: ["Stable Diffusion", "TTS", "Blockchain IP"], goal: "글로벌 콘텐츠 스트리밍 플랫폼과 파트너십 체결" },
+            { id: 6, name: "지능형 로보틱스", sub: "제조 자동화 및 협동 로봇", fund: "92억", dev: 28, angel: 11, tag: "대형 펀드", yield: 20.5, desc: "인간과 안전하게 협업하는 다관절 협동 로봇 제어 시스템입니다.", tech: ["Robot OS", "Force Control", "Digital Twin"], goal: "스마트 팩토리 도입 가속화 및 제조 단가 30% 절감" },
+            { id: 7, name: "우주 항공 위성", sub: "저궤도 위성 통신망", fund: "120억", dev: 12, angel: 20, tag: "미래 가치", yield: 15.4, desc: "초소형 위성을 이용한 초고속 해상/항공 인터넷망 구축 프로젝트입니다.", tech: ["Sat-Link", "RF Antenna", "Launch Logic"], goal: "초소형 위성 50기 발사 및 글로벌 통신망 완공" },
+            { id: 8, name: "친환경 그린 에너지", sub: "수소 연료 전지 및 ESS", fund: "55억", dev: 19, angel: 7, tag: "ESG 경영", yield: 21.9, desc: "차세대 수소 저장 합금과 대용량 에너지 저장 장치(ESS) 기술을 개발합니다.", tech: ["Hydrogen Cell", "Smart Grid", "VPP"], goal: "탄소 중립 실현 및 지역 분산 에너지 망 구축" },
+            { id: 9, name: "차세대 배터리", sub: "전고체 배터리 소자 기술", fund: "84억", dev: 25, angel: 13, tag: "핵심 기술", yield: 27.3, desc: "화재 위험이 없는 전고체 전해질 대량 생산 공정 기술을 보유하고 있습니다.", tech: ["Solid-State", "Nano Material", "EV Battery"], goal: "전기차 주행거리 2배 향상 및 안전성 인증 완료" },
+            { id: 10, name: "핀테크 블록체인", sub: "분산 원장 및 보안 금융", fund: "47억", dev: 34, angel: 5, tag: "신규 진입", yield: 24.1, desc: "실물 자산(RWA)의 토큰화를 통한 투명한 자산 거래 플랫폼을 구축합니다.", tech: ["Ethereum", "Smart Contract", "ZKP"], goal: "금융 규제 샌드박스 통과 및 실물 자산 토큰화 거래 활성화" },
+            { id: 11, name: "메타버스 커머스", sub: "가상 현실 쇼핑 엔진", fund: "31억", dev: 21, angel: 3, tag: "트렌드", yield: 18.6, desc: "가상 공간에서 직접 옷을 입어보고 바로 구매하는 고정밀 아바타 커머스입니다.", tech: ["Unity 3D", "Photogrammetry", "Social Pay"], goal: "메타버스 내 브랜드 입점 100개 돌파 및 결제 시스템 연동" }
         ];
 
         function initAll() {
             renderProjects();
             renderRanking();
+            renderReviewPage();
         }
 
         function renderProjects() {
             const container = document.getElementById('project-container');
             container.innerHTML = projects.map(p => `
-                <div class="glass-card p-8 rounded-[2.5rem] flex flex-col justify-between h-[360px]">
+                <div onclick="openModal(${p.id})" class="glass-card p-8 rounded-[2.5rem] flex flex-col justify-between h-[360px] cursor-pointer hover:border-yellow-400/40 group">
                     <div>
                         <div class="flex justify-between mb-4">
                             <span class="bg-yellow-400/10 text-yellow-400 px-2 py-1 rounded text-[10px] font-black uppercase">${p.tag}</span>
                             <span class="text-[11px] text-white/40">개발자 ${p.dev} · 투자자 ${p.angel}</span>
                         </div>
-                        <h4 class="text-2xl font-black mb-2">${p.name}</h4>
+                        <h4 class="text-2xl font-black mb-2 group-hover:text-yellow-400 transition-colors">${p.name}</h4>
                         <p class="text-white/30 text-xs mb-6">${p.sub}</p>
                     </div>
                     <div>
                         <p class="text-xl font-black mb-4 text-yellow-400">${p.fund} 운용 중</p>
-                        <button onclick="showSection('review')" class="btn-gold w-full py-3 text-xs uppercase">심사 및 제안하기</button>
+                        <div class="flex items-center text-[10px] text-white/60 font-bold uppercase tracking-widest">상세 정보 보기 <span class="ml-2">→</span></div>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function openModal(id) {
+            const p = projects.find(item => item.id === id);
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = `
+                <div class="flex flex-col gap-8">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="text-yellow-400 font-black text-sm uppercase tracking-tighter">${p.tag} / ${p.sub}</span>
+                            <h2 class="text-5xl font-black mt-2 mb-4">${p.name}</h2>
+                            <div class="flex gap-4">
+                                <span class="bg-white/5 px-4 py-2 rounded-full text-sm font-bold">수익률 +${p.yield}%</span>
+                                <span class="bg-white/5 px-4 py-2 rounded-full text-sm font-bold text-yellow-400">운용 규모 ${p.fund}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-4">
+                        <div>
+                            <h5 class="text-white/40 text-xs font-black uppercase mb-4 tracking-widest">Project Description</h5>
+                            <p class="text-lg leading-relaxed text-gray-300 font-medium">${p.desc}</p>
+                            
+                            <h5 class="text-white/40 text-xs font-black uppercase mt-10 mb-4 tracking-widest">Technology Stack</h5>
+                            <div class="flex flex-wrap gap-2">
+                                ${p.tech.map(t => `<span class="border border-white/10 px-3 py-1 rounded-md text-xs">${t}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="bg-white/5 p-8 rounded-[2rem]">
+                            <h5 class="text-white/40 text-xs font-black uppercase mb-6 tracking-widest">Investment Target</h5>
+                            <p class="text-xl font-bold text-white mb-8">"${p.goal}"</p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex justify-between text-sm"><span class="text-white/40">참여 개발자</span><span class="font-bold">${p.dev}명</span></div>
+                                <div class="flex justify-between text-sm"><span class="text-white/40">참여 엔젤투자자</span><span class="font-bold">${p.angel}명</span></div>
+                                <div class="flex justify-between text-sm"><span class="text-white/40">기술 성숙도(TRL)</span><span class="font-bold text-yellow-400">Level 6</span></div>
+                            </div>
+                            
+                            <button onclick="goToReview(${p.id})" class="btn-gold w-full py-5 mt-10 text-lg uppercase">지금 심사 참여하기</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('project-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('project-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function goToReview(id) {
+            closeModal();
+            showSection('review');
+            const p = projects.find(item => item.id === id);
+            document.getElementById('review-content').innerHTML = `
+                <div class="glass-card p-10 rounded-[3.5rem] border-yellow-400/20">
+                    <div class="flex justify-between items-center mb-8 pb-8 border-b border-white/10">
+                        <div>
+                            <h4 class="text-2xl font-black">${p.name}</h4>
+                            <p class="text-gray-500">핵심 기술: ${p.tech[0]}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-500 mb-1 font-bold uppercase tracking-widest">Target Fund</p>
+                            <p class="text-2xl font-black text-yellow-400">${p.fund}</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <button onclick="alert('기술 백서를 로드 중입니다...')" class="flex-1 py-5 bg-white/5 rounded-2xl font-bold hover:bg-white/10 transition-all">백서 검토</button>
+                        <button onclick="triggerInvest()" class="flex-1 py-5 btn-gold text-xl">최종 투자 확정</button>
+                    </div>
+                </div>
+            `;
         }
 
         function renderRanking() {
@@ -142,6 +212,11 @@
             `).join('');
         }
 
+        function renderReviewPage() {
+            // 기본 심사 대상 설정 (첫 번째 프로젝트)
+            goToReview(0);
+        }
+
         function triggerInvest() {
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#facc15', '#ffffff', '#ffeb3b'] });
             setTimeout(() => { alert('축하합니다! 투자가 확정되어 계약 단계로 진입합니다.'); }, 500);
@@ -152,8 +227,6 @@
             document.getElementById('review-section').classList.toggle('hidden', section !== 'review');
             window.scrollTo(0,0);
         }
-
-        function openModal(id) { alert('해당 기능은 현재 준비 중입니다. 곧 업데이트될 예정입니다!'); }
     </script>
 </body>
 </html>
