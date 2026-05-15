@@ -3,181 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가보자고 | 매칭 & 심사 엔진</title>
+    <title>가보자고 | 투자-개발 매칭 엔진</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Montserrat:wght@700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
         :root { --primary-gold: #facc15; --bg-black: #050505; }
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; overflow-x: hidden; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; }
         
-        .trial-bar { background: var(--primary-gold); padding: 12px 0; text-align: center; font-size: 14px; font-weight: 900; color: #000; z-index: 1000; position: relative; }
-        .brand-kor { font-size: 2.5rem; font-weight: 900; color: #fff; letter-spacing: -0.05em; line-height: 0.9; }
-        .brand-eng { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; color: var(--primary-gold); letter-spacing: 0.4em; font-weight: 900; margin-top: 4px; display: flex; justify-content: space-between; }
+        .trial-bar { background: var(--primary-gold); padding: 12px 0; text-align: center; font-size: 15px; font-weight: 900; color: #000; }
+        .brand-kor { font-size: 2.8rem; font-weight: 900; color: #fff; letter-spacing: -0.05em; }
         
-        .stat-card { background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%); border: 1px solid rgba(255,255,255,0.05); }
-        .stat-value { font-family: 'Montserrat', sans-serif; font-size: clamp(3rem, 8vw, 4.5rem); font-weight: 900; line-height: 1; letter-spacing: -2px; }
+        /* 지표 박스: 요청하신 대로 비율에 맞춰 크게 키움 */
+        .stat-card { 
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4rem;
+            padding: 3.5rem;
+            text-align: center;
+        }
+        .stat-label { color: #888; font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+        .stat-value { font-size: 5rem; font-weight: 900; line-height: 1; color: #fff; }
+        .stat-unit { font-size: 1.8rem; color: #555; margin-left: 0.5rem; font-weight: 700; }
         
-        .glass-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(250, 204, 21, 0.05); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .glass-card:hover { transform: translateY(-5px); border-color: var(--primary-gold); }
-        
-        .btn-gold { background: var(--primary-gold); color: #000; font-weight: 900; border-radius: 12px; transition: 0.3s; cursor: pointer; }
-        .num-font { font-family: 'Montserrat', sans-serif; }
-        
-        /* 심사 페이지 전용 애니메이션 */
-        .fade-in { animation: fadeIn 0.5s ease-in forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .btn-gold { background: var(--primary-gold); color: #000; font-weight: 900; border-radius: 12px; transition: 0.3s; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); border-radius: 2.5rem; }
     </style>
 </head>
 <body onload="initAll()">
-    <canvas id="particle-canvas" style="position:fixed; top:0; left:0; z-index:-1;"></canvas>
-    <div class="trial-bar">💎 파트너 전용: 현재 12건의 새로운 개발자 포트폴리오가 심사 대기 중입니다.</div>
+    <div class="trial-bar">🚀 현재 파트너 전용 암호 없이 모든 투자 제안 기능을 무료로 이용 가능합니다.</div>
     
-    <nav class="p-8 flex justify-between items-center border-b border-white/5 sticky top-0 z-50 bg-black/80 backdrop-blur-md">
-        <div class="brand-container flex flex-col cursor-pointer" onclick="showSection('main')">
+    <nav class="p-8 flex justify-between items-center border-b border-white/5 sticky top-0 z-50 bg-black/90 backdrop-blur-md">
+        <div class="brand-container flex flex-col cursor-pointer" onclick="location.reload()">
             <span class="brand-kor">가보자고</span>
-            <div class="brand-eng"><span>G</span><span>A</span><span>B</span><span>O</span><span>J</span><span>A</span><span>G</span><span>O</span></div>
         </div>
-        <div class="flex items-center gap-6">
-            <button onclick="showSection('review')" class="text-white/60 hover:text-yellow-400 text-sm font-black transition-all">파트너 심사역</button>
-            <button onclick="openModal('portfolio-modal')" class="text-white/60 hover:text-white text-sm font-bold">포트폴리오 업로드</button>
-            <button onclick="openModal('auth-modal')" id="nav-auth-btn" class="btn-gold px-8 py-3 text-sm">무료로 시작하기</button>
+        <div class="flex items-center gap-8">
+            <button onclick="showSection('review')" class="text-white/60 hover:text-yellow-400 font-bold">심사 대시보드</button>
+            <button onclick="openModal('portfolio-modal')" class="text-white/60 hover:text-white font-bold">포트폴리오 올리기</button>
+            <button onclick="openModal('auth-modal')" class="btn-gold px-10 py-4 text-lg">무료로 시작하기</button>
         </div>
     </nav>
 
-    <!-- [섹션 1] 메인 대시보드 -->
-    <main id="main-section" class="px-8 py-16 max-w-[1600px] mx-auto fade-in">
+    <main id="main-section" class="px-8 py-16 max-w-[1600px] mx-auto">
+        <!-- 상단 지표 영역 (한글화 및 크기 최대화) -->
         <section class="mb-24 grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="stat-card p-12 rounded-[4rem]">
-                <p class="text-gray-500 text-xs font-black mb-6 tracking-[0.4em] uppercase">Total Portfolio Value</p>
-                <h3 class="stat-value italic text-white">48.4<span class="text-2xl ml-2 text-gray-600 not-italic uppercase">Billion</span></h3>
+            <div class="stat-card">
+                <p class="stat-label">총 포트폴리오 가치</p>
+                <h3 class="stat-value">484<span class="stat-unit">억 원</span></h3>
             </div>
-            <div class="stat-card p-12 rounded-[4rem] border-yellow-400/20">
-                <p class="text-yellow-400 text-xs font-black mb-6 tracking-[0.4em] uppercase">Average Yield</p>
-                <h3 class="stat-value italic text-yellow-400">+24.8<span class="text-2xl ml-2">%</span></h3>
+            <div class="stat-card" style="border-color: rgba(250, 204, 21, 0.3);">
+                <p class="stat-label" style="color: var(--primary-gold);">평균 수익률</p>
+                <h3 class="stat-value" style="color: var(--primary-gold);">24.8<span class="stat-unit" style="color: var(--primary-gold);">%</span></h3>
             </div>
-            <div class="stat-card p-12 rounded-[4rem]">
-                <p class="text-gray-500 text-xs font-black mb-6 tracking-[0.4em] uppercase">Active Engines</p>
-                <h3 class="stat-value italic text-white">12<span class="text-2xl ml-2 text-gray-600 not-italic uppercase">Sectors</span></h3>
+            <div class="stat-card">
+                <p class="stat-label">운용 중인 투자 엔진</p>
+                <h3 class="stat-value">12<span class="stat-unit">개 업종</span></h3>
             </div>
         </section>
+
+        <!-- 업종별 카드 -->
         <div id="project-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
     </main>
 
-    <!-- [섹션 2] 파트너 심사 화면 (신규) -->
-    <section id="review-section" class="hidden px-8 py-16 max-w-[1600px] mx-auto fade-in">
-        <div class="flex justify-between items-end mb-12">
-            <div>
-                <h2 class="text-5xl font-black italic mb-2 uppercase">Partner Review</h2>
-                <p class="text-yellow-400 font-bold">실시간 투자 제안 및 포트폴리오 심사 리스트</p>
-            </div>
-            <div class="text-right text-gray-500 text-xs font-bold">
-                TOTAL PENDING: 12 CASES
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-4">
-            <!-- 심사 카드 예시 -->
-            <div class="glass-card p-8 rounded-[2rem] flex flex-wrap md:flex-nowrap justify-between items-center gap-6">
-                <div class="flex gap-6 items-center">
-                    <div class="w-16 h-16 bg-yellow-400/10 rounded-2xl flex items-center justify-center text-2xl">👨‍💻</div>
-                    <div>
-                        <h4 class="text-xl font-black">사이버 보안 위협 탐지 AI 인프라</h4>
-                        <p class="text-sm text-gray-400 uppercase tracking-tighter">Dev. Kim  |  Security Sector  |  2026.05.15</p>
-                    </div>
-                </div>
-                <div class="flex gap-3">
-                    <button class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-bold hover:bg-white/10 transition-all">문서 검토</button>
-                    <button onclick="alert('화상 미팅이 예약되었습니다.')" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-bold hover:bg-white/10 transition-all">미팅 예약</button>
-                    <button class="px-6 py-3 bg-yellow-400 text-black rounded-xl text-xs font-black hover:scale-105 transition-all">최종 투자 승인</button>
-                </div>
-            </div>
-            <!-- 카드 반복... -->
-        </div>
-    </section>
-
-    <!-- [모달] 포트폴리오 업로드 -->
+    <!-- [모달] 포트폴리오/자료 올리기 -->
     <div id="portfolio-modal" class="fixed inset-0 z-[2000] hidden flex items-center justify-center bg-black/95 backdrop-blur-xl p-4">
-        <div class="glass-card w-full max-w-2xl p-12 rounded-[3rem] border-yellow-400/20 relative">
-            <button onclick="closeModal('portfolio-modal')" class="absolute top-8 right-8 text-white/40 hover:text-white">✕</button>
-            <h2 class="text-3xl font-black mb-6 italic text-center uppercase">Upload Portfolio</h2>
+        <div class="glass-card w-full max-w-2xl p-12 relative border-yellow-400/20">
+            <button onclick="closeModal('portfolio-modal')" class="absolute top-8 right-8 text-white/40">✕</button>
+            <h2 class="text-3xl font-black mb-8 text-center">포트폴리오 및 자료 등록</h2>
             <div class="space-y-6">
-                <div class="border-2 border-dashed border-white/10 rounded-3xl p-12 text-center hover:border-yellow-400 transition-all cursor-pointer">
-                    <p class="text-white/40 font-bold mb-2">📸 프로젝트 대표 이미지 및 스크린샷</p>
-                    <p class="text-[10px] text-gray-600">JPG, PNG (Max 10MB)</p>
+                <div class="border-2 border-dashed border-white/10 rounded-3xl p-10 text-center hover:border-yellow-400 cursor-pointer">
+                    <p class="text-white/60 font-bold">📷 프로젝트 사진 및 썸네일 업로드</p>
                 </div>
-                <div class="border-2 border-dashed border-white/10 rounded-3xl p-12 text-center hover:border-yellow-400 transition-all cursor-pointer">
-                    <p class="text-white/40 font-bold mb-2">📄 기술 백서 및 제안서 (PDF/ZIP)</p>
-                    <p class="text-[10px] text-gray-600">사업 계획서 및 코드 아키텍처 포함</p>
+                <div class="border-2 border-dashed border-white/10 rounded-3xl p-10 text-center hover:border-yellow-400 cursor-pointer">
+                    <p class="text-white/60 font-bold">📄 기술 문서 및 기획서 (PDF/ZIP) 업로드</p>
                 </div>
-                <button onclick="alert('업로드 완료! 파트너 심사역에서 확인 가능합니다.'); closeModal('portfolio-modal')" class="btn-gold w-full py-5 text-lg uppercase">제출하기</button>
+                <input type="text" placeholder="포트폴리오 제목을 입력하세요" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-400">
+                <button onclick="alert('등록되었습니다!'); closeModal('portfolio-modal')" class="btn-gold w-full py-5 text-xl">등록 완료</button>
             </div>
-        </div>
-    </div>
-
-    <!-- [모달] 로그인/가입 -->
-    <div id="auth-modal" class="fixed inset-0 z-[2000] hidden flex items-center justify-center bg-black/90 backdrop-blur-xl p-4">
-        <div class="glass-card w-full max-w-md p-10 rounded-[3rem] border-yellow-400/20 relative">
-            <button onclick="closeModal('auth-modal')" class="absolute top-8 right-8 text-white/40 hover:text-white">✕</button>
-            <h2 class="text-center text-3xl font-black mb-8 italic uppercase">Welcome</h2>
-            <form onsubmit="handleAuth(event)" class="space-y-4">
-                <input type="email" placeholder="EMAIL" required class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-400 text-sm italic">
-                <input type="password" placeholder="PASSWORD" required class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-yellow-400 text-sm italic">
-                <button type="submit" class="btn-gold w-full py-4 text-lg italic uppercase">Start Matching</button>
-            </form>
         </div>
     </div>
 
     <script>
         const projects = [
-            { name: "안전 보안 사이버", sub: "Security & Dev", fund: 4200000000, tag: "HOT", dev: 24, angel: 8 },
-            { name: "인공지능 퀀트", sub: "AI Models", fund: 7800000000, tag: "HIRING", dev: 45, angel: 12 },
-            { name: "반도체 클러스터", sub: "Hardware", fund: 8900000000, tag: "STRATEGY", dev: 18, angel: 15 },
-            { name: "우주 물류 시스템", sub: "Logistics", fund: 3500000000, tag: "ANGEL ONLY", dev: 12, angel: 22 }
+            { name: "안전 보안 사이버", sub: "보안 및 네트워크 인프라", fund: "42억", dev: 24, angel: 8, tag: "인기 업종" },
+            { name: "인공지능 퀀트", sub: "AI 모델링 및 알고리즘", fund: "78억", dev: 45, angel: 12, tag: "모집중" },
+            { name: "반도체 클러스터", sub: "차세대 하드웨어 설계", fund: "89억", dev: 18, angel: 15, tag: "전략 분야" },
+            { name: "디지털 헬스케어", sub: "바이오 및 원격 의료", fund: "52억", dev: 31, angel: 6, tag: "성장 중" }
         ];
 
-        function initAll() { renderProjects(); initParticles(); }
-        
-        function showSection(section) {
-            document.getElementById('main-section').classList.add('hidden');
-            document.getElementById('review-section').classList.add('hidden');
-            if(section === 'main') document.getElementById('main-section').classList.remove('hidden');
-            else document.getElementById('review-section').classList.remove('hidden');
-        }
-
-        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-
-        function renderProjects() {
+        function initAll() {
             const container = document.getElementById('project-container');
             container.innerHTML = projects.map(p => `
-                <div class="glass-card p-8 rounded-[2.5rem] flex flex-col justify-between h-[340px]">
+                <div class="glass-card p-8 flex flex-col justify-between h-[360px]">
                     <div>
-                        <div class="flex justify-between mb-6">
-                            <span class="px-2 py-1 bg-yellow-400/10 text-yellow-400 text-[9px] font-black rounded uppercase">${p.tag}</span>
-                            <div class="text-[10px] text-white/40 font-bold">👨‍💻 ${p.dev} 👼 ${p.angel}</div>
+                        <div class="flex justify-between mb-4">
+                            <span class="bg-yellow-400/10 text-yellow-400 px-2 py-1 rounded text-xs font-bold">${p.tag}</span>
+                            <span class="text-[11px] text-white/40">개발자 ${p.dev} · 투자자 ${p.angel}</span>
                         </div>
-                        <h4 class="text-xl font-black mb-1 italic uppercase">${p.name}</h4>
-                        <p class="text-white/20 text-[9px] uppercase tracking-[0.2em] italic mb-6">${p.sub}</p>
+                        <h4 class="text-2xl font-black mb-2">${p.name}</h4>
+                        <p class="text-white/30 text-xs mb-6">${p.sub}</p>
                     </div>
-                    <div class="mt-auto">
-                        <p class="text-lg font-black mb-4 num-font italic underline decoration-yellow-400 decoration-2">${p.fund.toLocaleString()} KRW</p>
-                        <div class="grid grid-cols-1 gap-2">
-                            <button onclick="alert('제안서 모달이 호출됩니다.')" class="btn-gold py-3 text-[10px] font-black uppercase">제안하기 / 연결</button>
+                    <div>
+                        <p class="text-xl font-black mb-4 text-yellow-400">${p.fund} 운용 중</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="alert('제안서 전송 화면으로 이동합니다')" class="btn-gold py-3 text-xs">제안하기</button>
+                            <button class="bg-white/5 py-3 rounded-xl text-xs font-bold hover:bg-white/10">채팅하기</button>
                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        function handleAuth(e) { e.preventDefault(); alert('가보자고! 매칭 엔진이 가동됩니다.'); closeModal('auth-modal'); }
-
-        function initParticles() {
-            const canvas = document.getElementById('particle-canvas'); const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            let p = Array.from({length: 40}, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: Math.random() * 2, v: Math.random() * 0.2 }));
-            function draw() { ctx.clearRect(0,0,canvas.width, canvas.height); ctx.fillStyle = 'rgba(250,204,21,0.15)'; p.forEach(i => { i.y -= i.v; if(i.y < 0) i.y = canvas.height; ctx.beginPath(); ctx.arc(i.x, i.y, i.s, 0, Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
-            draw();
-        }
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
     </script>
 </body>
 </html>
