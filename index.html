@@ -3,199 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>가보자고 GABOJAGO | 가독성 최적화</title>
+    <title>가보자고 GABOJAGO | 디자인 완성형</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@900&family=Montserrat:wght@900&display=swap');
         
         :root { --primary-gold: #facc15; --bg-black: #010101; }
         
         body { 
             font-family: 'Noto Sans KR', sans-serif; 
             background-color: var(--bg-black); color: #fff; margin: 0; overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        /* 로고 스타일 */
+        /* [핵심] 로고 황금비율 정렬 */
+        .logo-container {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start; /* 왼쪽 정렬 기준 */
+        }
         .text-gradient { background: linear-gradient(to right, #facc15, #f472b6, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .logo-kr { font-family: 'Noto Sans KR', sans-serif; font-weight: 900; font-style: italic; line-height: 0.9; }
-        .logo-en { font-family: 'Montserrat', sans-serif; font-weight: 900; letter-spacing: 0.45em; color: #fff; text-transform: uppercase; line-height: 1.2; }
-
-        /* [업데이트] 라벨 텍스트 선명도 & 크기 강화 */
-        .label-text {
-            display: block;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 13px; /* 크기 키움 */
-            font-weight: 900; /* 굵기 최대 */
-            color: rgba(255, 255, 255, 0.9); /* 투명도 줄여서 더 밝게 */
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.15em;
+        
+        .logo-kr { 
+            font-size: 3.5rem; /* PC 기준 크기 */
+            font-weight: 900; 
+            font-style: italic; 
+            line-height: 0.85; /* 영문과의 간격을 좁힘 */
+            letter-spacing: -0.05em; /* 한글 자간을 살짝 조여 밀도감 상승 */
+        }
+        
+        .logo-en { 
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 900; 
+            /* [강조] 한글 너비와 일치하도록 자간 대폭 확장 */
+            font-size: 0.85rem; 
+            letter-spacing: 0.63em; 
+            color: #ffffff;
             text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(255,255,255,0.1); /* 미세한 광채로 선명도 보정 */
+            width: 100%;
+            text-align: justify;
+            margin-top: 0.2rem;
+            padding-left: 0.15rem; /* 시각적 시작점 보정 */
         }
 
-        .neon-border-card { background: rgba(255, 255, 255, 0.03); border-radius: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.12); transition: 0.4s; }
-        .input-dark { 
-            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); 
-            border-radius: 0.8rem; padding: 1rem; color: white; width: 100%; outline: none; font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        .input-dark:focus { border-color: var(--primary-gold); background: rgba(255,255,255,0.1); }
+        /* 카드 및 텍스트 스타일 */
+        .card-title { font-size: 1.5rem; font-weight: 900; line-height: 1.3; color: #fff; }
+        .card-desc { font-size: 0.95rem; line-height: 1.6; color: rgba(255, 255, 255, 0.7); }
+        .label-text { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 0.8rem; letter-spacing: 0.15em; }
 
-        /* 커스텀 드롭다운 */
-        .custom-select-wrapper { position: relative; width: 100%; }
-        .custom-select-trigger {
-            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 0.8rem; padding: 1rem; color: white; cursor: pointer;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .custom-options {
-            position: absolute; top: calc(100% + 5px); left: 0; right: 0;
-            background: #111; border: 2px solid var(--primary-gold);
-            border-radius: 1rem; z-index: 1000; display: none;
-            max-height: 250px; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,1);
-        }
-        .custom-options.show { display: block; }
-        .option-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 700; }
-        .option-item:hover { background: #222; color: var(--primary-gold); }
-        .option-item:active { background: var(--primary-gold); color: black; }
+        .neon-border-card { background: rgba(255, 255, 255, 0.04); border-radius: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.15); transition: 0.4s; }
+        .input-dark { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.25); border-radius: 0.8rem; padding: 1rem; color: white; width: 100%; outline: none; }
 
         @media (max-width: 768px) {
-            .logo-kr { font-size: 1.6rem; }
-            .logo-en { font-size: 0.55rem; letter-spacing: 0.4em; }
-            .label-text { font-size: 11px; } /* 모바일에서도 가독성 유지 */
+            .logo-kr { font-size: 2.2rem; }
+            .logo-en { font-size: 0.55rem; letter-spacing: 0.58em; padding-left: 0.1rem; }
+            .card-title { font-size: 1.25rem; }
         }
     </style>
 </head>
 <body onload="initAll()">
     
     <!-- 네비게이션 -->
-    <nav class="p-6 md:p-10 flex justify-between items-center max-w-[1600px] mx-auto">
-        <div class="flex flex-col cursor-pointer group" onclick="location.reload()">
-            <h1 class="text-3xl md:text-5xl logo-kr text-gradient group-hover:scale-105 transition-transform">가보자고.</h1>
-            <span class="logo-en text-[9px] md:text-[12px]">GABOJAGO</span>
+    <nav class="p-8 md:p-12 flex justify-between items-end max-w-[1600px] mx-auto">
+        <!-- 비율 재조정된 로고 세트 -->
+        <div class="logo-container cursor-pointer group" onclick="location.reload()">
+            <h1 class="logo-kr text-gradient transition-transform group-hover:scale-[1.02]">가보자고.</h1>
+            <span class="logo-en transition-colors group-hover:text-yellow-400">GABOJAGO</span>
         </div>
-        <button class="bg-white text-black px-5 md:px-8 py-2 md:py-3 rounded-2xl font-black text-xs md:text-sm hover:bg-yellow-400 transition-all shadow-lg active:scale-95">프리미엄 채널</button>
+        <button class="bg-white text-black px-6 py-3 rounded-2xl font-black text-xs md:text-sm hover:bg-yellow-400 active:scale-95 transition-all mb-1">프리미엄 채널</button>
     </nav>
 
-    <!-- 프로젝트 등록 섹션 -->
-    <section class="max-w-[1600px] mx-auto px-6 md:px-10 py-4">
-        <div class="neon-border-card p-6 md:p-12 bg-gradient-to-b from-white/5 to-transparent">
-            <h2 class="text-xl md:text-3xl font-black mb-10 italic text-gradient uppercase tracking-tighter">Project Submission</h2>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-                <div class="space-y-6 md:space-y-10">
+    <!-- 등록 섹션 -->
+    <section class="max-w-[1600px] mx-auto px-8 md:px-12 py-4">
+        <div class="neon-border-card p-8 md:p-14">
+            <h2 class="text-2xl md:text-3xl font-black mb-10 italic text-gradient uppercase tracking-tighter">Project Submission</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="space-y-8">
                     <div>
                         <label class="label-text">PROJECT NAME</label>
-                        <input type="text" id="reg-title" class="input-dark" placeholder="프로젝트 제목을 입력하세요">
+                        <input type="text" id="reg-title" class="input-dark" placeholder="프로젝트 제목">
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="label-text">CATEGORY</label>
-                            <div class="custom-select-wrapper">
-                                <div class="custom-select-trigger" onclick="toggleOptions()">
-                                    <span id="selected-cat">01. 사이버 보안</span>
-                                    <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
-                                </div>
-                                <div class="custom-options" id="cat-options">
-                                    <div class="option-item" onclick="selectCat('01. 사이버 보안')">01. 사이버 보안</div>
-                                    <div class="option-item" onclick="selectCat('02. 인공지능(AI)')">02. 인공지능(AI)</div>
-                                    <div class="option-item" onclick="selectCat('03. 바이오 테크')">03. 바이오 테크</div>
-                                    <div class="option-item" onclick="selectCat('04. 우주 통신')">04. 우주 통신</div>
-                                    <div class="option-item" onclick="selectCat('05. 로보틱스')">05. 로보틱스</div>
-                                    <div class="option-item" onclick="selectCat('06. 가상 경제')">06. 가상 경제</div>
-                                    <div class="option-item" onclick="selectCat('07. 그린 에너지')">07. 그린 에너지</div>
-                                    <div class="option-item" onclick="selectCat('08. 자율주행')">08. 자율주행</div>
-                                    <div class="option-item" onclick="selectCat('09. 핀테크/DeFi')">09. 핀테크/DeFi</div>
-                                    <div class="option-item" onclick="selectCat('10. 맞춤형 교육')">10. 맞춤형 교육</div>
-                                    <div class="option-item" onclick="selectCat('11. 애그리 테크')">11. 애그리 테크</div>
-                                    <div class="option-item" onclick="selectCat('12. 범죄 수사 AI')">12. 범죄 수사 AI</div>
-                                </div>
-                            </div>
+                            <select id="selected-cat" class="input-dark bg-[#111]">
+                                <option>01. 사이버 보안</option>
+                                <option>02. 인공지능(AI)</option>
+                                <option>03. 바이오 테크</option>
+                                <option>04. 우주 통신</option>
+                                <option>05. 로보틱스</option>
+                            </select>
                         </div>
                         <div>
                             <label class="label-text">IMAGE URL</label>
-                            <input type="text" id="reg-img" class="input-dark" placeholder="https://" onfocus="autoFillUrl(this)">
+                            <input type="text" id="reg-img" class="input-dark" placeholder="https://" onfocus="if(this.value=='')this.value='https://'">
                         </div>
                     </div>
                 </div>
-                <div class="space-y-6 md:space-y-10">
+                <div class="space-y-8">
                     <div>
                         <label class="label-text">DESCRIPTION</label>
-                        <textarea id="reg-desc" class="input-dark h-[110px] md:h-[135px] resize-none" placeholder="비즈니스 모델에 대한 상세 설명을 입력해주세요."></textarea>
+                        <textarea id="reg-desc" class="input-dark h-[110px] md:h-[135px] resize-none" placeholder="상세 설명을 입력하세요"></textarea>
                     </div>
-                    <button onclick="registerProject()" class="w-full py-5 bg-white text-black font-black text-xl md:text-2xl rounded-2xl hover:bg-yellow-400 active:scale-95 transition-all shadow-[0_0_30px_rgba(255,255,255,0.1)]">플랫폼 등록 확정</button>
+                    <button onclick="registerProject()" class="w-full py-5 bg-white text-black font-black text-xl rounded-2xl hover:bg-yellow-400 active:scale-95 transition-all">등록 확정</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 리스트 섹션 -->
-    <section class="max-w-[1600px] mx-auto px-6 md:px-10 py-12">
-        <div id="project-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10"></div>
+    <!-- 그리드 리스트 -->
+    <section class="max-w-[1600px] mx-auto px-8 md:px-12 py-12">
+        <div id="project-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10"></div>
     </section>
 
-    <!-- 상세 모달 -->
-    <div id="project-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-3 bg-black/98 backdrop-blur-xl">
-        <div class="neon-border-card w-full max-w-5xl bg-black border-white/20 relative overflow-hidden h-fit max-h-[90vh] shadow-[0_0_100px_rgba(0,0,0,1)]">
-            <div class="absolute top-6 left-8 z-10 flex flex-col opacity-60">
-                <span class="text-2xl font-black italic text-white leading-none">가보자고.</span>
-                <span class="text-[8px] font-black tracking-[0.4em] text-white">GABOJAGO</span>
-            </div>
-            <button onclick="closeModal()" class="absolute top-6 right-8 text-4xl font-thin text-white/50 z-20 hover:text-white transition-colors">&times;</button>
-            
-            <div id="modal-content" class="modal-content-grid grid grid-cols-2 h-full">
-                <div id="modal-img-container" class="h-full bg-center bg-cover border-r border-white/10 min-h-[300px]"></div>
-                <div class="p-8 md:p-16 flex flex-col justify-between pt-24 md:pt-32">
-                    <div class="max-h-[40vh] overflow-y-auto">
-                        <span id="modal-cat-tag" class="text-yellow-400 text-xs font-black tracking-[0.3em] mb-4 block"></span>
-                        <h2 id="modal-title" class="text-3xl md:text-5xl font-black mb-6 italic text-gradient leading-tight"></h2>
-                        <p id="modal-desc" class="text-sm md:text-lg text-white/70 leading-relaxed font-medium"></p>
+    <!-- 모달 -->
+    <div id="project-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/98 backdrop-blur-xl">
+        <div class="neon-border-card w-full max-w-5xl bg-black relative overflow-hidden h-fit max-h-[90vh]">
+            <button onclick="closeModal()" class="absolute top-6 right-8 text-4xl font-thin text-white/50 z-20 hover:text-white">&times;</button>
+            <div id="modal-content" class="grid grid-cols-1 md:grid-cols-2 h-full">
+                <div id="modal-img-container" class="h-full bg-center bg-cover min-h-[300px]"></div>
+                <div class="p-10 md:p-16 flex flex-col justify-between pt-24">
+                    <div>
+                        <span id="modal-cat-tag" class="text-yellow-400 font-black text-xs tracking-widest mb-4 block"></span>
+                        <h2 id="modal-title" class="card-title text-4xl md:text-5xl mb-6 italic text-gradient leading-tight"></h2>
+                        <p id="modal-desc" class="text-lg text-white/70 leading-relaxed"></p>
                     </div>
-                    <button onclick="requestMatch()" class="w-full mt-10 py-5 bg-white text-black font-black text-xl md:text-2xl rounded-2xl hover:bg-yellow-400 transition-all">투자 매칭 신청</button>
+                    <button onclick="requestMatch()" class="w-full mt-10 py-5 bg-white text-black font-black text-2xl rounded-2xl hover:bg-yellow-400">투자 매칭 신청</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function toggleOptions() { document.getElementById('cat-options').classList.toggle('show'); }
-        function selectCat(val) {
-            document.getElementById('selected-cat').innerText = val;
-            document.getElementById('cat-options').classList.remove('show');
-        }
-        window.onclick = function(e) { if (!e.target.closest('.custom-select-wrapper')) document.getElementById('cat-options').classList.remove('show'); }
-        function autoFillUrl(i) { if (i.value === "") i.value = "https://"; }
-
         let projects = [
-            { id: 1, title: "국가 보안 퀀트 엔진", cat: "01. 사이버 보안", desc: "양자 암호화 기술 기반의 차세대 보안 시스템입니다. 군사 및 금융 데이터를 실시간으로 완벽하게 보호합니다.", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000" }
+            { id: 1, title: "국가 보안 퀀트 엔진", cat: "01. 사이버 보안", desc: "양자 암호화 기술 기반의 차세대 보안 시스템입니다.", img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80" },
+            { id: 2, title: "하이퍼 뉴럴 AI", cat: "02. 인공지능(AI)", desc: "스스로 학습하여 비즈니스 의사결정을 자동화하는 인공지능 솔루션입니다.", img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80" }
         ];
 
         function initAll() { renderProjects(projects); }
 
-        function registerProject() {
-            const t = document.getElementById('reg-title').value;
-            const c = document.getElementById('selected-cat').innerText;
-            const d = document.getElementById('reg-desc').value;
-            let i = document.getElementById('reg-img').value;
-            if(!t || !d) return alert("내용을 입력해주세요.");
-            if(i === "https://" || !i) i = "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1000";
-            
-            projects.unshift({ id: Date.now(), title: t, cat: c, desc: d, img: i });
-            renderProjects(projects);
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.8 } });
-        }
-
         function renderProjects(data) {
             const grid = document.getElementById('project-grid');
             grid.innerHTML = data.map(p => `
-                <div onclick="openModal(${p.id})" class="neon-border-card flex flex-col cursor-pointer group hover:scale-[1.02] hover:border-white/30 transition-all">
-                    <div class="h-48 bg-cover bg-center rounded-t-[1.5rem]" style="background-image: url('${p.img}')"></div>
+                <div onclick="openModal(${p.id})" class="neon-border-card flex flex-col cursor-pointer group hover:scale-[1.02] transition-all overflow-hidden">
+                    <div class="h-56 bg-cover bg-center" style="background-image: url('${p.img}')"></div>
                     <div class="p-8">
-                        <span class="text-[10px] text-yellow-400 font-black mb-3 block tracking-widest">${p.cat}</span>
-                        <h4 class="text-xl font-black mb-3 group-hover:text-yellow-400 transition-colors leading-tight">${p.title}</h4>
-                        <p class="text-white/50 text-xs line-clamp-2 italic font-medium leading-relaxed">${p.desc}</p>
+                        <span class="text-[11px] font-black text-yellow-400 mb-2 block">${p.cat}</span>
+                        <h4 class="card-title mb-4 group-hover:text-yellow-400 transition-colors">${p.title}</h4>
+                        <p class="card-desc line-clamp-2 italic font-medium">${p.desc}</p>
                     </div>
                 </div>`).join('');
         }
@@ -209,12 +164,19 @@
             document.getElementById('project-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
-
-        function closeModal() { 
-            document.getElementById('project-modal').classList.add('hidden'); 
-            document.body.style.overflow = 'auto';
+        function closeModal() { document.getElementById('project-modal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
+        function registerProject() {
+            const t = document.getElementById('reg-title').value;
+            const c = document.getElementById('selected-cat').value;
+            const d = document.getElementById('reg-desc').value;
+            let i = document.getElementById('reg-img').value;
+            if(!t || !d) return alert("내용을 입력해주세요.");
+            if(i === "https://" || !i) i = "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80";
+            projects.unshift({ id: Date.now(), title: t, cat: c, desc: d, img: i });
+            renderProjects(projects);
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.8 } });
         }
-        function requestMatch() { alert('투자 매칭 신청 완료!'); closeModal(); }
+        function requestMatch() { alert('매칭 신청이 완료되었습니다.'); closeModal(); }
     </script>
 </body>
 </html>
