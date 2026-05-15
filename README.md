@@ -51,10 +51,10 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* 세로 중앙 정렬 */
-            align-items: center;     /* 가로 중앙 정렬 */
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            min-height: 180px;       /* 박스 최소 높이 고정 */
+            min-height: 180px;
         }
 
         .glass-card:hover {
@@ -64,14 +64,12 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
         
-        /* VIP 수익률 선명하게 수정 */
         .vip-rate { 
             color: var(--primary-gold); 
-            text-shadow: 0 0 15px rgba(250, 204, 21, 0.5); /* 은은한 광채 효과 */
-            font-size: 2.25rem; /* 크기 최적화 */
+            text-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
+            font-size: 2.25rem;
         }
 
-        /* VIP 전용 데이터 뱃지 키우기 */
         .premium-lock { 
             position: absolute; 
             inset: 0; 
@@ -84,23 +82,15 @@
         }
 
         .vip-badge {
-            font-size: 14px; /* 글자 크기 키움 */
+            font-size: 14px;
             font-weight: 900;
             color: #000;
             background: var(--primary-gold);
             padding: 8px 20px;
             border-radius: 999px;
-            box-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
-        }
-
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(250, 204, 21, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0); }
         }
 
         .btn-premium-action {
-            animation: pulse-gold 2s infinite;
             background: rgba(0,0,0,0.8);
             border: 1px solid var(--primary-gold);
             color: var(--primary-gold);
@@ -108,11 +98,9 @@
             padding: 12px 28px;
             border-radius: 999px;
             font-size: 13px;
-            transition: 0.3s;
         }
 
         .btn-gold { background: var(--primary-gold); color: #000; font-weight: 900; border-radius: 12px; transition: 0.3s; }
-        .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(250, 204, 21, 0.4); }
         
         #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
         .num-font { font-family: 'Montserrat', sans-serif; }
@@ -140,46 +128,41 @@
     </nav>
 
     <main class="px-8 py-16 max-w-[1400px] mx-auto">
-        <!-- 상단 요약 카드 (정렬 및 비율 수정) -->
         <section class="mb-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- 1. 총 포트폴리오 가치 -->
             <div class="glass-card p-8 rounded-[2.5rem]">
                 <p class="text-gray-500 text-[11px] font-black mb-3 uppercase tracking-widest">총 포트폴리오 가치</p>
-                <h3 class="text-2xl lg:text-3xl font-black text-white italic num-font break-all px-2">
-                    48,450,000,000 <span class="text-xs font-normal not-italic text-gray-600 ml-1">KRW</span>
-                </h3>
+                <h3 class="text-2xl lg:text-3xl font-black text-white italic num-font px-2">48,450,000,000 <span class="text-xs font-normal not-italic text-gray-600 ml-1">KRW</span></h3>
             </div>
-            
-            <!-- 2. VIP 전용 예상 수익률 -->
             <div class="glass-card p-8 rounded-[2.5rem] relative">
                 <p class="text-gray-500 text-[11px] font-black mb-3 uppercase tracking-widest">VIP 전용 예상 수익률</p>
                 <h3 class="vip-rate font-black italic num-font">+24.8%</h3>
-                <div class="premium-lock">
-                    <span class="vip-badge">VIP 전용 데이터</span>
-                </div>
+                <div class="premium-lock"><span class="vip-badge">VIP 전용 데이터</span></div>
             </div>
-            
-            <!-- 3. 운용 중인 투자 엔진 -->
             <div class="glass-card p-8 rounded-[2.5rem]">
                 <p class="text-gray-500 text-[11px] font-black mb-3 uppercase tracking-widest">운용 중인 투자 엔진</p>
-                <h3 class="text-3xl font-black text-white italic">
-                    12 <span class="text-sm font-normal not-italic text-gray-600 ml-1">개 분야</span>
-                </h3>
+                <h3 class="text-3xl font-black text-white italic">12 <span class="text-sm font-normal not-italic text-gray-600 ml-1">개 분야</span></h3>
             </div>
         </section>
 
-        <!-- 프로젝트 리스트 -->
+        <!-- 12개 업종 리스트 -->
         <div id="project-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
     </main>
 
     <script>
+        // 요청하신 대로 첫 번째에 '안전 보안 사이버'를 넣고 총 12개를 맞췄습니다.
         const projects = [
-            { name: "사이버 보안 엔진", sub: "Security", fund: 4200000000, tag: "필수 자산", isPremium: false },
+            { name: "안전 보안 사이버", sub: "Cyber Security", fund: 4200000000, tag: "필수 자산", isPremium: false },
             { name: "인공지능 퀀트", sub: "AI Quant", fund: 7800000000, tag: "고수익군", isPremium: false },
             { name: "반도체 클러스터", sub: "Semi-Conductor", fund: 8900000000, tag: "프리미엄", isPremium: true },
             { name: "디지털 헬스케어", sub: "Bio Tech", fund: 5200000000, tag: "프리미엄", isPremium: true },
             { name: "우주 물류 시스템", sub: "Space X", fund: 3500000000, tag: "프리미엄", isPremium: true },
-            { name: "차세대 2차 전지", sub: "Energy", fund: 3100000000, tag: "필수 자산", isPremium: false }
+            { name: "차세대 2차 전지", sub: "Energy", fund: 3100000000, tag: "필수 자산", isPremium: false },
+            { name: "메타버스 인프라", sub: "Metaverse", fund: 2100000000, tag: "성장성", isPremium: false },
+            { name: "양자 컴퓨터", sub: "Quantum", fund: 9500000000, tag: "프리미엄", isPremium: true },
+            { name: "친환경 수소 에너지", sub: "Hydrogen", fund: 4700000000, tag: "미래가치", isPremium: false },
+            { name: "자율주행 모빌리티", sub: "Mobility", fund: 6300000000, tag: "프리미엄", isPremium: true },
+            { name: "로보틱스 자동화", sub: "Robotics", fund: 5500000000, tag: "성장성", isPremium: false },
+            { name: "핀테크 블록체인", sub: "Blockchain", fund: 3900000000, tag: "프리미엄", isPremium: true }
         ];
 
         function initAll() { 
@@ -228,19 +211,10 @@
             const canvas = document.getElementById('particle-canvas'); 
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            let p = Array.from({length: 40}, () => ({ 
-                x: Math.random() * canvas.width, 
-                y: Math.random() * canvas.height, 
-                s: Math.random() * 1.5, 
-                v: Math.random() * 0.2 
-            }));
+            let p = Array.from({length: 40}, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, s: Math.random() * 1.5, v: Math.random() * 0.2 }));
             function draw() { 
-                ctx.clearRect(0,0,canvas.width, canvas.height); 
-                ctx.fillStyle = 'rgba(250,204,21,0.15)'; 
-                p.forEach(i => { 
-                    i.y -= i.v; if(i.y < 0) i.y = canvas.height; 
-                    ctx.beginPath(); ctx.arc(i.x, i.y, i.s, 0, Math.PI*2); ctx.fill(); 
-                }); 
+                ctx.clearRect(0,0,canvas.width, canvas.height); ctx.fillStyle = 'rgba(250,204,21,0.15)'; 
+                p.forEach(i => { i.y -= i.v; if(i.y < 0) i.y = canvas.height; ctx.beginPath(); ctx.arc(i.x, i.y, i.s, 0, Math.PI*2); ctx.fill(); }); 
                 requestAnimationFrame(draw); 
             }
             draw();
