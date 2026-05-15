@@ -3,148 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가보자고 | 인공지능 투자 매칭 플랫폼</title>
+    <title>가보자고 | 프리미엄 투자 엔진</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Montserrat:wght@800&display=swap');
-        :root { --primary-gold: #facc15; --bg-black: #050505; }
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; overflow-x: hidden; letter-spacing: -0.02em; }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Montserrat:wght@900&display=swap');
         
-        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
-        .btn-gold { background: var(--primary-gold); color: #000; font-weight: 900; border-radius: 12px; transition: 0.3s; cursor: pointer; border: none; }
-        .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(250, 204, 21, 0.5); }
+        :root { 
+            --primary-gold: #facc15; 
+            --neon-purple: #a855f7;
+            --neon-blue: #3b82f6;
+            --bg-black: #030303; 
+        }
 
-        .live-dot { width: 8px; height: 8px; background: #ff4d4d; border-radius: 50%; display: inline-block; margin-right: 6px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background-color: var(--bg-black); 
+            color: #fff; 
+            margin: 0; 
+            overflow-x: hidden;
+            /* 배경에 은은한 오로라 효과 추가 */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
+        }
 
-        input[type=range] { -webkit-appearance: none; background: rgba(255,255,255,0.1); border-radius: 10px; height: 6px; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--primary-gold); cursor: pointer; box-shadow: 0 0 10px var(--primary-gold); }
+        /* [혁신] 네온 흐르는 보더 효과 */
+        .neon-border-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 2rem;
+            transition: 0.5s;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-        .nav-link { position: relative; transition: 0.3s; }
-        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--primary-gold); transition: 0.3s; }
-        .nav-link:hover::after { width: 100%; }
-        .nav-link:hover { color: #fff; }
+        .neon-border-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 30px rgba(250, 204, 21, 0.2);
+        }
+
+        /* 발광형 버튼 */
+        .btn-glow {
+            background: linear-gradient(45deg, #facc15, #fbbf24);
+            color: #000;
+            font-weight: 900;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(250, 204, 21, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(250, 204, 21, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* 텍스트 그라데이션 */
+        .text-gradient {
+            background: linear-gradient(to right, #facc15, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: #ff4d4d;
+            box-shadow: 0 0 10px #ff4d4d;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-gold); }
     </style>
 </head>
 <body onload="initAll()">
-    <!-- 상단 배너: AI 투자 성향 분석 엔진 -->
-    <div class="bg-gradient-to-r from-yellow-500/20 to-black py-4 px-8 border-b border-yellow-400/20">
-        <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-4">
+    
+    <!-- AI 매칭 바 (컬러 강화) -->
+    <div class="bg-black/80 backdrop-blur-xl py-4 px-8 border-b border-white/10 sticky top-0 z-[200]">
+        <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-6">
             <div class="flex items-center gap-4">
-                <span class="text-xs font-black bg-yellow-400 text-black px-3 py-1 rounded-full">AI 투자 성향 분석기</span>
-                <p class="text-sm font-bold">당신에게 꼭 맞는 프로젝트는? <span id="dna-label" class="text-yellow-400 ml-2 text-base">안정 지향형</span></p>
+                <span class="text-[10px] font-black bg-gradient-to-r from-purple-500 to-blue-500 text-white px-3 py-1 rounded-full animate-bounce">AI ENGINE ACTIVE</span>
+                <p class="text-sm font-bold">나의 투자 성향: <span id="dna-label" class="text-gradient font-black text-lg ml-2">안정 지향형</span></p>
             </div>
             <div class="flex items-center gap-6 flex-1 max-w-md">
-                <span class="text-[11px] text-white/40 font-bold">낮은 위험</span>
-                <input type="range" id="dna-slider" min="0" max="100" value="20" class="flex-1" oninput="updateDNA(this.value)">
-                <span class="text-[11px] text-white/40 font-bold">고수익 모험</span>
+                <input type="range" id="dna-slider" min="0" max="100" value="20" class="w-full cursor-pointer" oninput="updateDNA(this.value)">
             </div>
         </div>
     </div>
 
-    <!-- 네비게이션 -->
-    <nav class="p-6 md:p-8 flex justify-between items-center border-b border-white/5 sticky top-0 z-[100] bg-black/90 backdrop-blur-md">
-        <div class="flex items-center gap-12">
-            <div class="brand-group cursor-pointer" onclick="showSection('main')">
-                <span class="text-4xl font-black tracking-tighter" style="font-family: 'Noto Sans KR';">가보자고</span>
-            </div>
-            <div class="hidden md:flex gap-10 text-base font-bold text-white/40">
-                <button onclick="showSection('main')" class="nav-link">프로젝트 탐색</button>
-                <button onclick="showSection('feed')" class="nav-link">투자 동향</button>
-                <button onclick="showSection('mypage')" class="nav-link">나의 자산</button>
-            </div>
+    <nav class="p-8 flex justify-between items-center max-w-[1600px] mx-auto">
+        <div class="brand-group cursor-pointer" onclick="showSection('main')">
+            <h1 class="text-4xl font-black italic tracking-tighter hover:text-yellow-400 transition-colors">가보자고.</h1>
         </div>
-        <button onclick="showSection('auth')" class="btn-gold px-8 py-3 text-sm font-black">회원가입 / 로그인</button>
+        <div class="flex items-center gap-10">
+            <div class="hidden md:flex gap-10 text-sm font-black tracking-widest text-white/40">
+                <button onclick="showSection('main')" class="hover:text-white">PROJECTS</button>
+                <button onclick="showSection('feed')" class="hover:text-white">LIVE PULSE</button>
+                <button onclick="showSection('mypage')" class="hover:text-white">ASSETS</button>
+            </div>
+            <button onclick="showSection('auth')" class="btn-glow px-8 py-3 text-xs uppercase tracking-tighter">Enter Gate</button>
+        </div>
     </nav>
 
-    <!-- [1] 프로젝트 탐색 섹션 -->
-    <main id="main-section" class="px-8 py-16 max-w-[1600px] mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-            <div>
-                <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight">성장의 기회를<br><span class="text-yellow-400">발견하고 선점하세요.</span></h2>
-                <p class="text-white/40 font-bold text-lg">인공지능 엔진이 실시간으로 유망 업종을 매칭하고 있습니다.</p>
+    <!-- [1] 메인 프로젝트 섹션 -->
+    <main id="main-section" class="px-8 py-12 max-w-[1600px] mx-auto">
+        <header class="mb-20">
+            <h2 class="text-7xl md:text-9xl font-black tracking-tighter mb-8 leading-none">
+                FUTURE <br> <span class="text-gradient">IS YOURS.</span>
+            </h2>
+            <div class="flex flex-wrap gap-4">
+                <div class="px-6 py-3 bg-white/5 rounded-full border border-white/10 font-bold text-sm"># 인공지능 매칭</div>
+                <div class="px-6 py-3 bg-white/5 rounded-full border border-white/10 font-bold text-sm"># 엔젤 투자</div>
+                <div class="px-6 py-3 bg-white/5 rounded-full border border-white/10 font-bold text-sm"># 퀀텀 점프</div>
             </div>
-            <div class="text-right">
-                <p class="text-xs text-white/20 font-black mb-1 uppercase tracking-widest">현재 플랫폼 총 자산 규모</p>
-                <p class="text-4xl font-black text-white">484억 2,900만원</p>
-            </div>
-        </div>
+        </header>
+
         <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <!-- 자바스크립트로 한글 데이터 주입 -->
+            <!-- 프로젝트 카드가 동적으로 생성됩니다 -->
         </div>
     </main>
 
-    <!-- [2] 실시간 투자 동향 섹션 -->
-    <section id="feed-section" class="hidden px-8 py-16 max-w-[1000px] mx-auto">
-        <div class="flex items-center gap-4 mb-12">
-            <div class="live-dot"></div>
-            <h2 class="text-4xl font-black">실시간 투자 동향 라운지</h2>
-        </div>
-        <div id="feed-list" class="space-y-6"></div>
+    <!-- [2] 실시간 동향 섹션 -->
+    <section id="feed-section" class="hidden px-8 py-20 max-w-[1200px] mx-auto">
+        <h2 class="text-5xl font-black mb-16 italic">LIVE <span class="text-blue-500">INSIGHT</span></h2>
+        <div id="feed-list" class="grid gap-6"></div>
     </section>
 
-    <!-- [3] 나의 자산 섹션 -->
-    <section id="mypage-section" class="hidden px-8 py-16 max-w-[1400px] mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
-            <div class="lg:col-span-1 space-y-8">
-                <div class="glass-card p-10 rounded-[3rem] text-center border-yellow-400/20">
-                    <div class="w-20 h-20 bg-yellow-400 rounded-3xl mx-auto mb-6 flex items-center justify-center text-4xl text-black font-black">가</div>
-                    <h3 class="text-2xl font-black">김가보자 파트너</h3>
-                    <p class="text-yellow-400 text-xs font-black mt-2 tracking-widest">플래티넘 투자자 등급</p>
-                </div>
-                <div class="glass-card p-8 rounded-[3rem]">
-                    <h4 class="text-sm font-black text-white/40 mb-6 tracking-tight">나의 획득 업적</h4>
-                    <div class="grid grid-cols-3 gap-6">
-                        <div class="text-center"><span class="text-3xl">🥇</span><p class="text-[10px] mt-2 font-bold text-white/40">얼리버드</p></div>
-                        <div class="text-center"><span class="text-3xl">💎</span><p class="text-[10px] mt-2 font-bold text-white/40">큰손 투자</p></div>
-                        <div class="text-center opacity-20"><span class="text-3xl">🚀</span><p class="text-[10px] mt-2 font-bold text-white/40">엑싯왕</p></div>
+    <!-- [3] 마이 자산 섹션 -->
+    <section id="mypage-section" class="hidden px-8 py-20 max-w-[1400px] mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div class="glass-card p-12 rounded-[3rem] border-purple-500/30 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-20 text-8xl font-black">VIP</div>
+                <div class="relative z-10">
+                    <p class="text-white/40 font-bold mb-2">PARTNER ID</p>
+                    <h3 class="text-4xl font-black mb-10">김가보자</h3>
+                    <div class="space-y-6">
+                        <div class="flex justify-between"><span>멤버십 등급</span><span class="text-purple-400 font-bold font-black">PLATINUM</span></div>
+                        <div class="flex justify-between"><span>누적 매칭 수</span><span class="font-bold font-black text-blue-400">12건</span></div>
                     </div>
                 </div>
             </div>
-            <div class="lg:col-span-3 space-y-8">
-                <div class="glass-card p-12 rounded-[4rem] bg-gradient-to-br from-yellow-400/10 to-transparent border-yellow-400/10">
-                    <p class="text-sm font-black text-white/40 mb-4">현재 나의 투자 가치</p>
-                    <h2 class="text-7xl font-black mb-6">12억 5,000만원</h2>
-                    <div class="flex items-center gap-4">
-                        <div class="flex-1 bg-white/5 h-3 rounded-full overflow-hidden">
-                            <div class="bg-yellow-400 h-full shadow-[0_0_15px_#facc15]" style="width: 75%"></div>
-                        </div>
-                        <span class="text-yellow-400 font-black">상위 5%</span>
-                    </div>
+            <div class="lg:col-span-2 glass-card p-12 rounded-[3rem] bg-gradient-to-br from-blue-500/10 to-purple-500/10 border-white/10">
+                <p class="text-white/40 font-bold mb-4">TOTAL ASSET VALUE</p>
+                <h2 class="text-8xl font-black mb-6 text-gradient italic">1,250,000,000 ₩</h2>
+                <div class="h-4 bg-black/40 rounded-full overflow-hidden p-1">
+                    <div class="h-full bg-gradient-to-r from-yellow-400 via-purple-500 to-blue-500 rounded-full shadow-[0_0_20px_rgba(168,85,247,0.5)]" style="width: 80%"></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- [4] 로그인 섹션 -->
-    <section id="auth-section" class="hidden min-h-[80vh] flex items-center justify-center px-4">
-        <div class="glass-card p-12 rounded-[4rem] w-full max-w-[450px] text-center border-white/10">
-            <h2 class="text-3xl font-black mb-10">가보자고 게이트</h2>
-            <div class="space-y-4">
-                <input type="text" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-yellow-400 transition-all text-center" placeholder="투자자 아이디 입력">
-                <input type="password" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-yellow-400 transition-all text-center" placeholder="보안 키 입력">
-                <button class="btn-gold w-full py-5 text-lg font-black mt-6">보안 접속 시작</button>
+    <section id="auth-section" class="hidden min-h-[80vh] flex items-center justify-center">
+        <div class="glass-card p-16 rounded-[4rem] w-full max-w-[500px] border-white/10 shadow-[0_0_50px_rgba(0,0,0,1)] text-center">
+            <div class="mb-10 text-6xl">🔒</div>
+            <h2 class="text-4xl font-black mb-10 tracking-tighter italic">ENCRYPTED GATE</h2>
+            <div class="space-y-6">
+                <input type="text" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-blue-500 transition-all text-center font-bold" placeholder="SECRET ID">
+                <button class="btn-glow w-full py-5 text-lg">ACCESS NOW</button>
             </div>
         </div>
     </section>
 
     <!-- 상세 모달 -->
-    <div id="project-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl">
-        <div class="glass-card w-full max-w-5xl rounded-[4rem] p-10 md:p-16 relative overflow-y-auto max-h-[90vh]">
-            <button onclick="closeModal()" class="absolute top-8 right-8 text-white/40 hover:text-white text-4xl">&times;</button>
+    <div id="project-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/95 backdrop-blur-2xl">
+        <div class="neon-border-card w-full max-w-6xl rounded-[4rem] p-16 relative border-yellow-400/30">
+            <button onclick="closeModal()" class="absolute top-10 right-10 text-white/20 hover:text-white text-5xl font-thin">&times;</button>
             <div id="modal-body"></div>
         </div>
     </div>
 
     <script>
         const projectData = [
-            { id: 1, name: "안전 보안 사이버", sub: "양자 암호화 및 차세대 보안", yield: 32.5, viewers: 8, dna: 10, desc: "국내 최고 수준의 양자 암호화 기술을 보유한 팀입니다. 현재 정부 과제 수행 중이며 상용화가 임박했습니다.", tag: "강력 추천" },
-            { id: 2, name: "인공지능 퀀트", sub: "초고빈도 매매 알고리즘", yield: 28.1, viewers: 15, dna: 85, desc: "감성 분석 AI와 퀀트 매매를 결합하여 안정적인 하락장 방어 수익률을 기록하고 있습니다.", tag: "모집중" },
-            { id: 3, name: "K-컬처 콘텐츠 AI", sub: "생성형 미디어 아티스트", yield: 31.2, viewers: 24, dna: 60, desc: "전 세계가 주목하는 K-콘텐츠를 AI로 자동 제작 및 변환하여 글로벌 OTT에 공급합니다.", tag: "인기 폭발" },
-            { id: 4, name: "우주 항공 위성", sub: "저궤도 초고속 통신망", yield: 15.4, viewers: 3, dna: 95, desc: "스타링크를 넘어서는 아시아 독자 저궤도 위성망 구축을 목표로 하는 국가대표급 팀입니다.", tag: "장기 비전" },
-            { id: 5, name: "자율주행 모빌리티", sub: "고정밀 라이다 제어", yield: 25.7, viewers: 12, dna: 75, desc: "악천후에서도 사고율 0%에 도전하는 정밀 센서 융합 기술을 보유하고 있습니다.", tag: "기술 혁신" },
-            { id: 6, name: "차세대 배터리", sub: "전고체 소자 신소재", yield: 27.3, viewers: 19, dna: 40, desc: "꿈의 배터리라 불리는 전고체 배터리의 핵심 소재를 양산 준비 중인 핵심 기업입니다.", tag: "전략 업종" }
+            { id: 1, name: "안전 보안 사이버", sub: "QUANTUM DEFENSE", yield: 32.5, viewers: 8, dna: 10, color: "#a855f7" },
+            { id: 2, name: "인공지능 퀀트", sub: "HFT ALGORITHM", yield: 28.1, viewers: 15, dna: 85, color: "#3b82f6" },
+            { id: 3, name: "K-컬처 콘텐츠 AI", sub: "GEN-MEDIA IP", yield: 31.2, viewers: 24, dna: 60, color: "#facc15" },
+            { id: 4, name: "우주 항공 위성", sub: "STAR-LINK X", yield: 15.4, viewers: 3, dna: 95, color: "#ec4899" },
+            { id: 5, name: "자율주행 모빌리티", sub: "LIDAR AUTO-PILOT", yield: 25.7, viewers: 12, dna: 75, color: "#10b981" },
+            { id: 6, name: "차세대 배터리", sub: "SOLID-STATE BATT", yield: 27.3, viewers: 19, dna: 40, color: "#f97316" }
         ];
 
         function initAll() {
@@ -165,25 +213,25 @@
             container.innerHTML = projectData.map(p => {
                 const matchScore = 100 - Math.abs(p.dna - dnaFilter);
                 return `
-                <div onclick="openModal(${p.id})" class="glass-card p-8 rounded-[3rem] h-[420px] flex flex-col justify-between cursor-pointer hover:border-yellow-400/40 transition-all group overflow-hidden relative">
-                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-yellow-400/5 rounded-full blur-2xl group-hover:bg-yellow-400/10 transition-all"></div>
+                <div onclick="openModal(${p.id})" class="neon-border-card p-10 h-[450px] flex flex-col justify-between cursor-pointer group">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full blur-[60px] opacity-20" style="background: ${p.color}"></div>
                     <div>
-                        <div class="flex justify-between items-start mb-8">
-                            <span class="text-[11px] font-black px-3 py-1 bg-yellow-400/10 text-yellow-400 rounded-lg">매칭률 ${matchScore}%</span>
-                            <div class="flex items-center text-[11px] font-black text-red-500">
-                                <div class="live-dot"></div> ${p.viewers}명 접속 중
+                        <div class="flex justify-between items-start mb-10">
+                            <span class="text-[10px] font-black px-3 py-1 bg-white/10 rounded-full border border-white/10">MATCH ${matchScore}%</span>
+                            <div class="flex items-center text-[10px] font-black text-red-500">
+                                <div class="live-dot"></div> <span class="ml-2">${p.viewers} LIVE</span>
                             </div>
                         </div>
-                        <h4 class="text-3xl font-black group-hover:text-yellow-400 mb-3 transition-colors">${p.name}</h4>
-                        <p class="text-sm text-white/40 font-bold">${p.sub}</p>
+                        <h4 class="text-4xl font-black mb-4 group-hover:text-gradient transition-all leading-tight">${p.name}</h4>
+                        <p class="text-sm font-bold opacity-40 uppercase tracking-widest">${p.sub}</p>
                     </div>
                     <div>
-                        <div class="mb-6">
-                            <p class="text-[11px] text-white/20 font-black mb-1 uppercase">목표 기대 수익률</p>
-                            <p class="text-4xl font-black text-yellow-400">+${p.yield}%</p>
+                        <div class="mb-8">
+                            <p class="text-[10px] font-black text-white/30 mb-2">TARGET YIELD</p>
+                            <p class="text-5xl font-black" style="color: ${p.color}">+${p.yield}%</p>
                         </div>
-                        <div class="flex items-center text-xs font-bold text-white/60">
-                            상세 정보 확인하기 <span class="ml-2 group-hover:translate-x-2 transition-transform">→</span>
+                        <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                            <div class="h-full transition-all duration-1000" style="width: ${matchScore}%; background: ${p.color}"></div>
                         </div>
                     </div>
                 </div>
@@ -193,17 +241,14 @@
         function renderFeed() {
             const feedList = document.getElementById('feed-list');
             const feeds = [
-                { title: "투자 집행", text: "방금 전 익명의 투자자가 [인공지능 퀀트] 프로젝트에 3억원을 투자했습니다.", time: "1분 전" },
-                { title: "성과 달성", text: "[안전 보안 사이버] 팀이 국가 보안 최고 등급 인증을 획득했습니다.", time: "15분 전" },
-                { title: "신규 매칭", text: "당신의 성향을 분석한 결과 [K-컬처 콘텐츠]가 새로운 매칭 대상으로 선정되었습니다.", time: "1시간 전" }
+                "익명의 고액 투자자가 [안공지능 퀀트] 프로젝트를 최종 심사 중입니다.",
+                "[차세대 배터리] 팀이 실리콘밸리 벤처캐피탈과 미팅을 성공적으로 마쳤습니다.",
+                "당신의 DNA 분석 결과 [K-컬처 AI] 프로젝트와 98% 일치합니다."
             ];
             feedList.innerHTML = feeds.map(f => `
-                <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-yellow-400">
-                    <div>
-                        <span class="text-[10px] font-black text-yellow-400 uppercase tracking-widest">${f.title}</span>
-                        <p class="text-lg font-bold text-white/90 mt-1">${f.text}</p>
-                    </div>
-                    <span class="text-xs font-bold text-white/20">${f.time}</span>
+                <div class="glass-card p-8 rounded-[2rem] border-l-8 border-purple-500 flex items-center gap-6 group hover:bg-white/10">
+                    <div class="text-3xl group-hover:animate-pulse">🔥</div>
+                    <p class="text-xl font-bold italic text-white/80">${f}</p>
                 </div>
             `).join('');
         }
@@ -212,40 +257,35 @@
             const p = projectData.find(x => x.id === id);
             const body = document.getElementById('modal-body');
             body.innerHTML = `
-                <div class="mb-10">
-                    <span class="text-yellow-400 font-black text-sm uppercase tracking-widest">${p.tag}</span>
-                    <h2 class="text-5xl md:text-6xl font-black mt-3">${p.name}</h2>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div class="grid lg:grid-cols-2 gap-20">
                     <div>
-                        <p class="text-xl text-white/70 leading-relaxed font-medium mb-12">${p.desc}</p>
-                        <div class="grid grid-cols-2 gap-6 mb-12">
-                            <div class="p-6 bg-white/5 rounded-2xl">
-                                <p class="text-xs text-white/40 mb-2 font-bold">기대 수익률</p>
-                                <p class="text-3xl font-black text-yellow-400">+${p.yield}%</p>
-                            </div>
-                            <div class="p-6 bg-white/5 rounded-2xl">
-                                <p class="text-xs text-white/40 mb-2 font-bold">실시간 관심도</p>
-                                <p class="text-3xl font-black">${p.viewers}명</p>
-                            </div>
-                        </div>
-                        <button onclick="triggerInvest()" class="btn-gold w-full py-6 text-xl font-black shadow-xl">이 프로젝트에 투자 확정하기</button>
+                        <span class="text-xs font-black uppercase tracking-[0.5em] mb-4 block" style="color: ${p.color}">Verified Project</span>
+                        <h2 class="text-7xl font-black mb-10 leading-none">${p.name}</h2>
+                        <p class="text-2xl text-white/60 font-medium leading-relaxed mb-12">${p.name} 프로젝트는 현재 ${p.sub} 기술을 바탕으로 혁신적인 성장을 기록 중입니다. ${p.viewers}명의 전문 투자자가 현재 이 딜을 실시간 검토 중입니다.</p>
+                        <button onclick="triggerInvest()" class="btn-glow w-full py-8 text-2xl uppercase tracking-tighter">심사 확정 및 계약 진행</button>
                     </div>
-                    <div class="space-y-8">
-                        <div class="glass-card p-10 rounded-[3rem] bg-yellow-400/5">
-                            <h5 class="text-sm font-black text-yellow-400 mb-8 tracking-widest">핵심 투자 분석 (Insight)</h5>
-                            <ul class="space-y-6">
-                                <li class="flex justify-between border-b border-white/5 pb-4"><span class="text-white/60">시장 지배력</span><span class="font-black text-green-400">매우 높음</span></li>
-                                <li class="flex justify-between border-b border-white/5 pb-4"><span class="text-white/60">기술 특허 보유</span><span class="font-black">15건</span></li>
-                                <li class="flex justify-between border-b border-white/5 pb-4"><span class="text-white/60">예상 회수(Exit)</span><span class="font-black text-white">2~3년 내</span></li>
-                                <li class="flex justify-between pb-2"><span class="text-white/60">리스크 등급</span><span class="font-black text-yellow-500">중간(Moderate)</span></li>
-                            </ul>
+                    <div class="flex flex-col justify-center">
+                        <div class="glass-card p-12 rounded-[4rem] border-white/10 bg-gradient-to-br from-white/5 to-transparent">
+                            <h5 class="text-sm font-black mb-10 opacity-30 tracking-[0.3em] uppercase">Deal Analysis</h5>
+                            <div class="space-y-8">
+                                <div class="flex justify-between items-end">
+                                    <span class="text-white/40 font-bold">기대 수익률</span>
+                                    <span class="text-5xl font-black" style="color: ${p.color}">+${p.yield}%</span>
+                                </div>
+                                <div class="flex justify-between items-end">
+                                    <span class="text-white/40 font-bold">기술 점수</span>
+                                    <span class="text-3xl font-black">9.8 / 10</span>
+                                </div>
+                                <div class="flex justify-between items-end border-t border-white/10 pt-8 mt-8">
+                                    <span class="text-white/40 font-bold">매칭 성공률</span>
+                                    <span class="text-3xl font-black text-blue-400">HIGH</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
             document.getElementById('project-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
         }
 
         function showSection(id) {
@@ -254,14 +294,11 @@
             window.scrollTo(0,0);
         }
 
-        function closeModal() { 
-            document.getElementById('project-modal').classList.add('hidden'); 
-            document.body.style.overflow = 'auto';
-        }
+        function closeModal() { document.getElementById('project-modal').classList.add('hidden'); }
         
         function triggerInvest() {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#facc15', '#ffffff'] });
-            alert('축하합니다! 투자 심사가 시작되었습니다. 이제 당신은 성장의 동반자입니다.');
+            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 }, colors: ['#facc15', '#a855f7', '#3b82f6'] });
+            alert('투자 심사 단계로 공식 진입했습니다!');
             closeModal();
         }
     </script>
