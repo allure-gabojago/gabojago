@@ -1,75 +1,72 @@
-<!-- 이전 헤더/네비 스타일 유지 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가보자고 V2.0 | 인텔리전트 엔젤 매칭</title>
+    <title>가보자고 V2.1 | 하이엔드 투자 엔진</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&family=Montserrat:wght@900&display=swap');
-        :root { --primary-gold: #facc15; --neon-purple: #a855f7; --neon-blue: #3b82f6; --bg-black: #020202; }
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; overflow-x: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Montserrat:wght@900&display=swap');
+        :root { --primary-gold: #facc15; --neon-purple: #a855f7; --neon-blue: #3b82f6; --bg-black: #010101; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; }
         .text-gradient { background: linear-gradient(to right, #facc15, #f472b6, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .neon-border-card { position: relative; background: rgba(255, 255, 255, 0.02); border-radius: 2.5rem; transition: 0.5s; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05); }
-        .neon-border-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: 0 0 40px rgba(250, 204, 21, 0.15); }
+        .neon-border-card { position: relative; background: rgba(255, 255, 255, 0.03); border-radius: 3rem; transition: 0.5s; border: 1px solid rgba(255, 255, 255, 0.08); }
+        .neon-border-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); box-shadow: 0 0 50px rgba(250, 204, 21, 0.2); }
         
-        /* 시뮬레이터 전용 슬라이더 */
-        .sim-slider { -webkit-appearance: none; width: 100%; height: 4px; background: #333; border-radius: 5px; outline: none; }
-        .sim-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--primary-gold); border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px var(--primary-gold); }
-        
-        /* 마일스톤 라인 */
-        .milestone-line { position: relative; border-left: 2px dashed rgba(255,255,255,0.1); margin-left: 10px; padding-left: 30px; }
-        .milestone-dot { position: absolute; left: -7px; top: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
+        /* 접속하기 버튼 강화 */
+        .btn-auth { background: #fff; color: #000; font-weight: 900; padding: 1rem 3rem; border-radius: 1.5rem; font-size: 1.25rem; transition: 0.3s; box-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        .btn-auth:hover { transform: scale(1.1); background: var(--primary-gold); box-shadow: 0 0 30px var(--primary-gold); }
+
+        /* 시뮬레이터 슬라이더 */
+        .sim-slider { -webkit-appearance: none; width: 100%; height: 12px; background: #222; border-radius: 10px; outline: none; margin: 2rem 0; }
+        .sim-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; background: #fff; border-radius: 50%; cursor: pointer; box-shadow: 0 0 20px var(--primary-gold); border: 6px solid var(--primary-gold); }
     </style>
 </head>
 <body onload="initAll()">
-    <!-- 상단 고정 바 및 네비게이션 (기존과 동일하여 중략, 실제 코드 적용 시 유지) -->
-    <nav class="p-10 flex justify-between items-center max-w-[1600px] mx-auto">
-        <h1 class="text-5xl font-black italic tracking-tighter text-gradient cursor-pointer" onclick="showSection('main')">가보자고.</h1>
-        <div class="hidden lg:flex gap-12 text-sm font-black text-white/40">
-            <button onclick="showSection('main')" class="hover:text-white">프로젝트 탐색</button>
-            <button onclick="showSection('feed')" class="hover:text-white">실시간 동향</button>
-            <button onclick="showSection('mypage')" class="hover:text-white">나의 자산</button>
+    
+    <nav class="p-12 flex justify-between items-center max-w-[1800px] mx-auto">
+        <h1 class="text-6xl font-black italic tracking-tighter text-gradient cursor-pointer" onclick="showSection('main')">가보자고.</h1>
+        <div class="hidden lg:flex gap-16 text-xl font-black text-white/30">
+            <button onclick="showSection('main')" class="hover:text-white transition-all">프로젝트 탐색</button>
+            <button onclick="showSection('feed')" class="hover:text-white transition-all">실시간 동향</button>
+            <button onclick="showSection('mypage')" class="hover:text-white transition-all">나의 자산</button>
         </div>
-        <button class="px-8 py-3 bg-white text-black font-black rounded-xl text-xs">접속하기</button>
+        <button class="btn-auth" onclick="showSection('auth')">접속하기</button>
     </nav>
 
-    <!-- 메인 섹션 -->
-    <main id="main-section" class="px-10 py-16 max-w-[1600px] mx-auto">
-        <header class="mb-20">
-            <h2 class="text-8xl font-black mb-6 italic tracking-tighter">TRUST <span class="text-gradient">& DATA.</span></h2>
-            <p class="text-xl text-white/40 font-bold">검증된 기술력과 투명한 데이터로 엔젤 투자의 새로운 기준을 만듭니다.</p>
-        </header>
-        <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+    <main id="main-section" class="px-12 py-10 max-w-[1800px] mx-auto">
+        <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
+            <!-- 12개 업종 카드가 동적으로 생성됩니다 -->
+        </div>
     </main>
 
-    <!-- 상세 모달 (V2.0 핵심 업데이트) -->
-    <div id="project-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-6 bg-black/95 backdrop-blur-3xl overflow-y-auto">
-        <div class="neon-border-card w-full max-w-7xl rounded-[3rem] p-12 md:p-20 relative bg-black border-white/10">
-            <button onclick="closeModal()" class="absolute top-10 right-10 text-white/20 hover:text-white text-6xl font-thin">&times;</button>
-            <div id="modal-body" class="grid lg:grid-cols-2 gap-20">
-                <!-- JS에서 렌더링 -->
+    <!-- 업그레이드된 상세 모달 -->
+    <div id="project-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-8 bg-black/98 backdrop-blur-3xl overflow-y-auto">
+        <div class="neon-border-card w-full max-w-[90%] xl:max-w-7xl rounded-[5rem] p-20 relative bg-black border-white/10">
+            <button onclick="closeModal()" class="absolute top-12 right-16 text-white/20 hover:text-white text-8xl font-thin transition-colors">&times;</button>
+            
+            <div id="modal-body" class="grid lg:grid-cols-2 gap-32 items-center">
+                <!-- 자바스크립트 렌더링 -->
             </div>
         </div>
     </div>
 
     <script>
+        // 12개 업종 데이터 (보안 안전 1순위)
         const projectData = [
-            { 
-                id: 1, name: "양자 암호 보안", yield: 32.5, dna: 10, color: "#a855f7",
-                tech: { stack: "C++, Python, QKD", score: 98, commits: "2,400+" },
-                milestones: ["기술 특허 3건 확보", "정부 보안 인증 통과", "B2B 상용화 버전 출시 예정"],
-                valuation: 50 // 현재 기업 가치 (억 단위)
-            },
-            { 
-                id: 2, name: "인공지능 퀀트", yield: 28.1, dna: 85, color: "#3b82f6",
-                tech: { stack: "PyTorch, Rust, AWS", score: 95, commits: "1,800+" },
-                milestones: ["알고리즘 백테스트 완료", "시드 투자 유치 성공", "글로벌 거래소 연동"],
-                valuation: 35
-            }
-            // ... 데이터 확장 가능
+            { id: 1, name: "국가급 양자암호 보안", sub: "QUANTUM SECURITY", yield: 42.5, color: "#a855f7", tech: "C++, Rust", commits: "5,200+", score: 99, val: 120 },
+            { id: 2, name: "인공지능 퀀트 투자", sub: "AI QUANT ENGINE", yield: 35.8, color: "#3b82f6", tech: "Python, PyTorch", commits: "3,100+", score: 96, val: 85 },
+            { id: 3, name: "바이오 헬스 테크", sub: "BIO GENOME", yield: 51.2, color: "#10b981", tech: "Bio-Data AI", commits: "1,500+", score: 92, val: 150 },
+            { id: 4, name: "저궤도 우주 통신", sub: "SPACE LINK", yield: 28.4, color: "#ec4899", tech: "Embedded C", commits: "4,400+", score: 98, val: 210 },
+            { id: 5, name: "지능형 로보틱스", sub: "SMART ROBOT", yield: 33.1, color: "#f97316", tech: "ROS2, C++", commits: "2,800+", score: 94, val: 95 },
+            { id: 6, name: "메타버스 가상 경제", sub: "META ECONOMY", yield: 25.7, color: "#facc15", tech: "Unreal Engine 5", commits: "6,100+", score: 90, val: 70 },
+            { id: 7, name: "그린 에너지 그리드", sub: "GREEN ENERGY", yield: 19.5, color: "#84cc16", tech: "IoT, Cloud", commits: "1,200+", score: 88, val: 110 },
+            { id: 8, name: "자율주행 모빌리티", sub: "AUTO PILOT", yield: 38.9, color: "#ef4444", tech: "LiDAR AI", commits: "7,500+", score: 97, val: 180 },
+            { id: 9, name: "핀테크 블록체인", sub: "DEFI PROTOCOL", yield: 44.2, color: "#06b6d4", tech: "Solidity, Go", commits: "3,900+", score: 95, val: 130 },
+            { id: 10, name: "에듀테크 맞춤 AI", sub: "EDU TECH", yield: 22.4, color: "#6366f1", tech: "NLP, Python", commits: "900+", score: 89, val: 45 },
+            { id: 11, name: "스마트 팜 플랫폼", sub: "AGRI TECH", yield: 18.2, color: "#fbbf24", tech: "Sensors, AI", commits: "1,100+", score: 91, val: 55 },
+            { id: 12, name: "사이버 범죄 수사 AI", sub: "CYBER CRIME AI", yield: 30.5, color: "#64748b", tech: "Big Data, OSINT", commits: "2,200+", score: 93, val: 75 }
         ];
 
         function initAll() { renderProjects(); }
@@ -77,14 +74,15 @@
         function renderProjects() {
             const container = document.getElementById('project-grid');
             container.innerHTML = projectData.map(p => `
-                <div onclick="openModal(${p.id})" class="neon-border-card p-10 h-[450px] flex flex-col justify-between cursor-pointer group">
+                <div onclick="openModal(${p.id})" class="neon-border-card p-12 h-[500px] flex flex-col justify-between cursor-pointer group">
                     <div>
-                        <span class="text-[10px] font-black px-3 py-1 bg-white/10 rounded-full mb-6 inline-block">TECH SCORE: ${p.tech.score}</span>
-                        <h4 class="text-4xl font-black mb-4 group-hover:text-gradient transition-all leading-tight">${p.name}</h4>
+                        <div class="w-20 h-2 bg-gradient-to-r from-transparent to-white/20 mb-10"></div>
+                        <h4 class="text-4xl font-black mb-6 group-hover:text-gradient transition-all leading-tight tracking-tighter">${p.name}</h4>
+                        <p class="text-xs font-black opacity-30 tracking-[0.4em] uppercase">${p.sub}</p>
                     </div>
                     <div>
-                        <p class="text-xs font-bold text-white/30 mb-2 uppercase italic">Expected Yield</p>
-                        <p class="text-5xl font-black" style="color: ${p.color}">+${p.yield}%</p>
+                        <p class="text-[11px] font-black text-white/30 mb-3 tracking-widest uppercase">Target Yield</p>
+                        <p class="text-6xl font-black tracking-tighter" style="color: ${p.color}">+${p.yield}%</p>
                     </div>
                 </div>
             `).join('');
@@ -94,91 +92,78 @@
             const p = projectData.find(x => x.id === id);
             const body = document.getElementById('modal-body');
             body.innerHTML = `
-                <!-- 왼쪽: 기술 분석 및 마일스톤 -->
-                <div>
-                    <h2 class="text-6xl font-black mb-8 italic">${p.name}</h2>
-                    
-                    <div class="mb-12">
-                        <h5 class="text-sm font-black text-white/30 uppercase tracking-[0.3em] mb-6">개발자 기술 딥다이브</h5>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div class="bg-white/5 p-5 rounded-2xl border border-white/5 text-center">
-                                <p class="text-[10px] text-white/40 mb-1">기술 스택</p>
-                                <p class="font-black text-blue-400">${p.tech.stack}</p>
-                            </div>
-                            <div class="bg-white/5 p-5 rounded-2xl border border-white/5 text-center">
-                                <p class="text-[10px] text-white/40 mb-1">코드 커밋</p>
-                                <p class="font-black text-purple-400">${p.tech.commits}</p>
-                            </div>
-                            <div class="bg-white/5 p-5 rounded-2xl border border-white/5 text-center">
-                                <p class="text-[10px] text-white/40 mb-1">AI 신뢰도</p>
-                                <p class="font-black text-yellow-400">${p.tech.score}%</p>
-                            </div>
-                        </div>
+                <div class="space-y-20">
+                    <div>
+                        <span class="text-xl font-black text-gradient uppercase tracking-[0.5em] mb-8 block">Project Deep-Dive</span>
+                        <h2 class="text-8xl font-black leading-none italic mb-12 tracking-tighter">${p.name}</h2>
                     </div>
 
-                    <div>
-                        <h5 class="text-sm font-black text-white/30 uppercase tracking-[0.3em] mb-8">성장 마일스톤</h5>
-                        ${p.milestones.map(m => `
-                            <div class="milestone-line mb-6">
-                                <div class="milestone-dot"></div>
-                                <p class="text-lg font-bold">${m}</p>
+                    <div class="bg-white/5 rounded-[4rem] p-16 border border-white/10">
+                        <h5 class="text-3xl font-black mb-12 text-white italic underline underline-offset-8 decoration-yellow-400">개발자 기술 딥 다이브</h5>
+                        <div class="grid grid-cols-1 gap-10">
+                            <div class="flex justify-between items-center bg-black/50 p-10 rounded-3xl border border-white/5">
+                                <span class="text-2xl font-bold text-white/40">기술 스택</span>
+                                <span class="text-4xl font-black text-blue-400 uppercase">${p.tech}</span>
                             </div>
-                        `).join('')}
+                            <div class="flex justify-between items-center bg-black/50 p-10 rounded-3xl border border-white/5">
+                                <span class="text-2xl font-bold text-white/40">코드 커밋</span>
+                                <span class="text-4xl font-black text-purple-400">${p.commits}</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-black/50 p-10 rounded-3xl border border-white/5">
+                                <span class="text-2xl font-bold text-white/40">AI 신뢰도</span>
+                                <span class="text-5xl font-black text-yellow-400">${p.score}%</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 오른쪽: 투자 시뮬레이터 -->
-                <div class="flex flex-col justify-center">
-                    <div class="bg-gradient-to-br from-white/5 to-transparent p-12 rounded-[3rem] border border-white/10 shadow-2xl">
-                        <h5 class="text-sm font-black text-yellow-400 uppercase tracking-[0.3em] mb-10">가상 투자 시뮬레이터</h5>
+                <div class="flex flex-col justify-center h-full">
+                    <div class="neon-border-card p-20 bg-gradient-to-br from-white/5 to-transparent shadow-[0_0_100px_rgba(0,0,0,0.5)]">
+                        <h5 class="text-4xl font-black text-center mb-16 italic tracking-tighter">가상 투자 시뮬레이터</h5>
                         
-                        <div class="mb-10">
-                            <div class="flex justify-between mb-4">
-                                <span class="text-white/60 font-bold">나의 투자금액</span>
-                                <span class="font-black text-2xl text-gradient" id="inv-amount-txt">5,000만원</span>
+                        <div class="mb-16">
+                            <div class="flex justify-between items-end mb-6">
+                                <span class="text-2xl font-bold text-white/40">나의 투자 금액</span>
+                                <span class="text-5xl font-black text-gradient" id="inv-amount-txt">5,000만원</span>
                             </div>
-                            <input type="range" min="100" max="10000" step="100" value="5000" class="sim-slider" id="amount-range" oninput="calcSim(${p.yield}, ${p.valuation})">
+                            <input type="range" min="100" max="10000" step="100" value="5000" class="sim-slider" id="amount-range" oninput="calcSim(${p.yield})">
                         </div>
 
-                        <div class="space-y-8 bg-black/40 p-8 rounded-3xl border border-white/5 mb-10">
+                        <div class="space-y-12 bg-black/60 p-12 rounded-[3rem] border border-white/10">
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-white/40">예상 기업가치 성장</span>
-                                <span class="font-black text-green-400">약 3.5배</span>
+                                <span class="text-2xl font-bold text-white/40">예상 기업가치 성장</span>
+                                <span class="text-4xl font-black text-green-400">약 4.2배 성장</span>
                             </div>
-                            <div class="flex justify-between items-end">
-                                <span class="text-sm text-white/40">3년 후 예상 회수액</span>
-                                <span class="text-5xl font-black text-yellow-400" id="return-txt">₩ 1.7억</span>
+                            <div class="pt-8 border-t border-white/10">
+                                <p class="text-2xl font-bold text-white/40 mb-6 text-center">3년 후 예상 회수액</p>
+                                <p class="text-8xl font-black text-yellow-400 text-center tracking-tighter" id="return-txt">₩ 2.1억</p>
                             </div>
                         </div>
 
-                        <button onclick="triggerInvest()" class="w-full py-6 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-black text-xl rounded-2xl hover:shadow-[0_0_30px_rgba(250,204,21,0.5)] transition-all">
-                            이 딜에 참여하기
+                        <button onclick="triggerInvest()" class="w-full mt-16 py-10 bg-white text-black font-black text-3xl rounded-[2rem] hover:bg-yellow-400 transition-all shadow-[0_0_50px_rgba(255,255,255,0.2)]">
+                            심사 확정하기
                         </button>
                     </div>
                 </div>
             `;
             document.getElementById('project-modal').classList.remove('hidden');
-            calcSim(p.yield, p.valuation); // 초기 계산 실행
+            calcSim(p.yield);
         }
 
-        function calcSim(yield, val) {
+        function calcSim(yield) {
             const amount = document.getElementById('amount-range').value;
-            document.getElementById('inv-amount-txt').innerText = (amount >= 10000 ? '1억원' : amount + '만원');
-            
-            // 간단한 시뮬레이션 로직: 수익률과 기업가치 가중치 반영
+            document.getElementById('inv-amount-txt').innerText = (amount >= 10000 ? '1.0 억원' : amount + ' 만원');
             const result = (amount * (1 + yield/100) * 1.5).toFixed(0);
             document.getElementById('return-txt').innerText = '₩ ' + (result / 10000).toFixed(1) + '억';
         }
 
         function closeModal() { document.getElementById('project-modal').classList.add('hidden'); }
         function triggerInvest() {
-            confetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } });
-            alert('가상 투자가 성공적으로 접수되었습니다! 분석 리포트가 메일로 발송됩니다.');
+            confetti({ particleCount: 300, spread: 100, origin: { y: 0.6 } });
+            alert('프리미엄 투자 제안이 성공적으로 전달되었습니다.');
             closeModal();
         }
-        function showSection(id) {
-            // 섹션 전환 로직 (기존 유지)
-        }
+        function showSection(id) { /* 기존 섹션 전환 로직 유지 */ }
     </script>
 </body>
 </html>
