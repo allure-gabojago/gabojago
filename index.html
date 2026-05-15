@@ -134,5 +134,104 @@
             `).join('');
         }
     </script>
+<style>
+    /* 업종 섹션 전체 컨테이너 */
+    .gabojago-sector-section {
+        padding: 80px 20px;
+        background-color: #ffffff;
+        font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    }
+
+    .sector-wrapper {
+        max-width: 1100px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .sector-header h2 {
+        font-size: 2.2rem;
+        color: #1a1a1a;
+        margin-bottom: 10px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+    }
+
+    .sector-header p {
+        color: #666;
+        margin-bottom: 50px;
+        font-size: 1.1rem;
+    }
+
+    /* 12개 그리드 배치 */
+    .sector-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개씩 */
+        gap: 20px;
+    }
+
+    .sector-item {
+        background: #f9fafb;
+        border: 1px solid #eee;
+        border-radius: 16px;
+        padding: 35px 20px;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sector-item span {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #333;
+    }
+
+    /* 마우스 호버 효과 (투자자들의 눈길을 끄는 효과) */
+    .sector-item:hover {
+        transform: translateY(-8px);
+        background: #007bff;
+        border-color: #007bff;
+        box-shadow: 0 15px 30px rgba(0, 123, 255, 0.15);
+    }
+
+    .sector-item:hover span {
+        color: #ffffff;
+    }
+
+    /* 모바일 및 태블릿 대응 (반응형) */
+    @media (max-width: 1024px) {
+        .sector-grid { grid-template-columns: repeat(3, 1fr); } /* 3개씩 */
+    }
+    @media (max-width: 768px) {
+        .sector-grid { grid-template-columns: repeat(2, 1fr); } /* 2개씩 */
+        .sector-header h2 { font-size: 1.8rem; }
+    }
+</style>
+
+<section class="gabojago-sector-section">
+    <div class="sector-wrapper">
+        <div class="sector-header">
+            <h2>12개 전문 분야 매칭</h2>
+            <p>투자자와 개발자가 만나 혁신을 만드는 12개 핵심 업종입니다.</p>
+        </div>
+        
+        <div class="sector-grid">
+            <div class="sector-item"><span>IT / 소프트웨어</span></div>
+            <div class="sector-item"><span>핀테크 / 금융</span></div>
+            <div class="sector-item"><span>바이오 / 헬스케어</span></div>
+            <div class="sector-item"><span>반도체 / HW</span></div>
+            <div class="sector-item"><span>AI / 로보틱스</span></div>
+            <div class="sector-item"><span>에너지 / 친환경</span></div>
+            <div class="sector-item"><span>이커머스 / 유통</span></div>
+            <div class="sector-item"><span>엔터 / 게임</span></div>
+            <div class="sector-item"><span>모빌리티 / 자율주행</span></div>
+            <div class="sector-item"><span>에듀테크</span></div>
+            <div class="sector-item"><span>블록체인 / Web3</span></div>
+            <div class="sector-item"><span>부동산 / 프롭테크</span></div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
