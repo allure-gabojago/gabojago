@@ -9,21 +9,26 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Montserrat:wght@900&display=swap');
         :root { --primary-gold: #facc15; --bg-black: #000; }
         body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-black); color: #fff; margin: 0; -webkit-font-smoothing: antialiased; }
-        .brand-kor { font-size: 2.3rem; font-weight: 900; color: #fff; letter-spacing: -0.06em; }
-        .brand-eng { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; color: var(--primary-gold); letter-spacing: 0.15em; font-weight: 300; opacity: 0.6; }
+        
+        /* 로고 시스템: 노란 박스 제거 및 한글 강조 */
+        .brand-kor { font-size: 2.4rem; font-weight: 900; color: #fff; letter-spacing: -0.06em; line-height: 1; }
+        .brand-eng { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; color: var(--primary-gold); letter-spacing: 0.15em; font-weight: 300; opacity: 0.6; margin-top: 4px; }
+        
         .glass-card { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(40px); border: 1px solid rgba(250, 204, 21, 0.12); transition: all 0.3s ease; }
         .glass-card:hover { border-color: var(--primary-gold); transform: translateY(-5px); }
+        
         .ticker-wrap { background: rgba(250, 204, 21, 0.08); border-bottom: 1px solid rgba(250, 204, 21, 0.15); overflow: hidden; white-space: nowrap; padding: 12px 0; }
         .ticker-move { display: inline-block; animation: ticker 45s linear infinite; color: var(--primary-gold); font-size: 0.9rem; font-weight: 700; }
         @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        
         .btn-gold { background: var(--primary-gold); color: #000; font-weight: 900; border-radius: 12px; transition: 0.3s; cursor: pointer; }
         .btn-gold:hover { background: #fff; transform: scale(1.02); }
-        .input-dark { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; color: white; width: 100%; outline: none; }
-        #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
         
-        /* 전문 푸터용 소형 폰트 스타일 */
-        .footer-info { font-size: 11px; color: #666; line-height: 1.8; letter-spacing: -0.02em; }
-        .footer-label { color: #888; font-weight: 700; margin-right: 4px; }
+        /* 슬림 푸터 전용 스타일 */
+        .footer-info { font-size: 11px; color: #555; line-height: 1.8; letter-spacing: -0.02em; }
+        .footer-label { color: #777; font-weight: 700; margin-right: 4px; }
+        
+        #particle-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
     </style>
 </head>
 <body onload="initAll()">
@@ -31,34 +36,31 @@
 
     <div class="ticker-wrap">
         <div class="ticker-move">
-            [실시간 마켓] 사이버 보안 시스템 글로벌 등급 'AAA' 달성 ... AI 퀀트 엔진 실시간 수익률 215.4% 돌파 ... 반도체 클러스터 투자 확정 ... 
+            [실시간 마켓] 사이버 보안 시스템 글로벌 등급 'AAA' 획득 ... 가보자고 AI 퀀트 엔진 실시간 수익률 215.4% 돌파 ... 차세대 반도체 클러스터 투자 확정 ... K-콘텐츠 글로벌 투자액 사상 최대치 경신 ... 
         </div>
     </div>
 
-    <nav class="p-6 flex justify-between items-center border-b border-white/5 sticky top-0 z-50 bg-black/90 backdrop-blur-md">
-        <div class="flex items-center gap-4">
-            <div class="bg-yellow-400 w-12 h-12 flex items-center justify-center rounded-xl font-black text-black text-2xl">가</div>
-            <div>
-                <span class="brand-kor block leading-none">가보자고</span>
-                <span class="brand-eng uppercase">GABOJAGO</span>
-            </div>
+    <nav class="p-8 flex justify-between items-center border-b border-white/5 sticky top-0 z-50 bg-black/90 backdrop-blur-md">
+        <div class="flex flex-col">
+            <span class="brand-kor uppercase">가보자고</span>
+            <span class="brand-eng uppercase tracking-[0.25em]">GABOJAGO</span>
         </div>
         <div class="flex items-center gap-8">
             <div class="text-right border-r border-white/10 pr-8 hidden md:block">
-                <p class="text-[11px] text-gray-500 font-bold mb-1">내 보유 자산</p>
+                <p class="text-[11px] text-gray-500 font-bold mb-1 uppercase">내 보유 자산</p>
                 <p class="text-xl font-black text-white italic"><span id="my-wallet" class="text-yellow-400">500,000,000</span> 원</p>
             </div>
-            <a href="mailto:support@gabojago.io" class="btn-gold px-6 py-2 text-sm">파트너십 문의</a>
+            <a href="mailto:support@gabojago.io" class="btn-gold px-6 py-2 text-sm uppercase">파트너십 문의</a>
         </div>
     </nav>
 
     <main class="px-8 py-20 max-w-[1400px] mx-auto">
         <div class="mb-20">
-            <p class="text-yellow-400 font-bold tracking-[0.3em] text-[10px] mb-4 uppercase italic">Live Market Intelligence</p>
+            <p class="text-yellow-400 font-bold tracking-[0.3em] text-[10px] mb-4 uppercase italic">Security & Strategy</p>
             <h2 class="text-5xl md:text-6xl font-black tracking-tighter leading-tight mb-4">
-                투자 엔진 가동 시작 <br/> <span class="text-white/20 font-light text-2xl italic uppercase tracking-widest">Investment Dashboard</span>
+                투자 엔진 가동 시작 <br/> <span class="text-white/20 font-light text-2xl italic tracking-widest uppercase">Investment Dashboard</span>
             </h2>
-            <p class="text-gray-400 text-lg font-light">보안과 안전을 최우선으로 하는 12대 핵심 자산 포트폴리오</p>
+            <p class="text-gray-400 text-lg font-light">보안과 안전을 최우선으로 하는 12대 핵심 자산 리스트</p>
         </div>
 
         <div id="project-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-32"></div>
@@ -66,28 +68,28 @@
         <section class="mt-40 border-t border-white/10 pt-20">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
                 <div>
-                    <h3 class="text-4xl font-black text-yellow-400 mb-2 tracking-tighter">파트너 제안서</h3>
-                    <h4 class="text-lg font-light text-white/30 mb-10 uppercase tracking-widest italic">PROPOSAL SYSTEM</h4>
+                    <h3 class="text-4xl font-black text-yellow-400 mb-2 tracking-tighter italic">파트너 제안서 제출</h3>
+                    <h4 class="text-lg font-light text-white/30 mb-10 uppercase tracking-widest italic">Partner Proposal System</h4>
                     <div class="space-y-4">
-                        <select id="board-type" class="input-dark text-yellow-400 font-bold">
+                        <select id="board-type" class="bg-white/5 border border-white/10 rounded-xl p-4 w-full text-yellow-400 font-bold outline-none">
                             <option value="투자희망">💰 투자하고 싶습니다</option>
                             <option value="투자유치">🚀 투자를 받고 싶습니다</option>
                         </select>
-                        <input type="text" id="board-name" class="input-dark" placeholder="성함 또는 기업명">
-                        <textarea id="board-content" class="input-dark h-40" placeholder="제안 내용을 상세히 입력하세요."></textarea>
-                        <button onclick="addPost()" class="btn-gold w-full py-5 text-xl">제안서 제출하기</button>
+                        <input type="text" id="board-name" class="bg-white/5 border border-white/10 rounded-xl p-4 w-full text-white outline-none" placeholder="성함 또는 기업명">
+                        <textarea id="board-content" class="bg-white/5 border border-white/10 rounded-xl p-4 w-full text-white h-40 outline-none" placeholder="제안 내용을 상세히 입력하세요."></textarea>
+                        <button onclick="addPost()" class="btn-gold w-full py-5 text-xl uppercase">제안서 제출하기</button>
                     </div>
                 </div>
                 <div>
                     <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
-                        <span class="w-2 h-2 bg-red-500 animate-pulse rounded-full"></span>
+                        <span class="w-2 h-2 bg-red-500 animate-pulse rounded-full shadow-[0_0_10px_red]"></span>
                         실시간 협업 네트워크
                     </h3>
-                    <div id="post-list" class="space-y-4 max-h-[520px] overflow-y-auto pr-4">
+                    <div id="post-list" class="space-y-4 max-h-[520px] overflow-y-auto pr-4 custom-scroll">
                         <div class="glass-card p-6 rounded-2xl border-l-4 border-l-yellow-400">
                             <p class="text-[11px] text-yellow-400 font-bold mb-2 uppercase">투자희망</p>
                             <p class="text-white text-sm leading-relaxed mb-3">사이버 보안 및 인프라 보호 기술에 전략적 투자를 희망합니다.</p>
-                            <p class="text-[10px] text-gray-500 font-bold">작성자: Kim VC | 방금 전</p>
+                            <p class="text-[10px] text-gray-500 font-bold uppercase">작성자: Kim VC | 방금 전</p>
                         </div>
                     </div>
                 </div>
@@ -97,35 +99,30 @@
 
     <footer class="mt-40 border-t border-white/5 py-12 px-8 bg-black">
         <div class="max-w-[1400px] mx-auto">
-            <div class="mb-6">
-                <span class="text-xl font-black tracking-tighter text-white">가보자고</span>
-                <span class="text-[10px] text-gray-600 ml-2 uppercase tracking-widest">GABOJAGO</span>
+            <div class="mb-5">
+                <span class="text-xl font-black text-white">가보자고</span>
+                <span class="text-[9px] text-gray-700 ml-2 uppercase tracking-widest">GABOJAGO</span>
             </div>
             
-            <div class="footer-info flex flex-wrap gap-x-8 gap-y-2">
+            <div class="footer-info flex flex-wrap gap-x-8 gap-y-1">
                 <p><span class="footer-label">사무실 위치</span>경기도 고양시 일산동구 무궁화로 31-16 7층</p>
                 <p><span class="footer-label">대표 전화</span>031-815-1666</p>
-                <p><span class="footer-label">공식 담당자</span>강성필 팀장 (Admin)</p>
-                <p><span class="footer-label">이메일</span>support@gabojago.io</p>
+                <p><span class="footer-label">홈페이지 관리자</span>강성필 팀장 (Admin)</p>
+                <p><span class="footer-label">공식 문의</span>support@gabojago.io</p>
             </div>
 
-            <div class="mt-8 pt-8 border-t border-white/5 flex justify-between items-end">
-                <div>
-                    <p class="text-[10px] text-gray-700 font-light mb-1 uppercase tracking-[0.2em]">© 2026 가보자고. ALL RIGHTS RESERVED.</p>
-                    <p class="text-[9px] text-gray-800 italic">본 사이트는 데모용 투자 시뮬레이션 인터페이스이며 실물 거래를 지원하지 않습니다.</p>
-                </div>
-                <div class="flex gap-4 text-[10px] text-gray-600 font-bold">
-                    <a href="#" class="hover:text-yellow-400">이용약관</a>
-                    <a href="#" class="hover:text-yellow-400">개인정보처리방침</a>
-                </div>
+            <div class="mt-8 pt-8 border-t border-white/5">
+                <p class="text-[9px] text-gray-800 uppercase tracking-[0.5em]">© 2026 GABOJAGO. ALL RIGHTS RESERVED.</p>
             </div>
         </div>
     </footer>
 
     <script>
         let myBalance = 500000000;
+        
+        // 🚩 사이버 보안을 0번에 확실하게 배치
         const projects = [
-            { name: "사이버 보안 엔진", sub: "Cyber Security", fund: 4200000000, tag: "Top Security" },
+            { name: "사이버 보안 엔진", sub: "Cyber Security System", fund: 4200000000, tag: "보안 1순위" },
             { name: "인공지능 퀀트", sub: "AI Quant Engine", fund: 7800000000, tag: "Hottest" },
             { name: "반도체 클러스터", sub: "Semi-Conductor", fund: 8900000000, tag: "Essential" },
             { name: "디지털 헬스케어", sub: "Digital Health", fund: 5200000000, tag: "Bio" },
@@ -138,17 +135,21 @@
             { name: "수소 에너지", sub: "Hydrogen Grid", fund: 1500000000, tag: "Green" },
             { name: "메타버스 인프라", sub: "Metaverse Infra", fund: 980000000, tag: "Web3" }
         ];
-        function initAll() { renderProjects(); initParticles(); updateWalletUI(); startLiveUpdates(); }
+
+        function initAll() { renderProjects(); initParticles(); updateWalletUI(); }
+        
         function renderProjects() {
             const container = document.getElementById('project-container');
             container.innerHTML = projects.map((p, i) => `
-                <div class="glass-card p-8 rounded-[2.5rem] ${i === 0 ? 'border-yellow-400/40' : ''}">
+                <div class="glass-card p-8 rounded-[2.5rem] ${i === 0 ? 'border-yellow-400/40 shadow-lg shadow-yellow-400/5' : ''}">
                     <span class="px-2 py-1 ${i === 0 ? 'bg-yellow-400 text-black' : 'bg-yellow-400/10 text-yellow-400'} text-[9px] font-black uppercase rounded">${p.tag}</span>
                     <h4 class="text-xl font-black mt-4 mb-8">${p.name}<br><span class="text-white/20 font-light text-xs italic uppercase tracking-wider">${p.sub}</span></h4>
                     <button class="w-full py-3 bg-white/5 border border-white/10 rounded-xl text-[11px] font-bold hover:bg-yellow-400 hover:text-black transition-all">투자하기</button>
                 </div>`).join('');
         }
+
         function updateWalletUI() { document.getElementById('my-wallet').innerText = myBalance.toLocaleString(); }
+        
         function addPost() {
             const type = document.getElementById('board-type').value;
             const name = document.getElementById('board-name').value;
@@ -157,21 +158,12 @@
             const list = document.getElementById('post-list');
             const newPost = document.createElement('div');
             newPost.className = "glass-card p-6 rounded-2xl border-l-4 border-l-yellow-400 animate-pulse";
-            newPost.innerHTML = `<p class="text-[11px] text-yellow-400 font-bold mb-2 uppercase">${type}</p><p class="text-white text-sm mb-3">${content}</p><p class="text-[10px] text-gray-500 font-bold">작성자: ${name} | 방금 전</p>`;
+            newPost.innerHTML = `<p class="text-[11px] text-yellow-400 font-bold mb-2 uppercase">${type}</p><p class="text-white text-sm mb-3">${content}</p><p class="text-[10px] text-gray-500 font-bold uppercase">작성자: ${name} | 방금 전</p>`;
             list.prepend(newPost);
             document.getElementById('board-name').value = ""; document.getElementById('board-content').value = "";
             alert('등록되었습니다.');
         }
-        function startLiveUpdates() {
-            setInterval(() => {
-                const amts = document.querySelectorAll('.amt');
-                amts.forEach(el => {
-                    let val = parseInt(el.getAttribute('data-val'));
-                    val += Math.floor(Math.random() * 90000);
-                    el.setAttribute('data-val', val); el.innerText = val.toLocaleString();
-                });
-            }, 3000);
-        }
+
         function initParticles() {
             const canvas = document.getElementById('particle-canvas'); const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
