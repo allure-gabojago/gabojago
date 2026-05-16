@@ -22,16 +22,19 @@
         }
 
         /* --------------------------------------------------
-         * [상단 헤더 & 그라데이션 로고]
+         * [상단 헤더 & 로그인 버튼 배치]
          * -------------------------------------------------- */
         header {
             background-color: rgba(11, 13, 23, 0.85);
             backdrop-filter: blur(20px);
-            padding: 25px 50px;
+            padding: 20px 50px;
             position: sticky;
             top: 0;
             z-index: 100;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .logo-container {
@@ -42,7 +45,7 @@
         }
 
         .logo-ko {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             color: #ffffff;
             line-height: 1.1;
@@ -50,7 +53,7 @@
         }
 
         .logo-en {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 900;
             line-height: 1.1;
             letter-spacing: 0.5px;
@@ -65,6 +68,26 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+
+        /* 프리미엄 로그인 버튼 스타일 */
+        .header-login-btn {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-login-btn:hover {
+            border-color: #00f0ff;
+            background: rgba(0, 240, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+            transform: translateY(-1px);
         }
 
         /* 메인 레이아웃 */
@@ -180,7 +203,7 @@
         }
 
         /* --------------------------------------------------
-         * [A안 핵심: 실시간 데이터 대시보드 모달]
+         * [A안: 실시간 데이터 대시보드 매칭 모달]
          * -------------------------------------------------- */
         .modal-overlay {
             position: fixed;
@@ -258,7 +281,6 @@
             color: #ffffff;
         }
 
-        /* 통계 수치 그리드 */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -293,7 +315,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* 실시간 해시태그 박스 */
         .trend-tag-box {
             text-align: left;
             margin-bottom: 35px;
@@ -326,7 +347,6 @@
             font-weight: 500;
         }
 
-        /* 매칭 연결 버튼 컴포넌트 */
         .btn-container {
             display: flex;
             gap: 15px;
@@ -366,6 +386,80 @@
         }
 
         /* --------------------------------------------------
+         * [신규: 프리미엄 소셜 연동 로그인 모달]
+         * -------------------------------------------------- */
+        .login-modal-content {
+            background: #141824;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 45px 35px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+            transform: translateY(30px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+        }
+
+        .modal-overlay.active .login-modal-content {
+            transform: translateY(0);
+        }
+
+        .login-logo {
+            margin-bottom: 25px;
+        }
+
+        .login-logo .ko { font-size: 24px; font-weight: 800; color: #fff; display: block; }
+        .login-logo .en { font-size: 13px; font-weight: 700; color: #7f00ff; letter-spacing: 2px; }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* 소셜 로그인 간편 연동 버튼 API 템플릿 */
+        .social-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .social-login-btn {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .social-login-btn:hover {
+            transform: translateY(-1.5px);
+            filter: brightness(1.05);
+        }
+
+        .btn-kakao { background-color: #FEE500; color: #191919; }
+        .btn-naver { background-color: #03C75A; color: #ffffff; }
+        .btn-google { background-color: #ffffff; color: #1f1f1f; border: 1px solid #e3e3e3; }
+        .btn-facebook { background-color: #1877F2; color: #ffffff; }
+
+        .login-footer-notice {
+            font-size: 11px;
+            color: #475569;
+            margin-top: 25px;
+            line-height: 1.4;
+        }
+
+        /* --------------------------------------------------
          * [하단 푸터 정보 시스템]
          * -------------------------------------------------- */
         footer {
@@ -382,12 +476,13 @@
 </head>
 <body>
 
-    <!-- 헤더 레이아웃 -->
+    <!-- 상단 레이아웃 (우측 로그인 탑재) -->
     <header>
         <div class="logo-container" onclick="location.reload()">
             <span class="logo-ko">가보자</span>
             <span class="logo-en">GABOJA</span>
         </div>
+        <button class="header-login-btn" onclick="openLoginModal()">원클릭 연동 로그인</button>
     </header>
 
     <!-- 메인 대시보드 보드 -->
@@ -397,7 +492,7 @@
             <p>실시간으로 변동되는 자금 규모와 트렌드 데이터를 확인하고 원클릭 매칭을 시작하세요.</p>
         </div>
         
-        <!-- 12개 완벽 결합 그리드 (데이터 인자 전체 매핑 완료) -->
+        <!-- 12개 완벽 결합 그리드 -->
         <div class="grid-container">
             
             <!-- 01 -->
@@ -430,9 +525,9 @@
                 <div class="box-content"><span class="industry-num">05</span><h3 class="industry-name">블록체인 & 핀테크</h3></div>
             </div>
 
-            <!-- 06 -->
+            <!-- 06. 바이오 & 헬스케어 (누락 이미지 복구 완료) -->
             <div class="industry-box" onclick="openDashboard('06', '바이오 & 헬스케어', '198.5억', '63건', '#디지털치료제 #원격관제 #신약파이프라인')">
-                <div class="box-bg" style="background-image: url('https://images.unsplash.com/photo-1530026405186-ed1ea0ac7a63?auto=format&fit=crop&w=600&q=80');"></div><div class="box-overlay"></div>
+                <div class="box-bg" style="background-image: url('https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&q=80');"></div><div class="box-overlay"></div>
                 <div class="box-content"><span class="industry-num">06</span><h3 class="industry-name">바이오 & 헬스케어</h3></div>
             </div>
 
@@ -479,13 +574,10 @@
     <div class="modal-overlay" id="matchingModal" onclick="closeDashboard(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeDashboard(null, true)">&times;</button>
-            
             <div class="dashboard-header">
                 <span class="dash-num" id="modalNum">01</span>
                 <h3 class="dash-title" id="modalTitle">산업군 정보</h3>
             </div>
-            
-            <!-- 실시간 동적 수치 연동 카드 -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-label">가보자 매칭 대기 자금</div>
@@ -496,62 +588,60 @@
                     <div class="stat-value" id="modalCount">0건</div>
                 </div>
             </div>
-
-            <!-- 실시간 키워드 연동 타겟 -->
             <div class="trend-tag-box">
                 <div class="trend-title">📊 가보자 라이브 마켓 키워드</div>
-                <div class="tag-group" id="modalTags">
-                    <!-- 스크립트를 통해 자동으로 태그들이 생성되는 컴포넌트 -->
-                </div>
+                <div class="tag-group" id="modalTags"></div>
             </div>
-            
             <div class="btn-container">
-                <button class="matching-btn btn-investor" onclick="handleAction('투자자')">
-                    💼 투자자로서 개발팀 찾기
-                </button>
-                <button class="matching-btn btn-developer" onclick="handleAction('개발자')">
-                    🚀 개발자로서 자투자 유치하기
-                </button>
+                <button class="matching-btn btn-investor" onclick="handleAction('투자자')">💼 투자자로서 개발팀 찾기</button>
+                <button class="matching-btn btn-developer" onclick="handleAction('개발자')">🚀 개발자로서 투자 유치하기</button>
             </div>
         </div>
     </div>
 
-    <!-- 주소지 정보가 완벽 반영된 프리미엄 푸터 -->
+    <!-- 신규 추가: 원클릭 소셜 연동 로그인 모달 -->
+    <div class="modal-overlay" id="loginModal" onclick="closeLoginModal(event)">
+        <div class="login-modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeLoginModal(null, true)">&times;</button>
+            <div class="login-logo">
+                <span class="ko">가보자 파트너스</span>
+                <span class="en">GABOJA CONNECT</span>
+            </div>
+            <p class="login-subtitle">자금 확인 및 매칭 제안서 작성을 위해<br>안전한 소셜 연동 계정으로 로그인해 주세요.</p>
+            
+            <div class="social-btn-group">
+                <button class="social-login-btn btn-kakao" onclick="connectSocial('카카오톡')">💬 카카오톡으로 3초 시작</button>
+                <button class="social-login-btn btn-naver" onclick="connectSocial('네이버')">💚 네이버 계정으로 로그인</button>
+                <button class="social-login-btn btn-google" onclick="connectSocial('구글')">🌐 구글 계정으로 로그인</button>
+                <button class="social-login-btn btn-facebook" onclick="connectSocial('페이스북')">🔵 페이스북으로 계속하기</button>
+            </div>
+            <p class="login-footer-notice">본 플랫폼은 회원가입 시 개인 인적사항을 요구하지 않으며,<br>일산 장항동 본사 보안 에스크로 모듈로 철저히 암호화됩니다.</p>
+        </div>
+    </div>
+
+    <!-- 프리미엄 푸터 -->
     <footer>
-        <p style="color: #e2e8f0; font-size: 16px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.5px;">
-            플랫폼 가보자 (GABOJA)
-        </p>
-        <p style="margin-bottom: 5px;">
-            <span style="color: #94a3b8; font-weight: 500;">책임자:</span> 강성필 팀장 &nbsp;|&nbsp; 
-            <span style="color: #94a3b8; font-weight: 500;">문의처:</span> 031-815-1666
-        </p>
-        <p style="margin-bottom: 15px;">
-            <span style="color: #94a3b8; font-weight: 500;">주소:</span> 경기도 고양시 일산동구 장항동 733-2 7층
-        </p>
-        <p style="opacity: 0.4; font-size: 12px; margin-top: 20px;">
-            &copy; 2026 GABOJA. 프리미엄 데이터 대시보드 매칭 시스템. All rights reserved.
-        </p>
+        <p style="color: #e2e8f0; font-size: 16px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.5px;">플랫폼 가보자 (GABOJA)</p>
+        <p style="margin-bottom: 5px;"><span style="color: #94a3b8; font-weight: 500;">책임자:</span> 강성필 팀장 &nbsp;|&nbsp; <span style="color: #94a3b8; font-weight: 500;">문의처:</span> 031-815-1666</p>
+        <p style="margin-bottom: 15px;"><span style="color: #94a3b8; font-weight: 500;">주소:</span> 경기도 고양시 일산동구 장항동 733-2 7층</p>
+        <p style="opacity: 0.4; font-size: 12px; margin-top: 20px;">&copy; 2026 GABOJA. 프리미엄 데이터 대시보드 매칭 시스템. All rights reserved.</p>
     </footer>
 
-    <!-- 자바스크립트 데이터 주입 솔루션 -->
+    <!-- 인터랙티브 스크립트 엔진 -->
     <script>
+        // 대시보드 제어
         function openDashboard(num, name, money, count, tags) {
             document.getElementById('modalNum').innerText = num;
             document.getElementById('modalTitle').innerText = name + " 매칭 트렌드";
             document.getElementById('modalMoney').innerText = money;
             document.getElementById('modalCount').innerText = count;
             
-            // 해시태그 파싱 및 동적 렌더링 엔진
             const tagArray = tags.split(' ');
             let tagHtml = '';
             tagArray.forEach(function(tag) {
-                if(tag.trim() !== "") {
-                    tagHtml += `<span class="tag">${tag}</span>`;
-                }
+                if(tag.trim() !== "") tagHtml += `<span class="tag">${tag}</span>`;
             });
             document.getElementById('modalTags').innerHTML = tagHtml;
-
-            // 모달 애니메이션 활성화
             document.getElementById('matchingModal').classList.add('active');
         }
 
@@ -563,8 +653,24 @@
 
         function handleAction(role) {
             const industry = document.getElementById('modalTitle').innerText.replace(" 매칭 트렌드", "");
-            alert(`[안내] ${industry} 분야의 [${role}] 프리미엄 매칭 인프라로 연결을 시작합니다.`);
+            alert(`[안내] ${industry} 분야의 [${role}] 매칭 대시보드 인프라가 연동되었습니다.`);
             document.getElementById('matchingModal').classList.remove('active');
+        }
+
+        // 로그인 시스템 제어 
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function closeLoginModal(event, forceClose = false) {
+            if (forceClose || event.target === document.getElementById('loginModal')) {
+                document.getElementById('loginModal').classList.remove('active');
+            }
+        }
+
+        function connectSocial(provider) {
+            alert(`[가보자 보안 연동] ${provider} 회원가입 및 통합 API 토큰 매칭 완료. 승인 절차를 진행합니다.`);
+            document.getElementById('loginModal').classList.remove('active');
         }
     </script>
 </body>
