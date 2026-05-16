@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가보자 (GABOJA) | 프리미엄 투자 & 개발 매칭 플랫폼</title>
+    <title>GABOJA | Premium Investment & Development Matching Platform</title>
     <style>
         /* 프리미엄 구글 폰트 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
@@ -22,7 +22,7 @@
         }
 
         /* --------------------------------------------------
-         * [상단 헤더 & 로그인 버튼 배치]
+         * [상단 헤더 & 고정 영어 그라데이션 로고]
          * -------------------------------------------------- */
         header {
             background-color: rgba(11, 13, 23, 0.85);
@@ -44,19 +44,11 @@
             cursor: pointer;
         }
 
-        .logo-ko {
-            font-size: 26px;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.1;
-            letter-spacing: -1px;
-        }
-
-        .logo-en {
-            font-size: 26px;
+        .logo-en-main {
+            font-size: 30px;
             font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: 0.5px;
+            line-height: 1.0;
+            letter-spacing: -0.5px;
             background: linear-gradient(45deg, #ff007f, #7f00ff, #00f0ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -203,7 +195,7 @@
         }
 
         /* --------------------------------------------------
-         * [A안: 실시간 데이터 대시보드 매칭 모달]
+         * [실시간 데이터 대시보드 매칭 모달]
          * -------------------------------------------------- */
         .modal-overlay {
             position: fixed;
@@ -386,15 +378,15 @@
         }
 
         /* --------------------------------------------------
-         * [신규: 프리미엄 소셜 연동 로그인 모달]
+         * [개편: 프리미엄 자체 회원가입 상단 고정 통합 로그인 모달]
          * -------------------------------------------------- */
         .login-modal-content {
             background: #141824;
             border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 45px 35px;
+            padding: 40px 30px;
             border-radius: 24px;
             width: 90%;
-            max-width: 420px;
+            max-width: 440px;
             text-align: center;
             position: relative;
             transform: translateY(30px);
@@ -402,43 +394,123 @@
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
         }
 
-        .modal-overlay.active .login-modal-content {
-            transform: translateY(0);
-        }
-
-        .login-logo {
+        .login-modal-logo-area {
             margin-bottom: 25px;
         }
 
-        .login-logo .ko { font-size: 24px; font-weight: 800; color: #fff; display: block; }
-        .login-logo .en { font-size: 13px; font-weight: 700; color: #7f00ff; letter-spacing: 2px; }
-
-        .login-subtitle {
-            font-size: 14px;
-            color: #94a3b8;
-            margin-bottom: 30px;
-            line-height: 1.5;
+        .login-modal-logo-area .en {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff007f, #7f00ff, #00f0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
         }
 
-        /* 소셜 로그인 간편 연동 버튼 API 템플릿 */
-        .social-btn-group {
+        /* 1단계: 자체 회원가입 폼 (최상단 배치) */
+        .custom-register-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .register-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .register-title::before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 14px;
+            background: #00f0ff;
+            border-radius: 2px;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #0b0d17;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: #7f00ff;
+        }
+
+        .btn-submit-register {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(90deg, #7f00ff, #ff007f);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-submit-register:hover {
+            opacity: 0.9;
+        }
+
+        /* 구분선 시스템 */
+        .login-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #475569;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .login-divider::before, .login-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .login-divider:not(:empty)::before { margin-right: .5em; }
+        .login-divider:not(:empty)::after { margin-left: .5em; }
+
+        /* 2단계: 소셜 연동 버튼 그룹 (하단 배치) */
+        .social-btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
 
         .social-login-btn {
-            width: 100%;
-            padding: 14px 20px;
-            border-radius: 12px;
-            font-size: 14px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
             font-weight: 700;
             border: none;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.2s ease;
         }
 
@@ -476,11 +548,10 @@
 </head>
 <body>
 
-    <!-- 상단 레이아웃 (우측 로그인 탑재) -->
+    <!-- 상단 레이아웃 (영어 고정 로고 버전) -->
     <header>
         <div class="logo-container" onclick="location.reload()">
-            <span class="logo-ko">가보자</span>
-            <span class="logo-en">GABOJA</span>
+            <span class="logo-en-main">GABOJA CONNECT</span>
         </div>
         <button class="header-login-btn" onclick="openLoginModal()">원클릭 연동 로그인</button>
     </header>
@@ -525,7 +596,7 @@
                 <div class="box-content"><span class="industry-num">05</span><h3 class="industry-name">블록체인 & 핀테크</h3></div>
             </div>
 
-            <!-- 06. 바이오 & 헬스케어 (누락 이미지 복구 완료) -->
+            <!-- 06. 바이오 & 헬스케어 -->
             <div class="industry-box" onclick="openDashboard('06', '바이오 & 헬스케어', '198.5억', '63건', '#디지털치료제 #원격관제 #신약파이프라인')">
                 <div class="box-bg" style="background-image: url('https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&q=80');"></div><div class="box-overlay"></div>
                 <div class="box-content"><span class="industry-num">06</span><h3 class="industry-name">바이오 & 헬스케어</h3></div>
@@ -580,7 +651,7 @@
             </div>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-label">가보자 매칭 대기 자금</div>
+                    <div class="stat-label">GABOJA 매칭 대기 자금</div>
                     <div class="stat-value highlight" id="modalMoney">0억</div>
                 </div>
                 <div class="stat-card">
@@ -589,7 +660,7 @@
                 </div>
             </div>
             <div class="trend-tag-box">
-                <div class="trend-title">📊 가보자 라이브 마켓 키워드</div>
+                <div class="trend-title">📊 GABOJA LIVE MARKET KEYWORDS</div>
                 <div class="tag-group" id="modalTags"></div>
             </div>
             <div class="btn-container">
@@ -599,32 +670,49 @@
         </div>
     </div>
 
-    <!-- 신규 추가: 원클릭 소셜 연동 로그인 모달 -->
+    <!-- 개편된 고정 영어 로고 및 자체 가입창 최상단 버전 모달 -->
     <div class="modal-overlay" id="loginModal" onclick="closeLoginModal(event)">
         <div class="login-modal-content" onclick="event.stopPropagation()">
             <button class="close-btn" onclick="closeLoginModal(null, true)">&times;</button>
-            <div class="login-logo">
-                <span class="ko">가보자 파트너스</span>
+            
+            <div class="login-modal-logo-area">
                 <span class="en">GABOJA CONNECT</span>
             </div>
-            <p class="login-subtitle">자금 확인 및 매칭 제안서 작성을 위해<br>안전한 소셜 연동 계정으로 로그인해 주세요.</p>
-            
-            <div class="social-btn-group">
-                <button class="social-login-btn btn-kakao" onclick="connectSocial('카카오톡')">💬 카카오톡으로 3초 시작</button>
-                <button class="social-login-btn btn-naver" onclick="connectSocial('네이버')">💚 네이버 계정으로 로그인</button>
-                <button class="social-login-btn btn-google" onclick="connectSocial('구글')">🌐 구글 계정으로 로그인</button>
-                <button class="social-login-btn btn-facebook" onclick="connectSocial('페이스북')">🔵 페이스북으로 계속하기</button>
+
+            <!-- [최상단] 플랫폼 자체 프리미엄 회원가입 폼 -->
+            <div class="custom-register-box">
+                <div class="register-title">GABOJA 이메일 계정 가입 / 로그인</div>
+                <form onsubmit="handleCustomRegister(event)">
+                    <div class="input-group">
+                        <input type="email" id="customEmail" placeholder="이메일 주소 입력" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="customPw" placeholder="비밀번호 설정 (8자 이상)" required>
+                    </div>
+                    <button type="submit" class="btn-submit-register">플랫폼 계정으로 시작하기</button>
+                </form>
             </div>
-            <p class="login-footer-notice">본 플랫폼은 회원가입 시 개인 인적사항을 요구하지 않으며,<br>일산 장항동 본사 보안 에스크로 모듈로 철저히 암호화됩니다.</p>
+
+            <div class="login-divider">또는 간편 소셜 연동 계정</div>
+            
+            <!-- [하단] 간편 소셜 로그인 인프라 -->
+            <div class="social-btn-grid">
+                <button class="social-login-btn btn-kakao" onclick="connectSocial('카카오톡')">카카오 연동</button>
+                <button class="social-login-btn btn-naver" onclick="connectSocial('네이버')">네이버 연동</button>
+                <button class="social-login-btn btn-google" onclick="connectSocial('구글')">Google 로그인</button>
+                <button class="social-login-btn btn-facebook" onclick="connectSocial('페이스북')">Facebook</button>
+            </div>
+            
+            <p class="login-footer-notice">본 플랫폼은 가입 시 무분별한 개인정보를 요구하지 않으며,<br>일산 장항동 본사의 엔터프라이즈 보안 시스템으로 안전하게 보호됩니다.</p>
         </div>
     </div>
 
     <!-- 프리미엄 푸터 -->
     <footer>
-        <p style="color: #e2e8f0; font-size: 16px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.5px;">플랫폼 가보자 (GABOJA)</p>
+        <p style="color: #e2e8f0; font-size: 16px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.5px;">GABOJA CONNECT</p>
         <p style="margin-bottom: 5px;"><span style="color: #94a3b8; font-weight: 500;">책임자:</span> 강성필 팀장 &nbsp;|&nbsp; <span style="color: #94a3b8; font-weight: 500;">문의처:</span> 031-815-1666</p>
         <p style="margin-bottom: 15px;"><span style="color: #94a3b8; font-weight: 500;">주소:</span> 경기도 고양시 일산동구 장항동 733-2 7층</p>
-        <p style="opacity: 0.4; font-size: 12px; margin-top: 20px;">&copy; 2026 GABOJA. 프리미엄 데이터 대시보드 매칭 시스템. All rights reserved.</p>
+        <p style="opacity: 0.4; font-size: 12px; margin-top: 20px;">&copy; 2026 GABOJA. Premium Data Dashboard Matching System. All rights reserved.</p>
     </footer>
 
     <!-- 인터랙티브 스크립트 엔진 -->
@@ -668,8 +756,16 @@
             }
         }
 
+        // 자체 회원가입 처리 핸들러
+        function handleCustomRegister(e) {
+            e.preventDefault();
+            const email = document.getElementById('customEmail').value;
+            alert(`[GABOJA CONNECT] 입력하신 플랫폼 계정(${email})으로 인증 허브 및 보안 패널이 정상 등록되었습니다.`);
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
         function connectSocial(provider) {
-            alert(`[가보자 보안 연동] ${provider} 회원가입 및 통합 API 토큰 매칭 완료. 승인 절차를 진행합니다.`);
+            alert(`[GABOJA CONNECT 보안 연동] ${provider} 회원가입 및 API 보안 토큰 연동이 성공적으로 처리되었습니다.`);
             document.getElementById('loginModal').classList.remove('active');
         }
     </script>
