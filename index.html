@@ -22,7 +22,7 @@
             -webkit-text-size-adjust: none;
         }
 
-        /* [헤더 영역: PC 기본 및 반응형 베이스] */
+        /* [헤더 영역] */
         header {
             background-color: rgba(11, 13, 23, 0.9);
             backdrop-filter: blur(20px);
@@ -142,7 +142,7 @@
             line-height: 1.6;
         }
 
-        /* 12개 업종 프리미엄 이미지 그리드 (PC 기본 4열 구조) */
+        /* 12개 업종 프리미엄 이미지 그리드 */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -369,6 +369,7 @@
 
         .modal-overlay.active .modal-content { transform: translateY(0); }
 
+        /* 매칭 신청 양식 */
         .matching-form-area {
             display: none;
             background: rgba(255, 255, 255, 0.02);
@@ -378,14 +379,18 @@
         }
 
         .form-title { font-size: 16px; font-weight: 700; color: #00f0ff; margin-bottom: 15px; }
-        .form-input-box { margin-bottom: 12px; }
-        .form-input-box label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 6px; }
+        .form-input-box { margin-bottom: 15px; }
+        .form-input-box label { display: block; font-size: 13px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
         .form-input-box input, .form-input-box textarea {
-            width: 100%; padding: 12px; background: #0b0d17;
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+            width: 100%; padding: 14px; background: #0b0d17;
+            border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
             color: #fff; font-size: 13px; outline: none;
+            transition: border-color 0.2s;
         }
-        .form-input-box textarea { resize: none; height: 70px; }
+        .form-input-box input:focus, .form-input-box textarea:focus {
+            border-color: #00f0ff;
+        }
+        .form-input-box textarea { resize: none; height: 80px; }
         .btn-submit-match {
             width: 100%; padding: 14px; background: #00f0ff; color: #0b0d17;
             border: none; border-radius: 8px; font-size: 14px; font-weight: 700;
@@ -455,11 +460,7 @@
 
         footer { background-color: #07090f; color: #64748b; padding: 60px 40px; text-align: center; font-size: 14px; border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 80px; }
 
-        /* ==========================================================================
-           📱 [핵심 추가] 모바일 & 태블릿 완벽 대응 반응형 미디어 쿼리 (Media Queries)
-           ========================================================================== */
-        
-        /* 1. 태블릿 및 중소형 화면 노트북 최적화 (Max-width: 1024px) */
+        /* 반응형 모바일 미디어 쿼리 */
         @media screen and (max-width: 1024px) {
             header { padding: 15px 30px; }
             .grid-container { grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -467,10 +468,9 @@
             .hero-section h2 { font-size: 38px; }
         }
 
-        /* 2. 스마트폰 가로 모드 및 소형 태블릿 최적화 (Max-width: 768px) */
         @media screen and (max-width: 768px) {
             header { padding: 15px 20px; }
-            .nav-menu { display: none; } /* 공간 확보를 위해 모바일 내비 보류 또는 하단 이동 대체 */
+            .nav-menu { display: none; }
             .logo-en-main { font-size: 24px; }
             .header-login-btn { padding: 8px 16px; font-size: 13px; }
             
@@ -493,7 +493,6 @@
             .status-card { padding: 20px; }
             .status-card .num { font-size: 28px; }
 
-            /* 모달 모바일 최적화 */
             .modal-content { padding: 25px 20px; border-radius: 20px; }
             .dash-title { font-size: 20px; }
             .stat-value { font-size: 18px; }
@@ -501,10 +500,9 @@
             .matching-btn { padding: 14px; font-size: 14px; }
         }
 
-        /* 3. 초소형 구형 스마트폰 최적화 (Max-width: 480px) */
         @media screen and (max-width: 480px) {
             .hero-section h2 { font-size: 24px; line-height: 1.4; }
-            .grid-container { grid-template-columns: 1fr; gap: 15px; } /* 1열로 시원하게 배치 */
+            .grid-container { grid-template-columns: 1fr; gap: 15px; }
             .industry-box { height: 180px; }
             .logo-en-main { font-size: 22px; }
             .header-login-btn { font-size: 12px; padding: 6px 12px; }
@@ -537,7 +535,8 @@
         
         <!-- 12개 업종 그리드 -->
         <div class="grid-container">
-            <div class="industry-box" onclick="openDashboard('01', '보안 및 안전', '42.5억', '18건', '#물리보안 #AI관제 #양자암호키')">
+            <!-- [수정] 대표님 지시 사항: 마켓 키워드를 #보안 #안전 #사회안전망 데이터 포맷으로 수정 -->
+            <div class="industry-box" onclick="openDashboard('01', '보안 및 안전', '42.5억', '18건', '#보안 #안전 #사회안전망')">
                 <div class="box-bg" style="background-image: url('https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80');"></div><div class="box-overlay"></div>
                 <div class="box-content"><span class="industry-num">01</span><h3 class="industry-name">보안 및 안전</h3></div>
             </div>
@@ -707,12 +706,13 @@
                 <button class="matching-btn btn-developer" onclick="openMatchingForm('개발자')">🚀 개발자 제안 등록하기</button>
             </div>
 
+            <!-- 만원 단위 예시 기능 적용 폼 -->
             <div class="matching-form-area" id="matchingFormArea">
                 <div class="form-title" id="formTypeTitle">투자자 제안서 등록</div>
                 <form onsubmit="submitMatchingForm(event)">
                     <div class="form-input-box">
-                        <label id="formLabelScale">희망 투자/유치 자금 규모 (단위: 억원)</label>
-                        <input type="number" id="formScale" placeholder="숫자만 입력해 주세요" required>
+                        <label id="formLabelScale">희망 투자 자금 규모 (단위: 만원)</label>
+                        <input type="number" id="formScale" placeholder="금액 입력" required>
                     </div>
                     <div class="form-input-box">
                         <label>프로젝트 기간 또는 핵심 개발 타겟</label>
@@ -800,19 +800,33 @@
             document.getElementById('modalBtnGroup').style.display = 'none';
             document.getElementById('matchingFormArea').style.display = 'block';
             
+            const scaleInput = document.getElementById('formScale');
+            
             if(role === '투자자') {
                 document.getElementById('formTypeTitle').innerText = "💼 프리미엄 투자자 매칭 계약 청구서";
-                document.getElementById('formLabelScale').innerText = "희망 투자 집행 규모 (단위: 억원)";
+                document.getElementById('formLabelScale').innerText = "희망 투자 집행 규모 (단위: 만원)";
+                scaleInput.placeholder = "예시) 5,000만원 투자 희망 시 -> 5000 입력";
             } else {
                 document.getElementById('formTypeTitle').innerText = "🚀 전문 개발자 테크 인프라 제안서 등록";
-                document.getElementById('formLabelScale').innerText = "필요 자금 조달 규모 (단위: 억원)";
+                document.getElementById('formLabelScale').innerText = "필요 자금 조달 규모 (단위: 만원)";
+                scaleInput.placeholder = "예시) 1억 5,000만원 조달 필요 시 -> 15000 입력";
             }
         }
 
         function submitMatchingForm(e) {
             e.preventDefault();
             const scale = document.getElementById('formScale').value;
-            alert(`[GABOJA 허브 송신 완료] 총 ${scale}억 규모의 매칭 검증 데이터 패킷이 성공적으로 접수되었습니다. 일산 장항동 관제 센터에서 심사 후 연락드리겠습니다.`);
+            
+            let korText = "";
+            if (scale >= 10000) {
+                const uk = Math.floor(scale / 10000);
+                const man = scale % 10000;
+                korText = uk + "억 " + (man > 0 ? man + "만" : "") + "원";
+            } else {
+                korText = scale + "만 원";
+            }
+
+            alert(`[GABOJA 허브 송신 완료]\n신청 금액: 총 ${Number(scale).toLocaleString()}만 원 (${korText})\n\n정확한 규모의 매칭 데이터 패킷이 성공적으로 접수되었습니다.\n일산 장항동 관제 센터에서 심사 후 신속히 연락드리겠습니다.`);
             document.getElementById('matchingModal').classList.remove('active');
         }
 
