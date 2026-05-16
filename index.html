@@ -3,70 +3,397 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>매력-가보자고 | 투자자와 개발자의 혁신 매칭</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>가보자 (GABOJA) - 투자 및 개발 매칭 플랫폼</title>
     <style>
-        /* [기존 스타일 시트 모두 유지] */
-        :root { --primary-color: #007bff; --text-dark: #111; }
-        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; }
-        
-        /* 상단 네비 및 히어로 섹션 스타일 (기존 스타일) */
-        .hero { background: linear-gradient(135deg, #007bff, #00d4ff); color: white; padding: 100px 20px; text-align: center; }
-        
-        /* 12대 핵심 업종 섹션 (새로 업데이트된 박스형) */
-        .sector-section { padding: 100px 20px; background: #f8f9fa; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 60px; }
-        .sector-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
-        .sector-card { background: #fff; border: 1px solid #eee; border-radius: 20px; padding: 40px 20px; text-align: center; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .sector-card:hover { transform: translateY(-10px); border-color: #007bff; box-shadow: 0 15px 30px rgba(0,123,255,0.1); }
-        .sector-card i { font-size: 2.5rem; color: #007bff; margin-bottom: 20px; }
-        .sector-card.priority { border: 2px solid #007bff; background: #f0f7ff; }
-        
-        /* [기존의 다른 섹션 스타일들...] */
-        @media (max-width: 992px) { .sector-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 576px) { .sector-grid { grid-template-columns: 1fr; } }
+        /* 기본 스타일 리셋 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* --------------------------------------------------
+         * [헤더 및 로고] - 한글/영어 크기 일치 및 환상적인 그라데이션
+         * -------------------------------------------------- */
+        header {
+            background-color: #ffffff;
+            padding: 20px 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            cursor: pointer;
+        }
+
+        .logo-ko {
+            font-size: 28px;
+            font-weight: 800;
+            color: #111;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        /* 어제 제안한 환상적인 네온-사이버펑크 감성의 그라데이션 효과 */
+        .logo-en {
+            font-size: 28px; /* 한글 크기와 완벽하게 일치 */
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            background: linear-gradient(45deg, #ff007f, #7f00ff, #00f0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradientMove 4s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 메인 컨텐츠 영역 */
+        main {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        /* --------------------------------------------------
+         * [12개 업종 그리드 레이아웃] - 깔끔한 박스칸 배치
+         * -------------------------------------------------- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .industry-box {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border: 1px solid #eef0f3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 마우스 호버 시 입체감 있게 반응 */
+        .industry-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            border-color: #7f00ff;
+        }
+
+        .industry-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .industry-num {
+            font-size: 14px;
+            color: #7f00ff;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .industry-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        /* --------------------------------------------------
+         * [매칭 연결 팝업창 (모달)] - 클릭 시 나타나는 화면
+         * -------------------------------------------------- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-title-num {
+            color: #7f00ff;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .modal-desc {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        /* 투자자 / 개발자 선택 버튼 */
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .matching-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-investor {
+            background: #111111;
+            color: #ffffff;
+        }
+
+        .btn-investor:hover {
+            background: #333333;
+        }
+
+        .btn-developer {
+            background: linear-gradient(45deg, #7f00ff, #00f0ff);
+            color: #ffffff;
+        }
+
+        .btn-developer:hover {
+            opacity: 0.9;
+        }
+
+        /* 푸터 영역 */
+        footer {
+            background-color: #222;
+            color: #aaa;
+            padding: 40px;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 100px;
+        }
     </style>
 </head>
 <body>
 
-    <header class="hero">
-        <h1>가보자고(GABOJAGO)</h1>
-        <p>투자자의 자본과 개발자의 기술이 만나는 판도라의 상자</p>
+    <!-- 헤더 영역 (좌측 상단 로고 크기 일치 및 그라데이션) -->
+    <header>
+        <div class="logo-container" onclick="location.reload()">
+            <span class="logo-ko">가보자</span>
+            <span class="logo-en">GABOJA</span>
+        </div>
     </header>
 
-    <section class="intro container" style="padding: 60px 0; text-align: center;">
-        <h2>왜 가보자고인가?</h2>
-        <p>우리는 단순한 매칭을 넘어, 차트 분석과 시장의 흐름을 읽는 전문성을 제공합니다.</p>
-    </section>
-
-    <section class="sector-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>12대 핵심 매칭 분야</h2>
-                <p>보안부터 부동산까지, 전문 분야별 매칭 시스템</p>
+    <!-- 메인 콘텐츠 영역 -->
+    <main>
+        <h2 class="section-title">전문 업종별 파트너 매칭</h2>
+        
+        <!-- 12개 업종 박스칸 그리드 -->
+        <div class="grid-container">
+            <!-- 01번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('01', '보안 및 안전', '🛡️')">
+                <span class="industry-num">01</span>
+                <span class="industry-icon">🛡️</span>
+                <h3 class="industry-name">보안 및 안전</h3>
             </div>
-            <div class="sector-grid">
-                <div class="sector-card priority"><i class="fa-solid fa-shield-halved"></i><h3>01. 보안 및 안전</h3><p>지능형 재난 예방 및 기업 보안 솔루션</p></div>
-                <div class="sector-card"><i class="fa-solid fa-brain"></i><h3>02. AI / 로보틱스</h3><p>뉴럴 AI 엔진 및 프로세스 자동화</p></div>
-                <div class="sector-card"><i class="fa-solid fa-laptop-code"></i><h3>03. IT / 소프트웨어</h3><p>클라우드 및 엔터프라이즈 통합 솔루션</p></div>
-                <div class="sector-card"><i class="fa-solid fa-coins"></i><h3>04. 핀테크 / 금융</h3><p>디지털 자산 및 결제 시스템 혁신</p></div>
-                <div class="sector-card"><i class="fa-solid fa-microchip"></i><h3>05. 반도체 / HW</h3><p>차세대 시스템 반도체 및 하드웨어</p></div>
-                <div class="sector-card"><i class="fa-solid fa-dna"></i><h3>06. 바이오 / 의료</h3><p>정밀 진단 및 헬스케어 디바이스</p></div>
-                <div class="sector-card"><i class="fa-solid fa-leaf"></i><h3>07. 에너지 / 친환경</h3><p>신재생 에너지 및 탄소 중립 기술</p></div>
-                <div class="sector-card"><i class="fa-solid fa-cart-shopping"></i><h3>08. 이커머스 / 유통</h3><p>물류 자동화 및 데이터 큐레이션</p></div>
-                <div class="sector-card"><i class="fa-solid fa-car-side"></i><h3>09. 모빌리티</h3><p>자율주행 및 미래형 이동 수단</p></div>
-                <div class="sector-card"><i class="fa-solid fa-gamepad"></i><h3>10. 엔터 / 게임</h3><p>메타버스 및 실감형 콘텐츠 엔진</p></div>
-                <div class="sector-card"><i class="fa-solid fa-link"></i><h3>11. 블록체인 / Web3</h3><p>탈중앙 신원 증명 및 RWA 솔루션</p></div>
-                <div class="sector-card"><i class="fa-solid fa-building-user"></i><h3>12. 부동산 / 프롭테크</h3><p>자산 가치 분석 및 거래 자동화</p></div>
+            <!-- 02번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('02', '인공지능 AI 뉴럴 엔진', '🧠')">
+                <span class="industry-num">02</span>
+                <span class="industry-icon">🧠</span>
+                <h3 class="industry-name">인공지능 AI 뉴럴 엔진</h3>
+            </div>
+            <!-- 03번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('03', '지능형 프로세스 자동화', '🤖')">
+                <span class="industry-num">03</span>
+                <span class="industry-icon">🤖</span>
+                <h3 class="industry-name">지능형 자동화</h3>
+            </div>
+            <!-- 04번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('04', '블록체인 & 핀테크', '🪙')">
+                <span class="industry-num">04</span>
+                <span class="industry-icon">🪙</span>
+                <h3 class="industry-name">블록체인 & 핀테크</h3>
+            </div>
+            <!-- 05번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('05', '바이오 & 헬스케어', '🧬')">
+                <span class="industry-num">05</span>
+                <span class="industry-icon">🧬</span>
+                <h3 class="industry-name">바이오 & 헬스케어</h3>
+            </div>
+            <!-- 06번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('06', '그린 에너지 & 환경', '🌱')">
+                <span class="industry-num">06</span>
+                <span class="industry-icon">🌱</span>
+                <h3 class="industry-name">그린 에너지 & 환경</h3>
+            </div>
+            <!-- 07번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('07', '메타버스 & XR', '🥽')">
+                <span class="industry-num">07</span>
+                <span class="industry-icon">🥽</span>
+                <h3 class="industry-name">메타버스 & XR</h3>
+            </div>
+            <!-- 08번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('08', '스마트 모빌리티', '🚗')">
+                <span class="industry-num">08</span>
+                <span class="industry-icon">🚗</span>
+                <h3 class="industry-name">스마트 모빌리티</h3>
+            </div>
+            <!-- 09번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('09', '이커머스 & 유통 테크', '🛒')">
+                <span class="industry-num">09</span>
+                <span class="industry-icon">🛒</span>
+                <h3 class="industry-name">이커머스 & 유통 테크</h3>
+            </div>
+            <!-- 10번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('10', '에듀테크', '🎓')">
+                <span class="industry-num">10</span>
+                <span class="industry-icon">🎓</span>
+                <h3 class="industry-name">에듀테크</h3>
+            </div>
+            <!-- 11번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('11', '콘텐츠 & 엔터테인먼트', '🎬')">
+                <span class="industry-num">11</span>
+                <span class="industry-icon">🎬</span>
+                <h3 class="industry-name">콘텐츠 & 엔터</h3>
+            </div>
+            <!-- 12번 박스 -->
+            <div class="industry-box" onclick="openMatchingModal('12', '클라우드 & SaaS', '☁️')">
+                <span class="industry-num">12</span>
+                <span class="industry-icon">☁️</span>
+                <h3 class="industry-name">클라우드 & SaaS</h3>
             </div>
         </div>
-    </section>
+    </main>
 
-    <footer style="padding: 40px; background: #333; color: white; text-align: center;">
-        <p>&copy; 2026 가보자고. All rights reserved.</p>
+    <!-- --------------------------------------------------
+     * [다이내믹 매칭 모달창 HTML]
+     * -------------------------------------------------- -->
+    <div class="modal-overlay" id="matchingModal" onclick="closeMatchingModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeMatchingModal(null, true)">&times;</button>
+            <span class="modal-title-num" id="modalNum">01</span>
+            <h3 class="modal-title" id="modalTitle">보안 및 안전</h3>
+            <p class="modal-desc">분야의 비즈니스 매칭을 시작합니다. 당신은 누구십니까?</p>
+            
+            <div class="btn-container">
+                <button class="matching-btn btn-investor" onclick="handleMatching('투자자')">
+                    💼 투자자로서 개발자 찾기
+                </button>
+                <button class="matching-btn btn-developer" onclick="handleMatching('개발자')">
+                    🚀 개발자로서 투자자 찾기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 영역 -->
+    <footer>
+        <p>플랫폼 가보자 (GABOJA) | 강성필 팀장 | 연락처: 지정을 기다리는 중</p>
+        <p style="margin-top: 10px; opacity: 0.6;">&copy; 2026 GABOJA. All rights reserved.</p>
     </footer>
 
+    <!-- --------------------------------------------------
+     * [자바스크립트 인터랙션 소스코드]
+     * -------------------------------------------------- */ -->
+    <script>
+        // 모달창 띄우기 함수 (클릭한 박스의 정보를 동적으로 가져옴)
+        function openMatchingModal(num, name, icon) {
+            document.getElementById('modalNum').innerText = num;
+            document.getElementById('modalTitle').innerText = `${icon} ${name}`;
+            document.getElementById('matchingModal').classList.add('active');
+        }
+
+        // 모달창 닫기 함수
+        function closeMatchingModal(event, forceClose = false) {
+            if (forceClose || event.target === document.getElementById('matchingModal')) {
+                document.getElementById('matchingModal').classList.remove('active');
+            }
+        }
+
+        // 버튼 클릭 시 최종 매칭 페이지/액션 연결 함수
+        function handleMatching(role) {
+            const industry = document.getElementById('modalTitle').innerText;
+            alert(`[안내] ${industry} 분야의 [${role}] 맞춤형 매칭 프로세스 페이지로 연결됩니다. (실제 연결 링크 수정 가능)`);
+            // 여기에 실제 이동할 주소를 적으시면 됩니다. 예: location.href = '/matching?role=' + role;
+            document.getElementById('matchingModal').classList.remove('active');
+        }
+    </script>
 </body>
 </html>
