@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가보자 (GABOJA) | 프리미엄 투자 & 개발 매칭 플랫폼 [A안]</title>
+    <title>가보자 (GABOJA) | 프리미엄 투자 & 개발 매칭 플랫폼 [B안]</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; }
         body { background-color: #0b0d17; color: #ffffff; overflow-x: hidden; }
         
-        /* 헤더 & 로고 */
+        /* 헤더 & 로고 (동일 규격) */
         header { background-color: rgba(11, 13, 23, 0.85); backdrop-filter: blur(20px); padding: 25px 50px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
         .logo-container { display: inline-flex; flex-direction: column; align-items: flex-start; cursor: pointer; }
         .logo-ko { font-size: 28px; font-weight: 800; color: #ffffff; line-height: 1.1; letter-spacing: -1px; }
         .logo-en { font-size: 28px; font-weight: 900; line-height: 1.1; letter-spacing: 0.5px; background: linear-gradient(45deg, #ff007f, #7f00ff, #00f0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 200% auto; animation: gradientMove 4s ease infinite; }
         @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* 메인 그리드 */
         main { max-width: 1400px; margin: 80px auto; padding: 0 40px; }
         .hero-section { text-align: center; margin-bottom: 60px; }
         .hero-section h2 { font-size: 42px; font-weight: 900; letter-spacing: -1px; margin-bottom: 15px; background: linear-gradient(to right, #ffffff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -33,39 +32,30 @@
         .industry-box:hover .box-overlay { background: linear-gradient(to top, rgba(127, 0, 255, 0.7) 10%, rgba(11, 13, 23, 0.3)); }
 
         /* --------------------------------------------------
-         * [A안 핵심] 데이터 대시보드형 모달 스타일
+         * [B안 핵심] 블라인드 매칭 카드 구조 스타일
          * -------------------------------------------------- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7, 9, 15, 0.9); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: #131722; border: 1px solid rgba(255, 255, 255, 0.15); padding: 40px; border-radius: 28px; width: 95%; max-width: 580px; position: relative; transform: translateY(30px); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-content { background: #161b2c; border: 1px solid rgba(255, 255, 255, 0.12); padding: 40px; border-radius: 28px; width: 95%; max-width: 550px; text-align: center; position: relative; transform: translateY(30px); transition: transform 0.4s; }
         .modal-overlay.active .modal-content { transform: translateY(0); }
         .close-btn { position: absolute; top: 25px; right: 25px; font-size: 28px; background: none; border: none; cursor: pointer; color: #64748b; }
-        .close-btn:hover { color: #ffffff; }
         
-        /* 대시보드 내부 수치 레이아웃 */
-        .dashboard-header { text-align: left; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 15px; }
-        .dash-num { color: #00f0ff; font-weight: 700; font-size: 14px; }
-        .dash-title { font-size: 26px; font-weight: 700; margin-top: 5px; }
-        
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: left; }
-        .stat-label { font-size: 12px; color: #64748b; margin-bottom: 5px; }
-        .stat-value { font-size: 18px; font-weight: 700; color: #fff; }
-        .stat-value.highlight { color: #ff007f; }
+        .modal-header { margin-bottom: 25px; }
+        .modal-title { font-size: 24px; font-weight: 700; }
 
-        .trend-tag-box { text-align: left; margin-bottom: 30px; background: rgba(127, 0, 255, 0.05); padding: 15px; border-radius: 12px; border: 1px dashed rgba(127,0,255,0.3); }
-        .trend-title { font-size: 13px; color: #a5b4fc; font-weight: 700; margin-bottom: 8px; }
-        .tag-group { display: flex; gap: 8px; flex-wrap: wrap; }
-        .tag { background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 6px; font-size: 12px; color: #e2e8f0; }
+        /* 매칭 대기 카드 미리보기 인터페이스 */
+        .preview-container { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
+        .blind-card { background: linear-gradient(135deg, #1f263e, #1a1f35); border-left: 5px solid #7f00ff; padding: 15px 20px; border-radius: 12px; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .blind-card.dev { border-left-color: #00f0ff; }
+        .card-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 8px; }
+        .badge-investor { background: rgba(127,0,255,0.2); color: #c084fc; }
+        .badge-dev { background: rgba(0,240,255,0.2); color: #22d3ee; }
+        .card-text { font-size: 14px; font-weight: 500; color: #e2e8f0; line-height: 1.5; }
 
         .btn-container { display: flex; gap: 15px; }
         .matching-btn { flex: 1; padding: 18px; border-radius: 14px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s; }
         .btn-investor { background: #ffffff; color: #0b0d17; }
-        .btn-investor:hover { background: #e2e8f0; transform: translateY(-2px); }
         .btn-developer { background: linear-gradient(45deg, #7f00ff, #00f0ff); color: #ffffff; }
-        .btn-developer:hover { opacity: 0.95; transform: translateY(-2px); }
-
-        footer { background-color: #07090f; color: #64748b; padding: 60px 40px; text-align: center; font-size: 14px; border-top: 1px solid rgba(255, 255, 255, 0.05); margin-top: 120px; line-height: 1.8; }
     </style>
 </head>
 <body>
@@ -79,57 +69,46 @@
 
     <main>
         <div class="hero-section">
-            <h2>[A안] 프리미엄 실시간 데이터 매칭 보드</h2>
-            <p>동종업계를 압도하는 가보자만의 산업 데이터 기반 매칭 솔루션</p>
+            <h2>[B안] 인터랙티브 블라인드 카드 스와이프</h2>
+            <p>지루한 목록 검색은 끝, 실시간 매칭 카드로 빠르고 확실하게 가보자</p>
         </div>
         
         <div class="grid-container">
-            <div class="industry-box" onclick="openAData('01', '보안 및 안전', '42.5억', '18건', '#물리보안 #AI관제')">
+            <div class="industry-box" onclick="openBCard('보안 및 안전', '수도권 상권 기반 시드 자금 5억 즉시 매칭 가능 엔젤', 'AI기반 스마트 매장 침입 차단 기술 특허 보유팀')">
                 <div class="box-bg" style="background-image: url('https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80');"></div><div class="box-overlay"></div>
                 <div class="box-content"><span class="industry-num">01</span><h3 class="industry-name">보안 및 안전</h3></div>
             </div>
-            <div class="industry-box" onclick="openAData('02', '프랜차이즈 비즈니스', '89.1억', '34건', '#무인자동화 #F&B테크')">
+            <div class="industry-box" onclick="openBCard('프랜차이즈 비즈니스', '유통 제조 공장 인프라 연계형 10억 규모 리드 투자 유치처', '전국 50개 매장 무인화 자동 벤딩 머신 소프트웨어 설계완료팀')">
                 <div class="box-bg" style="background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80');"></div><div class="box-overlay"></div>
                 <div class="box-content"><span class="industry-num">02</span><h3 class="industry-name">프랜차이즈 비즈니스</h3></div>
             </div>
-            <div class="industry-box" onclick="openAData('03', '인공지능 AI 뉴럴 엔진', '156.4억', '52건', '#LLM #경량화패턴')">
-                <div class="box-bg" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80');"></div><div class="box-overlay"></div>
-                <div class="box-content"><span class="industry-num">03</span><h3 class="industry-name">인공지능 AI 뉴럴 엔진</h3></div>
-            </div>
-            <!-- 편의상 3개만 샘플 배치, 실제 서비스 시 12개 동일 스크립트 연결 가능 -->
         </div>
     </main>
 
-    <!-- A안 전용 모달 -->
-    <div class="modal-overlay" id="matchingModal" onclick="closeAData(event)">
+    <!-- B안 전용 모달 -->
+    <div class="modal-overlay" id="matchingModal" onclick="closeBCard(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeAData(null, true)">&times;</button>
-            <div class="dashboard-header">
-                <span class="dash-num" id="modalNum">01</span>
-                <h3 class="dash-title" id="modalTitle">보안 및 안전</h3>
+            <button class="close-btn" onclick="closeBCard(null, true)">&times;</button>
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">업종별 실시간 카드 프리뷰</h3>
             </div>
             
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">가보자 매칭 대기자금</div>
-                    <div class="stat-value highlight" id="modalMoney">42.5억</div>
+            <div class="preview-container">
+                <!-- 투자자 블라인드 카드 -->
+                <div class="blind-card">
+                    <span class="card-badge badge-investor">대기 중인 최적의 투자자</span>
+                    <p class="card-text" id="cardInvestorText">자금 매칭 준비 완료</p>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">이번 주 매칭 신청건수</div>
-                    <div class="stat-value" id="modalCount">18건</div>
-                </div>
-            </div>
-
-            <div class="trend-tag-box">
-                <div class="trend-title">📊 실시간 마켓 타겟 키워드</div>
-                <div class="tag-group" id="modalTags">
-                    <!-- 스크립트로 태그 동적 주입 -->
+                <!-- 개발자 블라인드 카드 -->
+                <div class="blind-card dev">
+                    <span class="card-badge badge-dev">검증된 우수 스타트업 개발팀</span>
+                    <p class="card-text" id="cardDevText">프로젝트 연계 대기 중</p>
                 </div>
             </div>
             
             <div class="btn-container">
-                <button class="matching-btn btn-investor" onclick="alert('투자자 전용 포트폴리오로 이동')">💼 투자자 접속</button>
-                <button class="matching-btn btn-developer" onclick="alert('개발자 제안서 등록 매칭 플랫폼 이동')">🚀 개발자 등록</button>
+                <button class="matching-btn btn-investor" onclick="alert('투자자 전용 스와이프 창 이동')">💼 나도 투자 카드로 참여</button>
+                <button class="matching-btn btn-developer" onclick="alert('개발팀 프로젝트 카드로 등록')">🚀 나도 프로젝트 등록</button>
             </div>
         </div>
     </div>
@@ -142,20 +121,13 @@
     </footer>
 
     <script>
-        function openAData(num, name, money, count, tags) {
-            document.getElementById('modalNum').innerText = num;
-            document.getElementById('modalTitle').innerText = name + " 매칭 라이브 수치";
-            document.getElementById('modalMoney').innerText = money;
-            document.getElementById('modalCount').innerText = count;
-            
-            const tagArr = tags.split(' ');
-            let tagHtml = '';
-            tagArr.forEach(t => { tagHtml += `<span class="tag">${t}</span>`; });
-            document.getElementById('modalTags').innerHTML = tagHtml;
-
+        function openBCard(name, invText, devText) {
+            document.getElementById('modalTitle').innerText = `🔥 ${name} 추천 파트너`;
+            document.getElementById('cardInvestorText').innerText = `“ ${invText} ”`;
+            document.getElementById('cardDevText').innerText = `“ ${devText} ”`;
             document.getElementById('matchingModal').classList.add('active');
         }
-        function closeAData(event, forceClose = false) {
+        function closeBCard(event, forceClose = false) {
             if (forceClose || event.target === document.getElementById('matchingModal')) {
                 document.getElementById('matchingModal').classList.remove('active');
             }
