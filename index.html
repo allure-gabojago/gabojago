@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가보자고 | 프리미엄 투자 엔진</title>
+    <title>GABOJA | 프리미엄 투자 엔진</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Montserrat:wght@900&display=swap');
-        
         :root { 
             --primary-gold: #facc15; 
             --neon-purple: #a855f7;
@@ -17,18 +16,16 @@
         }
 
         body { 
-            font-family: 'Noto Sans KR', sans-serif; 
+            font-family: 'Noto Sans KR', sans-serif;
             background-color: var(--bg-black); 
             color: #fff; 
             margin: 0; 
             overflow-x: hidden;
-            /* 배경에 은은한 오로라 효과 추가 */
             background-image: 
                 radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
         }
 
-        /* [혁신] 네온 흐르는 보더 효과 */
         .neon-border-card {
             position: relative;
             background: rgba(255, 255, 255, 0.03);
@@ -44,7 +41,6 @@
             box-shadow: 0 0 30px rgba(250, 204, 21, 0.2);
         }
 
-        /* 발광형 버튼 */
         .btn-glow {
             background: linear-gradient(45deg, #facc15, #fbbf24);
             color: #000;
@@ -59,7 +55,6 @@
             transform: scale(1.05);
         }
 
-        /* 텍스트 그라데이션 */
         .text-gradient {
             background: linear-gradient(to right, #facc15, #a855f7, #3b82f6);
             -webkit-background-clip: text;
@@ -81,7 +76,6 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* 스크롤바 커스텀 */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
@@ -90,7 +84,6 @@
 </head>
 <body onload="initAll()">
     
-    <!-- AI 매칭 바 (컬러 강화) -->
     <div class="bg-black/80 backdrop-blur-xl py-4 px-8 border-b border-white/10 sticky top-0 z-[200]">
         <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-6">
             <div class="flex items-center gap-4">
@@ -105,7 +98,7 @@
 
     <nav class="p-8 flex justify-between items-center max-w-[1600px] mx-auto">
         <div class="brand-group cursor-pointer" onclick="showSection('main')">
-            <h1 class="text-4xl font-black italic tracking-tighter hover:text-yellow-400 transition-colors">가보자고.</h1>
+            <h1 class="text-4xl font-black italic tracking-tighter hover:text-yellow-400 transition-colors">GABOJA.</h1>
         </div>
         <div class="flex items-center gap-10">
             <div class="hidden md:flex gap-10 text-sm font-black tracking-widest text-white/40">
@@ -113,49 +106,40 @@
                 <button onclick="showSection('feed')" class="hover:text-white">LIVE PULSE</button>
                 <button onclick="showSection('mypage')" class="hover:text-white">ASSETS</button>
             </div>
-            <button onclick="showSection('auth')" class="btn-glow px-8 py-3 text-xs uppercase tracking-tighter">Enter Gate</button>
+            <button onclick="showSection('auth')" class="btn-glow px-6 py-3 text-sm font-bold tracking-tight">회원가입/로그인</button>
         </div>
     </nav>
 
-    <!-- [1] 메인 프로젝트 섹션 -->
     <main id="main-section" class="px-8 py-12 max-w-[1600px] mx-auto">
         <header class="mb-20">
             <h2 class="text-7xl md:text-9xl font-black tracking-tighter mb-8 leading-none">
                 FUTURE <br> <span class="text-gradient">IS YOURS.</span>
             </h2>
-            <div class="flex flex-wrap gap-4">
-                <div class="px-6 py-3 bg-white/5 rounded-full border border-white/10 font-bold text-sm"># 인공지능 매칭</div>
-                <div class="px-6 py-3 bg-white/5 rounded-full border border-white/10 font-bold text-sm"># 엔젤 투자</div>
-                <div class="px-6 py-3 bg-white/5 rounded-full border border-white/10 font-bold text-sm"># 퀀텀 점프</div>
-            </div>
-        </header>
+            </header>
 
         <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <!-- 프로젝트 카드가 동적으로 생성됩니다 -->
-        </div>
+            </div>
     </main>
 
-    <!-- [2] 실시간 동향 섹션 -->
     <section id="feed-section" class="hidden px-8 py-20 max-w-[1200px] mx-auto">
         <h2 class="text-5xl font-black mb-16 italic">LIVE <span class="text-blue-500">INSIGHT</span></h2>
         <div id="feed-list" class="grid gap-6"></div>
     </section>
 
-    <!-- [3] 마이 자산 섹션 -->
     <section id="mypage-section" class="hidden px-8 py-20 max-w-[1400px] mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div class="glass-card p-12 rounded-[3rem] border-purple-500/30 relative overflow-hidden">
+            <div class="glass-card p-12 rounded-[3rem] border border-purple-500/30 relative overflow-hidden bg-white/5">
                 <div class="absolute top-0 right-0 p-8 opacity-20 text-8xl font-black">VIP</div>
                 <div class="relative z-10">
                     <p class="text-white/40 font-bold mb-2">PARTNER ID</p>
                     <h3 class="text-4xl font-black mb-10">김가보자</h3>
                     <div class="space-y-6">
-                        <div class="flex justify-between"><span>멤버십 등급</span><span class="text-purple-400 font-bold font-black">PLATINUM</span></div>
-                        <div class="flex justify-between"><span>누적 매칭 수</span><span class="font-bold font-black text-blue-400">12건</span></div>
+                        <div class="flex justify-between"><span>멤버십 등급</span><span class="text-purple-400 font-black">PLATINUM</span></div>
+                        <div class="flex justify-between"><span>누적 매칭 수</span><span class="font-black text-blue-400">12건</span></div>
                     </div>
                 </div>
             </div>
-            <div class="lg:col-span-2 glass-card p-12 rounded-[3rem] bg-gradient-to-br from-blue-500/10 to-purple-500/10 border-white/10">
+            <div class="lg:col-span-2 glass-card p-12 rounded-[3rem] bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/10">
                 <p class="text-white/40 font-bold mb-4">TOTAL ASSET VALUE</p>
                 <h2 class="text-8xl font-black mb-6 text-gradient italic">1,250,000,000 ₩</h2>
                 <div class="h-4 bg-black/40 rounded-full overflow-hidden p-1">
@@ -165,19 +149,44 @@
         </div>
     </section>
 
-    <!-- [4] 로그인 섹션 -->
-    <section id="auth-section" class="hidden min-h-[80vh] flex items-center justify-center">
-        <div class="glass-card p-16 rounded-[4rem] w-full max-w-[500px] border-white/10 shadow-[0_0_50px_rgba(0,0,0,1)] text-center">
-            <div class="mb-10 text-6xl">🔒</div>
-            <h2 class="text-4xl font-black mb-10 tracking-tighter italic">ENCRYPTED GATE</h2>
-            <div class="space-y-6">
-                <input type="text" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-blue-500 transition-all text-center font-bold" placeholder="SECRET ID">
-                <button class="btn-glow w-full py-5 text-lg">ACCESS NOW</button>
+    <section id="auth-section" class="hidden min-h-[80vh] flex items-center justify-center px-4">
+        <div class="glass-card p-12 md:p-16 rounded-[3rem] w-full max-w-[550px] border border-white/10 bg-white/5 shadow-[0_0_50px_rgba(0,0,0,0.8)] text-center relative overflow-hidden">
+            <div class="absolute -left-20 -top-20 w-40 h-40 rounded-full blur-[80px] bg-purple-500/20"></div>
+            <div class="absolute -right-20 -bottom-20 w-40 h-40 rounded-full blur-[80px] bg-blue-500/20"></div>
+            
+            <div class="relative z-10">
+                <div class="mb-6 text-5xl animate-pulse">🚀</div>
+                <h2 class="text-4xl font-black mb-2 tracking-tight italic text-gradient">WELCOME TO GABOJA</h2>
+                <p class="text-sm font-bold text-white/50 mb-10 uppercase tracking-widest">간편하게 연동하여 혁신적인 매칭를 시작하세요</p>
+                
+                <div class="space-y-4">
+                    <button onclick="socialLogin('네이버')" class="w-full bg-[#03C75A] text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-4 hover:opacity-90 transition-all shadow-lg shadow-green-900/20">
+                        <span class="font-black text-xl">N</span>
+                        <span class="tracking-tight">네이버 아이디로 로그인</span>
+                    </button>
+                    <button onclick="socialLogin('구글')" class="w-full bg-white text-black font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-4 hover:bg-gray-100 transition-all shadow-lg">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24">
+                            <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.866-3.577-7.866-8s3.536-8 7.866-8c2.46 0 4.105 1.025 5.047 1.926l3.227-3.227C18.416 1.414 15.56 0 12.24 0 5.58 0 0 5.37 0 12s5.58 12 12.24 12c6.96 0 11.57-4.89 11.57-11.79 0-.795-.085-1.4-.195-1.925H12.24z"/>
+                        </svg>
+                        <span class="tracking-tight">Google 계정으로 로그인</span>
+                    </button>
+                    <button onclick="socialLogin('카카오')" class="w-full bg-[#FEE500] text-[#191919] font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-4 hover:opacity-90 transition-all shadow-lg shadow-yellow-600/10">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 3c-5.523 0-10 3.582-10 8 0 2.947 2.014 5.511 5.066 6.942l-1.218 4.456c-.114.417.348.749.697.518l5.242-3.486c.07.003.14.01.213.01 5.523 0 10-3.582 10-8s-4.477-8-10-8z"/>
+                        </svg>
+                        <span class="tracking-tight">카카오톡으로 로그인</span>
+                    </button>
+                    <button onclick="socialLogin('인스타그램')" class="w-full bg-gradient-to-r from-[#405DE6] via-[#E1306C] to-[#F77737] text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-4 hover:opacity-90 transition-all shadow-lg">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                        </svg>
+                        <span class="tracking-tight">Instagram으로 로그인</span>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 상세 모달 -->
     <div id="project-modal" class="hidden fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/95 backdrop-blur-2xl">
         <div class="neon-border-card w-full max-w-6xl rounded-[4rem] p-16 relative border-yellow-400/30">
             <button onclick="closeModal()" class="absolute top-10 right-10 text-white/20 hover:text-white text-5xl font-thin">&times;</button>
@@ -185,14 +194,35 @@
         </div>
     </div>
 
+    <footer class="border-t border-white/10 bg-black/40 backdrop-blur-md mt-30 py-12 px-8">
+        <div class="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6 text-white/50 text-sm font-medium">
+            <div class="space-y-2">
+                <p class="text-white font-bold text-lg italic tracking-wider">GABOJA PARTNERS</p>
+                <p>홈페이지 담당자: <span class="text-white font-bold">강성필</span></p>
+                <p>대표 연락처: <span class="text-yellow-400 font-bold font-mono">031-815-1666</span></p>
+                <p>본사 주소: <span class="text-white/80">고양시 일산동구 무궁화로 31-16 7층</span></p>
+            </div>
+            <div class="text-left md:text-right space-y-1">
+                <p>&copy; 2026 GABOJA Partners Inc. All Rights Reserved.</p>
+                <p class="text-[11px] opacity-60">본 플랫폼은 12개 핵심 업종의 최고 파트너 매칭을 보장하는 신뢰 기반의 혁신 시스템입니다.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
         const projectData = [
-            { id: 1, name: "안전 보안 사이버", sub: "QUANTUM DEFENSE", yield: 32.5, viewers: 8, dna: 10, color: "#a855f7" },
-            { id: 2, name: "인공지능 퀀트", sub: "HFT ALGORITHM", yield: 28.1, viewers: 15, dna: 85, color: "#3b82f6" },
-            { id: 3, name: "K-컬처 콘텐츠 AI", sub: "GEN-MEDIA IP", yield: 31.2, viewers: 24, dna: 60, color: "#facc15" },
-            { id: 4, name: "우주 항공 위성", sub: "STAR-LINK X", yield: 15.4, viewers: 3, dna: 95, color: "#ec4899" },
-            { id: 5, name: "자율주행 모빌리티", sub: "LIDAR AUTO-PILOT", yield: 25.7, viewers: 12, dna: 75, color: "#10b981" },
-            { id: 6, name: "차세대 배터리", sub: "SOLID-STATE BATT", yield: 27.3, viewers: 19, dna: 40, color: "#f97316" }
+            { id: 1, name: "안전 사회안전망 시스템", sub: "QUANTUM SECURITY & SAFETY", yield: 32.5, viewers: 8, dna: 10, color: "#a855f7" },
+            { id: 2, name: "프렌차이즈 비지니스", sub: "FRANCHISE SCALE-UP ENGINE", yield: 28.1, viewers: 15, dna: 85, color: "#3b82f6" },
+            { id: 3, name: "핀테크 / 블록체인", sub: "NEXT GEN FINTECH", yield: 31.2, viewers: 24, dna: 60, color: "#facc15" },
+            { id: 4, name: "AI / 인공지능", sub: "DEEP LEARNING AUTOMATION", yield: 35.4, viewers: 31, dna: 95, color: "#ec4899" },
+            { id: 5, name: "바이오 / 헬스케어", sub: "DIGITAL CLINIC PLATFORM", yield: 25.7, viewers: 12, dna: 75, color: "#10b981" },
+            { id: 6, name: "이커머스 / 유통", sub: "SMART LOGISTICS TECH", yield: 27.3, viewers: 19, dna: 40, color: "#f97316" },
+            { id: 7, name: "에듀테크", sub: "AI LEARNING SYSTEM", yield: 21.4, viewers: 9, dna: 30, color: "#06b6d4" },
+            { id: 8, name: "콘텐츠 / 미디어", sub: "GEN-MEDIA WEBTOON IP", yield: 29.8, viewers: 22, dna: 65, color: "#8b5cf6" },
+            { id: 9, name: "게임 / 메타버스", sub: "WEB3 VR ENVIRONMENT", yield: 34.1, viewers: 18, dna: 80, color: "#f43f5e" },
+            { id: 10, name: "O2O / 매칭 서비스", sub: "HYPER-LOCAL MATCHING", yield: 23.5, viewers: 14, dna: 50, color: "#14b8a6" },
+            { id: 11, name: "IoT / 모빌리티", sub: "AUTONOMOUS NAVIGATION", yield: 26.9, viewers: 11, dna: 70, color: "#eab308" },
+            { id: 12, name: "프롭테크 / 부동산", sub: "SMART ASSET MANAGE", yield: 19.2, viewers: 7, dna: 25, color: "#6366f1" }
         ];
 
         function initAll() {
@@ -222,7 +252,7 @@
                                 <div class="live-dot"></div> <span class="ml-2">${p.viewers} LIVE</span>
                             </div>
                         </div>
-                        <h4 class="text-4xl font-black mb-4 group-hover:text-gradient transition-all leading-tight">${p.name}</h4>
+                        <h4 class="text-3xl font-black mb-4 group-hover:text-gradient transition-all leading-tight text-white">${p.name}</h4>
                         <p class="text-sm font-bold opacity-40 uppercase tracking-widest">${p.sub}</p>
                     </div>
                     <div>
@@ -241,16 +271,21 @@
         function renderFeed() {
             const feedList = document.getElementById('feed-list');
             const feeds = [
-                "익명의 고액 투자자가 [안공지능 퀀트] 프로젝트를 최종 심사 중입니다.",
-                "[차세대 배터리] 팀이 실리콘밸리 벤처캐피탈과 미팅을 성공적으로 마쳤습니다.",
-                "당신의 DNA 분석 결과 [K-컬처 AI] 프로젝트와 98% 일치합니다."
+                "익명의 고액 투자자가 [안전 사회안전망 시스템] 프로젝트를 최종 심사 중입니다.",
+                "[프렌차이즈 비지니스] 본사 스케일업 팀이 시드머니 매칭을 신청했습니다.",
+                "당신의 DNA 분석 결과 [AI / 인공지능] 프로젝트와 98% 일치합니다."
             ];
             feedList.innerHTML = feeds.map(f => `
-                <div class="glass-card p-8 rounded-[2rem] border-l-8 border-purple-500 flex items-center gap-6 group hover:bg-white/10">
+                <div class="glass-card p-8 rounded-[2rem] border-l-8 border-purple-500 bg-white/5 flex items-center gap-6 group hover:bg-white/10">
                     <div class="text-3xl group-hover:animate-pulse">🔥</div>
                     <p class="text-xl font-bold italic text-white/80">${f}</p>
                 </div>
             `).join('');
+        }
+
+        function socialLogin(platform) {
+            confetti({ particleCount: 150, spread: 60, origin: { y: 0.6 } });
+            alert(platform + ' 소셜 안전 연동 로그인 처리가 정상적으로 진행됩니다.');
         }
 
         function openModal(id) {
@@ -259,13 +294,13 @@
             body.innerHTML = `
                 <div class="grid lg:grid-cols-2 gap-20">
                     <div>
-                        <span class="text-xs font-black uppercase tracking-[0.5em] mb-4 block" style="color: ${p.color}">Verified Project</span>
-                        <h2 class="text-7xl font-black mb-10 leading-none">${p.name}</h2>
-                        <p class="text-2xl text-white/60 font-medium leading-relaxed mb-12">${p.name} 프로젝트는 현재 ${p.sub} 기술을 바탕으로 혁신적인 성장을 기록 중입니다. ${p.viewers}명의 전문 투자자가 현재 이 딜을 실시간 검토 중입니다.</p>
+                        <span class="text-xs font-black uppercase tracking-[0.5em] mb-4 block" style="color: ${p.color}">Verified Platform Core</span>
+                        <h2 class="text-6xl font-black mb-10 leading-none text-white">${p.name}</h2>
+                        <p class="text-xl text-white/60 font-medium leading-relaxed mb-12">${p.name} 파트너 매칭 보드는 혁신 성장을 목표로 기술과 자본을 정밀 매칭합니다. 현재 ${p.viewers}명의 전문 연동 유저들이 실시간 트래픽을 만들고 있습니다.</p>
                         <button onclick="triggerInvest()" class="btn-glow w-full py-8 text-2xl uppercase tracking-tighter">심사 확정 및 계약 진행</button>
                     </div>
                     <div class="flex flex-col justify-center">
-                        <div class="glass-card p-12 rounded-[4rem] border-white/10 bg-gradient-to-br from-white/5 to-transparent">
+                        <div class="glass-card p-12 rounded-[4rem] border border-white/10 bg-gradient-to-br from-white/5 to-transparent">
                             <h5 class="text-sm font-black mb-10 opacity-30 tracking-[0.3em] uppercase">Deal Analysis</h5>
                             <div class="space-y-8">
                                 <div class="flex justify-between items-end">
@@ -273,8 +308,8 @@
                                     <span class="text-5xl font-black" style="color: ${p.color}">+${p.yield}%</span>
                                 </div>
                                 <div class="flex justify-between items-end">
-                                    <span class="text-white/40 font-bold">기술 점수</span>
-                                    <span class="text-3xl font-black">9.8 / 10</span>
+                                    <span class="text-white/40 font-bold">인프라 안정성 점수</span>
+                                    <span class="text-3xl font-black text-yellow-400">9.9 / 10</span>
                                 </div>
                                 <div class="flex justify-between items-end border-t border-white/10 pt-8 mt-8">
                                     <span class="text-white/40 font-bold">매칭 성공률</span>
@@ -298,7 +333,7 @@
         
         function triggerInvest() {
             confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 }, colors: ['#facc15', '#a855f7', '#3b82f6'] });
-            alert('투자 심사 단계로 공식 진입했습니다!');
+            alert('GABOJA 파트너스 매칭 심사 단계에 진입했습니다.');
             closeModal();
         }
     </script>
